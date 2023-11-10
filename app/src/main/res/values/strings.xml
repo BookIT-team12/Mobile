@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">BookIT</string>
+    <string name="loading_naslov">Dobro dosli na BookIT</string>
+    <string name="dobrodosli_na_log_in_stranicu">Dobrodosli na log in stranicu</string>
+    <string name="log_in">Log in</string>
+    <string name="register">Register</string>
+    <string name="registration_form_title">Registration form</string>
+    <string name="username_text_view">Username</string>
+    <string name="password_text_view">Password:</string>
+    <string name="phone_text__view">Phone:</string>
+</resources>
