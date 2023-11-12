@@ -2,4 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="darkBlue">030088</color>
+    <color name="mediumBlue">6D8ECF</color>
+    <color name="lightBlue">CDDBFF</color>
+    <color name="red">B10000</color>
 </resources>
