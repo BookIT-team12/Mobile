@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/mediumBlue"
+        android:background="@drawable/round_card_blueish"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/log_in"
-            android:textColor="@color/white"
+            android:textColor="?android:textColorPrimary"
             android:textSize="25sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -37,10 +37,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:text="@string/username"
-            android:textColor="@color/white"
+            android:textColor="?android:textColorPrimary"
             android:textSize="20sp"
             app:drawableLeftCompat="@drawable/email_icon"
-            app:drawableTint="@color/white" />
+            app:drawableTint="?android:textColorPrimary" />
 
         <EditText
             android:id="@+id/usernameTF"
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textEmailAddress"
-            android:textColor="@color/white"
+            android:textColor="?android:textColorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -61,10 +61,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:text="@string/password"
-            android:textColor="@color/white"
+            android:textColor="?android:textColorPrimary"
             android:textSize="20sp"
             app:drawableLeftCompat="@drawable/key_icon"
-            app:drawableTint="@color/white" />
+            app:drawableTint="?android:textColorPrimary" />
 
         <EditText
             android:id="@+id/passwordTF"
@@ -72,7 +72,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPassword"
-            android:textColor="@color/white"
+            android:textColor="?android:textColorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -88,7 +88,7 @@
             android:background="@drawable/round_btn"
             android:onClick="LogIn"
             android:text="@string/log_in"
-            android:textColor="@color/white"
+            android:textColor="?android:textColorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -101,11 +101,11 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/round_btn"
             android:onClick="Register"
             android:text="@string/register"
-            android:textColor="@color/white"
+            android:textColor="?android:textColorPrimary"
             app:layout_constraintEnd_toEndOf="parent" />
 
 

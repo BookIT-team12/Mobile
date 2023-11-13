@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/mediumBlue"
+        android:background="@drawable/round_card_blueish"
         android:orientation="vertical"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
@@ -27,18 +27,18 @@
             android:layout_weight="0.5"
             android:gravity="center"
             android:text="@string/registration_form"
-            android:textColor="@color/white"
+            android:textColor="?android:textColorPrimary"
             android:textSize="28sp" />
 
         <TextView
             android:id="@+id/RegistrationFormUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/email_icon"
-            android:drawableTint="@color/white"
             android:text="@string/username"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:textColor="?android:textColorPrimary"
+            android:textSize="20sp"
+            app:drawableLeftCompat="@drawable/email_icon"
+            app:drawableTint="?android:textColorPrimary" />
 
         <EditText
             android:id="@+id/RegFormUsernameTF"
@@ -47,17 +47,17 @@
             android:layout_weight="0"
             android:ems="10"
             android:inputType="textEmailAddress"
-            android:textColor="@color/white" />
+            android:textColor="?android:textColorPrimary" />
 
         <TextView
             android:id="@+id/RegistrationFormName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/badge_icon"
-            android:drawableTint="@color/white"
             android:text="@string/name"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:textColor="?android:textColorPrimary"
+            android:textSize="20sp"
+            app:drawableLeftCompat="@drawable/badge_icon"
+            app:drawableTint="?android:textColorPrimary" />
 
         <EditText
             android:id="@+id/RegFormNameTF"
@@ -66,17 +66,17 @@
             android:layout_weight="0"
             android:ems="10"
             android:inputType="textEmailAddress"
-            android:textColor="@color/white" />
+            android:textColor="?android:textColorPrimary" />
 
         <TextView
             android:id="@+id/RegistrationFormLastname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/badge_icon"
-            android:drawableTint="@color/white"
             android:text="@string/lastname"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:textColor="?android:textColorPrimary"
+            android:textSize="20sp"
+            app:drawableTint="?android:textColorPrimary"
+            app:drawableLeftCompat="@drawable/badge_icon" />
 
         <EditText
             android:id="@+id/RegFormLastnameTF"
@@ -85,17 +85,17 @@
             android:layout_weight="0"
             android:ems="10"
             android:inputType="textEmailAddress"
-            android:textColor="@color/white" />
+            android:textColor="?android:textColorPrimary" />
 
         <TextView
             android:id="@+id/RegistrationFormPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/password"
-            android:textColor="@color/white"
+            android:textColor="?android:textColorPrimary"
             android:textSize="20sp"
             app:drawableLeftCompat="@drawable/key_icon"
-            app:drawableTint="@color/white" />
+            app:drawableTint="?android:textColorPrimary" />
 
         <EditText
             android:id="@+id/RegFormPasswordTF"
@@ -104,16 +104,16 @@
             android:layout_weight="0"
             android:ems="10"
             android:inputType="textPassword"
-            android:textColor="@color/white" />
+            android:textColor="?android:textColorPrimary" />
         <TextView
             android:id="@+id/RegistrationConfirmFormPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/confirm_password"
-            android:textColor="@color/white"
+            android:textColor="?android:textColorPrimary"
             android:textSize="20sp"
             app:drawableLeftCompat="@drawable/key_icon"
-            app:drawableTint="@color/white" />
+            app:drawableTint="?android:textColorPrimary" />
 
         <EditText
             android:id="@+id/RegFormConfirmPasswordTF"
@@ -122,16 +122,16 @@
             android:layout_weight="0"
             android:ems="10"
             android:inputType="textPassword"
-            android:textColor="@color/white" />
+            android:textColor="?android:textColorPrimary" />
         <TextView
             android:id="@+id/RegistrationFormPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/phone"
-            android:textColor="@color/white"
+            android:textColor="?android:textColorPrimary"
             android:textSize="20sp"
             app:drawableLeftCompat="@drawable/call_icon"
-            app:drawableTint="@color/white" />
+            app:drawableTint="?android:textColorPrimary" />
 
         <EditText
             android:id="@+id/RegFormPhoneTF"
@@ -140,13 +140,12 @@
             android:layout_weight="0"
             android:ems="10"
             android:inputType="phone"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white" />
+            android:textColor="?android:textColorPrimary" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/mediumBlue"
+        android:background="@color/blueish"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
         android:orientation="horizontal">
@@ -156,7 +155,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/role"
-            android:textColor="@color/white"
+            android:textColor="?android:textColorPrimary"
             android:textSize="20sp"
             android:layout_marginTop="7sp"/>
 
@@ -171,14 +170,14 @@
                 android:layout_height="wrap_content"
                 android:checked="true"
                 android:text="@string/owner"
-                android:textColor="@color/white" />
+                android:textColor="?android:textColorPrimary" />
 
             <RadioButton
                 android:id="@+id/registrationGuestRdbtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/guest"
-                android:textColor="@color/white" />
+                android:textColor="?android:textColorPrimary" />
         </RadioGroup>
 
     </LinearLayout>
@@ -190,12 +189,12 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="10dp"
             android:layout_weight="0.5"
             android:background="@drawable/round_btn"
             android:onClick="ConfirmRegistration"
             android:text="@string/confirm"
-            android:textColor="@color/white" />
+            android:textColor="?android:textColorPrimary" />
 
     </LinearLayout>
 
