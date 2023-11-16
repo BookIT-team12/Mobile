@@ -8,4 +8,6 @@
     <string name="username_text_view">Username</string>
     <string name="password_text_view">Password:</string>
     <string name="phone_text__view">Phone:</string>
+    <string name="open_nav">Open Navigation Drawer</string>
+    <string name="close_nave">Close Navigation Drawer</string>
 </resources>
