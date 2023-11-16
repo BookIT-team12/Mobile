@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="176dp"
@@ -50,6 +51,7 @@
 
     </LinearLayout>
 
+    <!-- Home -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -71,6 +73,31 @@
 
     </LinearLayout>
 
+    <!-- Manage account -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/reservations"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/logo"
+            android:text="Trips and reservations"
+            android:textSize="20sp"
+            android:drawableLeft="@drawable/nav_trips_reservations"
+            android:drawablePadding="8dp"
+            android:fontFamily="@string/bookIT_caption"
+            />
+
+
+
+    </LinearLayout>
+
+    <!-- Trips and reservations -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -92,6 +119,7 @@
 
     </LinearLayout>
 
+    <!--Favorites-->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -113,7 +141,31 @@
 
     </LinearLayout>
 
+    <!--Reviews-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/user_reviews"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/logo"
+            android:text="My reviews"
+            android:textSize="20sp"
+            android:drawableLeft="@drawable/nav_review"
+            android:drawablePadding="8dp"
+            android:fontFamily="@string/bookIT_caption"
+            />
+
+
+
+    </LinearLayout>
+
+    <!--Notifications-->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -132,6 +184,8 @@
             android:drawablePadding="8dp"
             android:fontFamily="@string/bookIT_caption"
             />
+
+
 
     </LinearLayout>
 

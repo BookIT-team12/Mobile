@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/drawer_border"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="176dp"
+        android:background="@drawable/header_bkg"
+        android:gravity="bottom"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="13dp">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/logo" /> <!-- Replace with your image -->
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@string/bookIT_font"
+            android:text="BookIT"
+            android:textStyle="bold"
+            android:textColor="@color/white"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="travel made simple"
+            android:fontFamily="@string/bookIT_caption"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:layout_marginBottom="16dp"
+            />
+
+
+    </LinearLayout>
+
+    <!-- Home -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/home"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/logo"
+            android:text="Home"
+            android:textSize="20sp"
+            android:drawableLeft="@drawable/nav_home"
+            android:drawablePadding="8dp"
+            android:fontFamily="@string/bookIT_caption"
+            />
+
+    </LinearLayout>
+
+    <!-- Manage account -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/reservations"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/logo"
+            android:text="Trips and reservations"
+            android:textSize="20sp"
+            android:drawableLeft="@drawable/nav_trips_reservations"
+            android:drawablePadding="8dp"
+            android:fontFamily="@string/bookIT_caption"
+            />
+
+
+
+    </LinearLayout>
+
+    <!-- Add an apartment -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/create_apartment"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/logo"
+            android:text="Add an apartment "
+            android:textSize="20sp"
+            android:drawableLeft="@drawable/nav_apartment"
+            android:drawablePadding="8dp"
+            android:fontFamily="@string/bookIT_caption"
+            />
+
+    </LinearLayout>
+
+    <!--My current units-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/favorites"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/logo"
+            android:text="My apartments"
+            android:textSize="20sp"
+            android:drawableLeft="@drawable/nav_host_apartments"
+            android:drawablePadding="8dp"
+            android:fontFamily="@string/bookIT_caption"
+            />
+
+    </LinearLayout>
+
+    <!--Manage reservations-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/manage_reservations"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/logo"
+            android:text="Manage reservations"
+            android:textSize="20sp"
+            android:drawableLeft="@drawable/nav_edit"
+            android:drawablePadding="8dp"
+            android:fontFamily="@string/bookIT_caption"
+            />
+
+
+
+    </LinearLayout>
+
+    <!--Notifications-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/notifications"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/logo"
+            android:text="Notifications"
+            android:textSize="20sp"
+            android:drawableLeft="@drawable/nav_notification"
+            android:drawablePadding="8dp"
+            android:fontFamily="@string/bookIT_caption"
+            />
+
+
+
+    </LinearLayout>
+
+    <!--Report user comments/users-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/manage_user_comments"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/logo"
+            android:text="Report users/reviews"
+            android:textSize="20sp"
+            android:drawableLeft="@drawable/nav_error"
+            android:drawablePadding="8dp"
+            android:fontFamily="@string/bookIT_caption"
+            />
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/reports"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/logo"
+            android:text="Reports"
+            android:textSize="20sp"
+            android:drawableLeft="@drawable/nav_reports"
+            android:drawablePadding="8dp"
+            android:fontFamily="@string/bookIT_caption"
+            />
+
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/berkley_blue"
+        android:layout_marginTop="12dp"
+
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/logout"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/logo"
+            android:text="Log out"
+            android:textSize="20sp"
+            android:drawableLeft="@drawable/nav_logout"
+            android:drawablePadding="8dp"
+            android:fontFamily="@string/bookIT_caption"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>
