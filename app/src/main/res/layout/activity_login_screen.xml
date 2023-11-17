@@ -24,7 +24,9 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/log_in"
-            android:textColor="?android:textColorPrimary"
+            android:layout_marginBottom="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/logo"
             android:textSize="25sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -37,10 +39,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:text="@string/username"
-            android:textColor="?android:textColorPrimary"
+            android:textStyle="bold"
+            android:textColor="@color/logo"
             android:textSize="20sp"
             app:drawableLeftCompat="@drawable/email_icon"
-            app:drawableTint="?android:textColorPrimary" />
+            app:drawableTint="@color/logo" />
 
         <EditText
             android:id="@+id/usernameTF"
@@ -53,6 +56,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginBottom="10dp"
+
             app:layout_constraintVertical_bias="0.259" />
 
         <TextView
@@ -61,10 +66,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:text="@string/password"
-            android:textColor="?android:textColorPrimary"
+            android:textStyle="bold"
+            android:textColor="@color/logo"
             android:textSize="20sp"
             app:drawableLeftCompat="@drawable/key_icon"
-            app:drawableTint="?android:textColorPrimary" />
+            app:drawableTint="@color/logo" />
 
         <EditText
             android:id="@+id/passwordTF"
@@ -76,15 +82,17 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginBottom="20dp"/>
 
 
         <Button
             android:id="@+id/buttonLogIn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
             android:background="@drawable/round_btn"
             android:onClick="LogIn"
             android:text="@string/log_in"
@@ -98,10 +106,10 @@
             android:id="@+id/buttonRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/round_btn"
             android:onClick="Register"
             android:text="@string/register"
