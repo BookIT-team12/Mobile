@@ -7,30 +7,38 @@
     tools:context=".RegisterScreen">
 
     <LinearLayout
-        android:layout_width="380dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="350dp"
+        android:background="@drawable/round_card_blueish"
         android:orientation="vertical"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.8">
 
 
         <TextView
             android:id="@+id/RegistrationFormTitle"
             android:layout_width="match_parent"
-            android:layout_height="31dp"
+            android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:text="@string/registration_form_title" />
+            android:gravity="center"
+            android:text="@string/registration_form"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="28sp" />
 
         <TextView
             android:id="@+id/RegistrationFormUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/username_text_view" />
+            android:text="@string/username"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="20sp"
+            app:drawableLeftCompat="@drawable/email_icon"
+            app:drawableTint="?android:textColorPrimary" />
 
         <EditText
             android:id="@+id/RegFormUsernameTF"
@@ -38,13 +46,56 @@
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:ems="10"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:textColor="?android:textColorPrimary" />
+
+        <TextView
+            android:id="@+id/RegistrationFormName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/name"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="20sp"
+            app:drawableLeftCompat="@drawable/badge_icon"
+            app:drawableTint="?android:textColorPrimary" />
+
+        <EditText
+            android:id="@+id/RegFormNameTF"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:ems="10"
+            android:inputType="textEmailAddress"
+            android:textColor="?android:textColorPrimary" />
+
+        <TextView
+            android:id="@+id/RegistrationFormLastname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/lastname"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="20sp"
+            app:drawableTint="?android:textColorPrimary"
+            app:drawableLeftCompat="@drawable/badge_icon" />
+
+        <EditText
+            android:id="@+id/RegFormLastnameTF"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:ems="10"
+            android:inputType="textEmailAddress"
+            android:textColor="?android:textColorPrimary" />
 
         <TextView
             android:id="@+id/RegistrationFormPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/password_text_view" />
+            android:text="@string/password"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="20sp"
+            app:drawableLeftCompat="@drawable/key_icon"
+            app:drawableTint="?android:textColorPrimary" />
 
         <EditText
             android:id="@+id/RegFormPasswordTF"
@@ -52,13 +103,35 @@
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:ems="10"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:textColor="?android:textColorPrimary" />
+        <TextView
+            android:id="@+id/RegistrationConfirmFormPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/confirm_password"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="20sp"
+            app:drawableLeftCompat="@drawable/key_icon"
+            app:drawableTint="?android:textColorPrimary" />
 
+        <EditText
+            android:id="@+id/RegFormConfirmPasswordTF"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:textColor="?android:textColorPrimary" />
         <TextView
             android:id="@+id/RegistrationFormPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/phone_text__view" />
+            android:text="@string/phone"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="20sp"
+            app:drawableLeftCompat="@drawable/call_icon"
+            app:drawableTint="?android:textColorPrimary" />
 
         <EditText
             android:id="@+id/RegFormPhoneTF"
@@ -66,15 +139,62 @@
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:ems="10"
-            android:inputType="phone" />
+            android:inputType="phone"
+            android:textColor="?android:textColorPrimary" />
 
-        <Button
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/blueish"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/RegistrationFormRole"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/role"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="20sp"
+            android:layout_marginTop="7sp"/>
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/registrationOwnerRdbtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/owner"
+                android:textColor="?android:textColorPrimary" />
+
+            <RadioButton
+                android:id="@+id/registrationGuestRdbtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/guest"
+                android:textColor="?android:textColorPrimary" />
+        </RadioGroup>
+
+    </LinearLayout>
+
+
+    <Button
             android:id="@+id/RegFormConfirmBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginBottom="10dp"
             android:layout_weight="0.5"
+            android:background="@drawable/round_btn"
             android:onClick="ConfirmRegistration"
-            android:text="Confirm" />
+            android:text="@string/confirm"
+            android:textColor="?android:textColorPrimary" />
 
     </LinearLayout>
 

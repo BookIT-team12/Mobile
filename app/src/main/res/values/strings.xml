@@ -1,13 +1,16 @@
 <resources>
     <string name="app_name">BookIT</string>
-    <string name="loading_naslov">Dobro dosli na BookIT</string>
-    <string name="dobrodosli_na_log_in_stranicu">Dobrodosli na log in stranicu</string>
     <string name="log_in">Log in</string>
     <string name="register">Register</string>
-    <string name="registration_form_title">Registration form</string>
-    <string name="username_text_view">Username</string>
-    <string name="password_text_view">Password:</string>
-    <string name="phone_text__view">Phone:</string>
-    <string name="open_nav">Open Navigation Drawer</string>
-    <string name="close_nave">Close Navigation Drawer</string>
+    <string name="registration_form">Registration form</string>
+    <string name="username">Username:</string>
+    <string name="name">First name:</string>
+    <string name="lastname">Last name:</string>
+    <string name="password">Password:</string>
+    <string name="confirm_password">Confirm password:</string>
+    <string name="phone">Phone:</string>
+    <string name="confirm">Confirm</string>
+    <string name="owner">Owner</string>
+    <string name="guest">Guest</string>
+    <string name="role">Role:</string>
 </resources>

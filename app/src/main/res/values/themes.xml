@@ -3,6 +3,9 @@
     <style name="Base.Theme.BookIT" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:statusBarColor">@color/logo</item>
+        <item name="colorPrimary">@color/logo</item>
+        <item name="android:textColorPrimary">@color/white</item>
     </style>
 
     <style name="Theme.V2" parent="Base.Theme.BookIT" />
