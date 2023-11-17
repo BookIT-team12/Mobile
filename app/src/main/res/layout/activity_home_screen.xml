@@ -18,6 +18,7 @@
         <include
             layout="@layout/toolbar"/>
 
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -27,7 +28,71 @@
             android:text="Home"
             android:textColor="@color/berkley_blue"
             android:textSize="36sp" />
+
+
+
+        <TextView
+            android:id="@+id/username_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="408dp"
+            android:text="Username:"
+            app:layout_constraintBottom_toBottomOf="@+id/account_bg"
+            app:layout_constraintEnd_toEndOf="@+id/account_bg"
+            app:layout_constraintStart_toStartOf="@+id/account_bg"
+            app:layout_constraintTop_toTopOf="@+id/account_bg" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="120dp"
+            android:layout_marginEnd="272dp"
+
+            android:drawableTop="@drawable/account"
+            app:layout_constraintEnd_toEndOf="@+id/account_bg"
+            app:layout_constraintTop_toTopOf="@+id/account_bg"
+
+            />
+
+        <TextView
+            android:id="@+id/role_text"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginStart="29dp"
+            android:layout_marginTop="597dp"
+            android:text="Role: "
+            app:layout_constraintEnd_toEndOf="@+id/account_bg"
+            app:layout_constraintStart_toStartOf="@+id/account_bg"
+            app:layout_constraintTop_toTopOf="@+id/account_bg" />
+
+        <TextView
+            android:id="@+id/name_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="453dp"
+            android:layout_marginStart="28dp"
+            android:text="Name:"
+            app:layout_constraintEnd_toEndOf="@+id/account_bg"
+            app:layout_constraintTop_toTopOf="@+id/account_bg" />
+
+        <TextView
+            android:id="@+id/surname_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="505dp"
+            android:layout_marginBottom="95dp"
+            android:text="Surname:"
+            app:layout_constraintBottom_toBottomOf="@+id/account_bg"
+            app:layout_constraintEnd_toEndOf="@+id/account_bg"
+            app:layout_constraintStart_toStartOf="@+id/account_bg" />
+
+
+
+
     </LinearLayout>
+
 
     <RelativeLayout
         android:layout_width="300dp"
