@@ -4,9 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context=".LoginScreen">
 
+
+    <ImageView
+        android:id="@+id/logoImageView"
+        android:layout_width="250dp"
+        android:layout_height="150dp"
+        android:src="@drawable/logo_and_title"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5" />
+
+
+
     <LinearLayout
+
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/round_card_blueish"
@@ -24,6 +41,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/log_in"
+            android:layout_marginTop="8dp"
             android:layout_marginBottom="20dp"
             android:textStyle="bold"
             android:textColor="@color/logo"

@@ -51,7 +51,9 @@ public class HomeScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(HomeScreen.this, "You have successfully logged out!", Toast.LENGTH_SHORT).show();
+                redirectActivity(HomeScreen.this, LoginScreen.class);
             }
+
         });
 
         manageAccount.setOnClickListener(new View.OnClickListener() {

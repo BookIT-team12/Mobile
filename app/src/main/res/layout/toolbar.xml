@@ -22,6 +22,7 @@
         android:textSize="22sp"
         android:layout_marginStart="12dp"
         android:textColor="@color/logo"
+        android:textStyle="bold"
         android:fontFamily="@string/bookIT_font"
         />
 
