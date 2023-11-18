@@ -9,7 +9,10 @@
     android:layout_height="match_parent"
     android:id="@+id/drawerLayout"
     tools:context=".AccountDetails"
-    android:background="@drawable/top_background1">
+    android:background="@drawable/lines_bg">
+
+
+
 
     <LinearLayout
 
@@ -20,34 +23,22 @@
         <include layout="@layout/toolbar"/>
 
 
-
-
         <!-- Add EditText fields for user input -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="20dp"
-            android:gravity="center"
+            android:layout_marginTop="70dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="60dp"
             android:text="Manage account"
             android:textStyle="bold"
-            android:textColor="@color/white"
-            android:textSize="36sp" />
+            android:textColor="@color/logo"
+            android:textSize="36sp"
+/>
 
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:layout_marginLeft="15dp"
-            android:drawableTop="@drawable/account"
-            app:layout_constraintEnd_toEndOf="@+id/account_bg"
-            app:layout_constraintTop_toTopOf="@+id/account_bg"
-
-            />
 
         <!-- Username -->
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -55,6 +46,7 @@
             android:textColor="@color/logo"
             android:textStyle="bold"
             android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginLeft="20dp"/>
 
         <EditText
@@ -63,17 +55,27 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:hint="Enter username"/>
+            android:hint="Enter username"
+            android:text="pera123"
+            android:padding="10dp"
+
+            android:textColor="@color/logo"
+            android:inputType="text"
+            android:background="@drawable/edit_details"
+            />
 
         <!-- Name -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Name:"
+            android:layout_marginBottom="10dp"
+
             android:textColor="@color/logo"
             android:textStyle="bold"
             android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"/>
+            android:layout_marginLeft="20dp"
+            />
 
         <EditText
             android:id="@+id/editName"
@@ -81,18 +83,26 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:hint="Enter name"/>
+            android:hint="Enter name"
+            android:text="Petar"
+            android:padding="10dp"
+
+            android:background="@drawable/edit_details"
+            android:textColor="@color/logo"
+            android:inputType="text"/>
 
         <!-- Surname -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Surname:"
+            android:layout_marginBottom="10dp"
+
             android:textColor="@color/logo"
             android:textStyle="bold"
-
             android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"/>
+            android:layout_marginLeft="20dp"
+            />
 
         <EditText
             android:id="@+id/editSurname"
@@ -100,13 +110,20 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:hint="Enter surname"/>
+            android:padding="10dp"
 
+            android:hint="Enter surname"
+            android:text="Petrovic"
+            android:inputType="text"
+            android:background="@drawable/edit_details"
+            android:textColor="@color/logo"/>
         <!-- Phone Number -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Phone Number:"
+            android:layout_marginBottom="10dp"
+
             android:textColor="@color/logo"
             android:textStyle="bold"
 
@@ -118,18 +135,45 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
+            android:padding="10dp"
             android:layout_marginRight="20dp"
-            android:hint="Enter phone number"/>
+            android:layout_marginBottom="50dp"
+            android:hint="Enter phone number"
+            android:text="0655053140"
+            android:background="@drawable/edit_details"
+            android:textColor="@color/logo"
+            android:inputType="phone"/>
 
 
-        <!-- Save Changes Button -->
-        <Button
-            android:id="@+id/edit_btn"
-            android:layout_width="wrap_content"
+
+
+
+
+
+        <!-- Save Changes and Change Password Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:text="Save Changes"/>
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:gravity="center">
+
+            <!-- Save Changes Button -->
+            <Button
+                android:id="@+id/edit_btn"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:text="Save Changes"
+                android:layout_marginRight="20dp"/>
+
+            <!-- Change Password Button -->
+            <Button
+                android:id="@+id/change_password_btn"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="Change Password"/>
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -32,6 +32,7 @@
 
     <!-- BOOKIT FIGMA COLORS -->
     <color name="nav_bar_figma">#CDDBFF</color>
+    <color name="form_details">#6AA4BAF1</color>
     <color name="form_figma">#6D8ECF</color>
     <color name="search_bar_figma">#2A6BEA</color>
     <color name="text_figma">#080067</color>

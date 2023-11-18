@@ -1,0 +1,8 @@
+<!-- res/drawable/edittext_background.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/form_details" />
+    <corners android:radius="8dp" />
+    <stroke
+        android:color="@color/logo"
+        android:width="2dp" />
+</shape>
