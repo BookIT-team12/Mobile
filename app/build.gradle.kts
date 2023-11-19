@@ -6,6 +6,10 @@ android {
     namespace = "com.example.bookit"
     compileSdk = 34
 
+    buildFeatures{
+        viewBinding = true
+    }
+
     defaultConfig {
         applicationId = "com.example.bookit"
         minSdk = 29
