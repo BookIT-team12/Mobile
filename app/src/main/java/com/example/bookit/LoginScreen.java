@@ -53,7 +53,7 @@ public class LoginScreen extends AppCompatActivity {
     public void LogIn(View view) {
         String role = checkCredentials();
         if (role == null){
-            Toast.makeText(getApplicationContext(), "Wrong credentials! We dont know your role!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Wrong credentials! We don't know your role!", Toast.LENGTH_SHORT).show();
             return;
         }
         Intent intent = new Intent(LoginScreen.this, HomeScreen.class);

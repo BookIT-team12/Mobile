@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,15 +24,37 @@ public class HomeScreen extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
 
+        // Retrieve user role from intent
+        String role = getIntent().getStringExtra("ROLE");
+
+        // Inflate the appropriate navigation layout based on the user's role
+        if ("admin".equals(role)) {
+            includeNavDrawer(R.layout.nav_drawer_admin);
+            manageAccount = findViewById(R.id.account_details_admin);
+            home = findViewById(R.id.home_admin);
+            logout = findViewById(R.id.logout_admin);
+
+        }
+        else if ("owner".equals(role)) {
+            includeNavDrawer(R.layout.nav_drawer_host);
+            manageAccount = findViewById(R.id.account_details_host);
+            home = findViewById(R.id.home_host);
+            logout = findViewById(R.id.logout_host);
+        }
+        else {
+            includeNavDrawer(R.layout.nav_drawer_guest);
+            logout = findViewById(R.id.logout);
+            manageAccount = findViewById(R.id.account_details);
+            home = findViewById(R.id.home);
+        }
+
         drawerLayout = findViewById(R.id.drawerLayout);
         menu = findViewById(R.id.menu);
-        manageAccount = findViewById(R.id.account_details);
-        home = findViewById(R.id.home);
-        logout = findViewById(R.id.logout);
-        favorites = findViewById(R.id.favorites);
+
 
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,12 +86,14 @@ public class HomeScreen extends AppCompatActivity {
             }
         });
 
-        favorites.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                redirectActivity(HomeScreen.this, LoginScreen.class);
-            }
-        });
+    }
+
+    private void includeNavDrawer(int layoutResId) {
+        // Include the navigation drawer layout
+        RelativeLayout navDrawer = findViewById(R.id.navDrawer);
+        navDrawer.removeAllViews(); // Clear existing views
+        View customNavDrawer = getLayoutInflater().inflate(layoutResId, navDrawer, false);
+        navDrawer.addView(customNavDrawer);
     }
 
     private void openDrawer(DrawerLayout drawerLayout) {
