@@ -22,16 +22,16 @@ public class HomeScreen extends AppCompatActivity {
     private LinearLayout logout;
     private LinearLayout favorites;
 
+    private LinearLayout addAccommodation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
 
-        // Retrieve user role from intent
         String role = getIntent().getStringExtra("ROLE");
 
-        // Inflate the appropriate navigation layout based on the user's role
         if ("admin".equals(role)) {
             includeNavDrawer(R.layout.nav_drawer_admin);
             manageAccount = findViewById(R.id.account_details_admin);
@@ -44,6 +44,8 @@ public class HomeScreen extends AppCompatActivity {
             manageAccount = findViewById(R.id.account_details_host);
             home = findViewById(R.id.home_host);
             logout = findViewById(R.id.logout_host);
+            addAccommodation=findViewById(R.id.add_accommodation);
+
         }
         else {
             includeNavDrawer(R.layout.nav_drawer_guest);
@@ -85,6 +87,14 @@ public class HomeScreen extends AppCompatActivity {
                 redirectActivity(HomeScreen.this, AccountDetails.class);
             }
         });
+
+        addAccommodation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                redirectActivity(HomeScreen.this, AddAccommodation.class);
+            }
+        });
+
 
     }
 

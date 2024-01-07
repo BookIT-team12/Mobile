@@ -9,7 +9,7 @@
     android:layout_height="match_parent"
     android:id="@+id/drawerLayout"
     tools:context=".AccountDetails"
-    android:background="@drawable/lines_bg">
+    android:background="@drawable/white_minimalist">
 
 
 
