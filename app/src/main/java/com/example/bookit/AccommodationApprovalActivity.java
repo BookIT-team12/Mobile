@@ -27,12 +27,13 @@ public class AccommodationApprovalActivity extends AppCompatActivity {
     private AccommodationApi accommodationApi;
     private ListView accommodationListView;
 
+    private Retrofit retrofit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accommodation_approval);
 
-        Retrofit retrofit = new RetrofitService().getRetrofit();
+        retrofit = new RetrofitService().getRetrofit();
         accommodationApi = retrofit.create(AccommodationApi.class);
 
         accommodationListView = findViewById(R.id.accommodationListView);
