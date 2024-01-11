@@ -13,6 +13,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.bookit.retrofit.RetrofitService;
+import com.example.bookit.retrofit.api.AccommodationApi;
+import com.example.bookit.retrofit.api.UserApi;
+
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
 public class HomeScreen extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
@@ -22,10 +33,19 @@ public class HomeScreen extends AppCompatActivity {
     private LinearLayout logout;
     private LinearLayout favorites;
 
+    private LinearLayout deleteAccount;
+
+    private String userId; //TODO: RESOLVE USER ID FETCH
+
+
     private LinearLayout addAccommodation;
 
     private LinearLayout blockUsers;
     private LinearLayout approveAccommodations;
+
+    private Retrofit retrofit;
+
+    private UserApi userApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +54,11 @@ public class HomeScreen extends AppCompatActivity {
         setContentView(R.layout.activity_home_screen);
 
         String role = getIntent().getStringExtra("ROLE");
+
+        retrofit=new RetrofitService().getRetrofit();
+        userApi = new RetrofitService().getRetrofit().create(UserApi.class);
+
+
 
         if ("admin".equals(role)) {
 
@@ -63,6 +88,7 @@ public class HomeScreen extends AppCompatActivity {
 
         drawerLayout = findViewById(R.id.drawerLayout);
         menu = findViewById(R.id.menu);
+        deleteAccount=findViewById(R.id.deleteAccount);
 
 
         menu.setOnClickListener(new View.OnClickListener() {
@@ -116,8 +142,42 @@ public class HomeScreen extends AppCompatActivity {
             }
         });
 
+        deleteAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteAccount();
+            }
+        });
+
 
     }
+
+    public void deleteAccount() {
+        Call<Map<String, String>> call = userApi.deleteUser(userId);
+        call.enqueue(new Callback<Map<String, String>>() {
+            @Override
+            public void onResponse(Call<Map<String, String>> call, Response<Map<String, String>> response) {
+                if (response.isSuccessful()) {
+
+                    Map<String, String> responseBody = response.body();
+                    if (responseBody != null && responseBody.containsKey("message")) {
+                        String successMessage = responseBody.get("message");
+                        Toast.makeText(HomeScreen.this, successMessage, Toast.LENGTH_SHORT).show();
+                        //TODO: PREBACI USERA NA LOGIN SCREEN, NAKON OBRISANIH KREDENCIJALA
+                    } else {
+                        Toast.makeText(HomeScreen.this, "Failed to delete account", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(HomeScreen.this, "Failed to delete account", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<Map<String, String>> call, Throwable t) {
+                Toast.makeText(HomeScreen.this, "Failed to delete account", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
     private void includeNavDrawer(int layoutResId) {
         // Include the navigation drawer layout
