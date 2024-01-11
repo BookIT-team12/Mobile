@@ -21,6 +21,127 @@ public class Accommodation {
     private AccommodationStatus accommodationStatus;
     private List<AvailabilityPeriod> availabilityPeriods;
     private String imagesFolder;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
+    public AccommodationType getAccommodationType() {
+        return accommodationType;
+    }
+
+    public void setAccommodationType(AccommodationType accommodationType) {
+        this.accommodationType = accommodationType;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getMinGuests() {
+        return minGuests;
+    }
+
+    public void setMinGuests(int minGuests) {
+        this.minGuests = minGuests;
+    }
+
+    public int getMaxGuests() {
+        return maxGuests;
+    }
+
+    public void setMaxGuests(int maxGuests) {
+        this.maxGuests = maxGuests;
+    }
+
+    public List<Amenity> getAmenities() {
+        return amenities;
+    }
+
+    public void setAmenities(List<Amenity> amenities) {
+        this.amenities = amenities;
+    }
+
+    public List<ReviewAccommodation> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<ReviewAccommodation> reviews) {
+        this.reviews = reviews;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
+    }
+
+    public BookingConfirmationType getBookingConfirmationType() {
+        return bookingConfirmationType;
+    }
+
+    public void setBookingConfirmationType(BookingConfirmationType bookingConfirmationType) {
+        this.bookingConfirmationType = bookingConfirmationType;
+    }
+
+    public AccommodationStatus getAccommodationStatus() {
+        return accommodationStatus;
+    }
+
+    public void setAccommodationStatus(AccommodationStatus accommodationStatus) {
+        this.accommodationStatus = accommodationStatus;
+    }
+
+    public List<AvailabilityPeriod> getAvailabilityPeriods() {
+        return availabilityPeriods;
+    }
+
+    public void setAvailabilityPeriods(List<AvailabilityPeriod> availabilityPeriods) {
+        this.availabilityPeriods = availabilityPeriods;
+    }
+
+    public String getImagesFolder() {
+        return imagesFolder;
+    }
+
+    public void setImagesFolder(String imagesFolder) {
+        this.imagesFolder = imagesFolder;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
     private Location location;
     private boolean isFavorite;
 

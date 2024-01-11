@@ -10,6 +10,7 @@ public class RetrofitService {
     private Retrofit retrofit;
 
     public RetrofitService(){
+//        initializeRetrofitFactory();
         initializeRetrofit();
     }
 
@@ -19,6 +20,13 @@ public class RetrofitService {
                 .addConverterFactory(GsonConverterFactory.create(new Gson()))
                 .build();
     }
+
+//    private void initializeRetrofitFactory() {
+//        this.retrofit = new Retrofit.Builder()
+//                .baseUrl("http://192.168.0.22:8080")
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build();
+//    }
 
     public Retrofit getRetrofit() {
         return retrofit;
