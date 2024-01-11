@@ -3,20 +3,32 @@ package com.example.bookit;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+
+
+import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.config.Configuration;
+import org.osmdroid.events.MapAdapter;
+import org.osmdroid.events.MapEventsReceiver;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.ItemizedIconOverlay;
+import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
+import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.overlay.Overlay;
+import org.osmdroid.views.overlay.OverlayItem;
+
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,6 +36,36 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+
+
+// Create a custom MapEventsReceiver class
+class MyMapEventsReceiver extends Overlay implements MapEventsReceiver {
+    private MapView mapView;
+
+
+    // Set up the initial marker at the center
+    final Marker[] userMarker = {null};
+    @Override
+    public boolean singleTapConfirmedHelper(final GeoPoint geoPoint) {
+        // Remove the old user-added marker if exists
+        if (userMarker[0] != null) {
+            mapView.getOverlays().remove(userMarker[0]);
+        }
+
+        // Add a new user-added marker at the clicked location
+        userMarker[0] = new Marker(mapView);
+        userMarker[0].setPosition(geoPoint);
+        mapView.getOverlays().add(userMarker[0]);
+
+        // Return true to indicate that the event has been consumed
+        return true;
+    }
+
+    @Override
+    public boolean longPressHelper(GeoPoint geoPoint) {
+        return false;
+    }
+}
 
 public class AddAccommodation extends AppCompatActivity {
     private WebView webView;
@@ -34,6 +76,8 @@ public class AddAccommodation extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ImageView menu;
     private LinearLayout home;
+    private MapView mapView;
+
 
 
     @Override
@@ -42,35 +86,61 @@ public class AddAccommodation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_accommodation);
 
-        drawerLayout = findViewById(R.id.drawerLayout);
-        menu = findViewById(R.id.menu);
-
 
         dateSpinnerFrom = findViewById(R.id.dateFromSpinner);
         dateSpinnerTo = findViewById(R.id.dateToSpinner);
 
+        // Initialize map view
+        mapView = findViewById(R.id.mapView);
+        mapView.setTileSource(TileSourceFactory.MAPNIK);
 
-        // LEAFLET MAP INITIALIZATION
-        webView = findViewById(R.id.webView);
+        GeoPoint initialCenter = new GeoPoint(40.7128, -74.0060); // Example: New York City
+        mapView.getController().setCenter(initialCenter);
+        mapView.getController().setZoom(15);
 
-        WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
+        // Enable zoom controls
+        mapView.setBuiltInZoomControls(true);
 
-        webView.loadUrl("assets/leaflet_map.html");
+        // Enable touch controls
+        mapView.setMultiTouchControls(true);
 
 
-        webView.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                super.onReceivedError(view, errorCode, description, failingUrl);
-            }
-        });
+// Set up the initial marker at the center
+        Marker initialMarker = new Marker(mapView);
+        initialMarker.setPosition(initialCenter);
+        mapView.getOverlays().add(initialMarker);
 
+        // Set up a click listener for the map using your custom MapEventsReceiver
+        mapView.getOverlays().add(new MyMapEventsReceiver());
+
+// Set up a click listener for the ma
+
+
+//        mapView.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//                    IGeoPoint geoPoint = mapView.getProjection().fromPixels((int) event.getX(), (int) event.getY());
+//
+//                    Marker marker = new Marker(mapView);
+//                    marker.setPosition(new GeoPoint(geoPoint.getLatitude(), geoPoint.getLongitude()));
+//                    marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+//                    mapView.getOverlayManager().add(marker);
+//
+//                    mapView.performClick();
+//
+//                    return true;
+//                }
+//
+//                return false;
+//            }
+//        });
+        // Initialize drawer and menu
+        drawerLayout = findViewById(R.id.drawerLayout);
+        menu = findViewById(R.id.menu);
 
 
         // SPINNERS POPULATION
-
-
         setupDateSpinner(dateSpinnerFrom);
         setupDateSpinner(dateSpinnerTo);
         setupAccommodationTypeSpinnner();
@@ -87,7 +157,6 @@ public class AddAccommodation extends AppCompatActivity {
             }
         });
 
-
         dateSpinnerTo.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -97,11 +166,11 @@ public class AddAccommodation extends AppCompatActivity {
                 return false;
             }
         });
+        Configuration.getInstance().load(this, androidx.preference.PreferenceManager.getDefaultSharedPreferences(this));
     }
 
-
-
-
+    private void handleSelectedLocation(GeoPoint selectedPoint) {
+    }
 
     private void setupDateSpinner(Spinner dateSpinnerFrom) {
         // Populate the Spinner with date options
@@ -109,7 +178,6 @@ public class AddAccommodation extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dateSpinnerFrom.setAdapter(adapter);
     }
-
 
     private void setupAccommodationTypeSpinnner(){
         Spinner accommodationTypeSpinner = findViewById(R.id.accommodationType);
@@ -131,7 +199,6 @@ public class AddAccommodation extends AppCompatActivity {
             confirmationTypeSpinner.setAdapter(confirmationTypeAdapter);
         }
 
-
     private void showDatePickerDialog(Spinner dateSpinnerFrom) {
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this, R.style.MyDatePickerDialogTheme,
@@ -150,7 +217,6 @@ public class AddAccommodation extends AppCompatActivity {
         );
         datePickerDialog.show();
     }
-
 
     private void updateSelectedDateInView(Spinner dateSpinnerFrom) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.ENGLISH);
@@ -178,7 +244,6 @@ public class AddAccommodation extends AppCompatActivity {
     }
 
     private String[] getDateOptions() {
-        // Provide date options for the Spinner (customize as needed)
         return new String[]{"Select a date"};
     }
 
@@ -204,7 +269,5 @@ public class AddAccommodation extends AppCompatActivity {
         activity.startActivity(intent);
         activity.finish();
     }
-
-
 
 }
