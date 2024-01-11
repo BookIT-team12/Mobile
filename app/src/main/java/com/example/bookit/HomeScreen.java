@@ -24,6 +24,9 @@ public class HomeScreen extends AppCompatActivity {
 
     private LinearLayout addAccommodation;
 
+    private LinearLayout blockUsers;
+    private LinearLayout approveAccommodations;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -33,10 +36,14 @@ public class HomeScreen extends AppCompatActivity {
         String role = getIntent().getStringExtra("ROLE");
 
         if ("admin".equals(role)) {
+
             includeNavDrawer(R.layout.nav_drawer_admin);
             manageAccount = findViewById(R.id.account_details_admin);
             home = findViewById(R.id.home_admin);
             logout = findViewById(R.id.logout_admin);
+            approveAccommodations=findViewById(R.id.manage_apartments);
+            blockUsers=findViewById(R.id.manage_accounts);
+
 
         }
         else if ("owner".equals(role)) {
@@ -88,10 +95,24 @@ public class HomeScreen extends AppCompatActivity {
             }
         });
 
-        addAccommodation.setOnClickListener(new View.OnClickListener() {
+//        addAccommodation.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                redirectActivity(HomeScreen.this, AddAccommodation.class);
+//            }
+//        });
+
+        approveAccommodations.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                redirectActivity(HomeScreen.this, AddAccommodation.class);
+                redirectActivity(HomeScreen.this, AccommodationApprovalActivity.class);
+            }
+        });
+
+        blockUsers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                redirectActivity(HomeScreen.this, AdminUserBlockingActivity.class);
             }
         });
 

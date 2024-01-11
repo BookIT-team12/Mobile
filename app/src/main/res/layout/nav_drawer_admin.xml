@@ -96,11 +96,10 @@
 
     </LinearLayout>
 
-    <!--Manage apartments-->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/apartments"
+        android:id="@+id/manage_apartments"
         android:layout_marginStart="12dp"
         android:layout_marginTop="12dp"
         android:orientation="horizontal">
@@ -142,7 +141,6 @@
 
     </LinearLayout>
 
-    <!--Manage user accounts-->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
