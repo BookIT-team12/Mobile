@@ -180,7 +180,7 @@ public class HomeScreen extends AppCompatActivity {
 
 
     private void includeNavDrawer(int layoutResId) {
-        // Include the navigation drawer layout
+
         RelativeLayout navDrawer = findViewById(R.id.navDrawer);
         navDrawer.removeAllViews(); // Clear existing views
         View customNavDrawer = getLayoutInflater().inflate(layoutResId, navDrawer, false);
