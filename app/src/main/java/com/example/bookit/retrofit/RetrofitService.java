@@ -3,6 +3,8 @@ package com.example.bookit.retrofit;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -30,9 +32,12 @@ public class RetrofitService {
 
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
+                .connectTimeout(15, TimeUnit.SECONDS)   //during debug this will make problem and will return SocketClosed err!
+                .readTimeout(15, TimeUnit.SECONDS)
+                .writeTimeout(15, TimeUnit.SECONDS)
                 .build();
         this.retrofit = new Retrofit.Builder()
-                .baseUrl("https://192.168.1.6:8080")
+                .baseUrl("http://192.168.0.22:8080")
                 .addConverterFactory(GsonConverterFactory.create(new Gson()))
                 .client(client)
                 .build();

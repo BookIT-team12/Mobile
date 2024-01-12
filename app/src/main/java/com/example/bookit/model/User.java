@@ -17,17 +17,17 @@ public class User {
     private boolean isReported;
 
 
-    public User(String name, String lastName, String email, String password, String address, String phone, String role, boolean isReported, boolean isBlocked) {
+    public User(String name, String lastName, String email, String password, String confirmPassword, String address, String phone, Role role, boolean isReported, boolean isBlocked) {
         this.name = name;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.address = address;
         this.phone = phone;
-        this.role = decideRole(role);
+        this.role = role;
         this.isReported = isReported;
         this.isBlocked = isBlocked;
-
+        this.confirmPassword = confirmPassword;
     }
 
     public User(){}
@@ -42,17 +42,7 @@ public class User {
         this.role = user.getRole();
         this.isReported = user.isReported();
         this.isBlocked = user.isBlocked();
-        this.confirmPassword = null;
-    }
-
-    private Role decideRole(String role){
-        if (role.equals("ADMINISTRATOR")){
-            return Role.ADMINISTRATOR;
-        }
-        if (role.equals("OWNER")){
-            return Role.OWNER;
-        }
-        return Role.GUEST;
+        this.confirmPassword = user.confirmPassword;
     }
 
     @Override

@@ -6,24 +6,53 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
+import com.example.bookit.model.User;
+import com.example.bookit.model.UserCredentials;
+import com.example.bookit.model.enums.Role;
+import com.example.bookit.retrofit.RetrofitService;
+import com.example.bookit.retrofit.api.UserApi;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import kotlinx.coroutines.MainCoroutineDispatcher;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class RegisterScreen extends AppCompatActivity {
-    EditText usernameEditText = findViewById(R.id.RegFormUsernameTF);
-    EditText nameEditText = findViewById(R.id.RegFormNameTF);
-    EditText lastnameEditText = findViewById(R.id.RegFormLastnameTF);
-    EditText passwordEditText = findViewById(R.id.RegFormPasswordTF);
-    EditText confirmPasswordEditText = findViewById(R.id.RegFormConfirmPasswordTF);
-    EditText phoneEditText = findViewById(R.id.RegFormPhoneTF);
-    EditText addressEditText = findViewById(R.id.RegFormAddressTF);
-    RadioGroup roleRadioGroup = findViewById(R.id.roleRadioGroup);
+    EditText usernameEditText;
+    EditText nameEditText;
+    EditText lastnameEditText;
+    EditText passwordEditText;
+    EditText confirmPasswordEditText;
+    EditText phoneEditText;
+    EditText addressEditText;
+    RadioGroup roleRadioGroup;
+    RetrofitService retrofitService;
+    UserApi api;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_screen);
+        usernameEditText =  findViewById(R.id.RegFormUsernameTF);
+        nameEditText = findViewById(R.id.RegFormNameTF);
+        lastnameEditText = findViewById(R.id.RegFormLastnameTF);
+        passwordEditText  = findViewById(R.id.RegFormPasswordTF);
+        confirmPasswordEditText = findViewById(R.id.RegFormConfirmPasswordTF);
+        phoneEditText = findViewById(R.id.RegFormPhoneTF);
+        addressEditText = findViewById(R.id.RegFormAddressTF);
+        roleRadioGroup = findViewById(R.id.roleRadioGroup);
+        retrofitService = new RetrofitService();
+        api = retrofitService.getRetrofit().create(UserApi.class);
     }
+
 
     public void ConfirmRegistration(View view) {
         // Retrieve text from the EditText fields
@@ -34,17 +63,37 @@ public class RegisterScreen extends AppCompatActivity {
         String confirmPassword = confirmPasswordEditText.getText().toString();
         String phone = phoneEditText.getText().toString();
         String address = addressEditText.getText().toString();
-        int selectedRadioButtonId = roleRadioGroup.getCheckedRadioButtonId();
-        String errCode = formValidation(username, name, lastname, password, confirmPassword, phone, address);
-        if (!errCode.equals("NO_ERR")){
-            handleErrors(errCode);
-            return;
-        }
 
-        switch (selectedRadioButtonId){
-            case 0:
+        int selectedRadioButtonId = roleRadioGroup.getCheckedRadioButtonId();
+        RadioButton selectedRadioButton = findViewById(selectedRadioButtonId);
+        String selectedRole = selectedRadioButton.getText().toString();
+
+//        String errCode = formValidation(username, name, lastname, password, confirmPassword, phone, address);
+//        if (!errCode.equals("NO_ERR")){
+//            handleErrors(errCode);
+//            return;
+//        }
+
+        User toRegister;
+        switch (selectedRole){
+            case "Guest":
+                toRegister = new User(name, lastname, username, password, confirmPassword, address, phone, Role.GUEST, false, false);
+                api.register(toRegister);
                 break;
-            case 1:
+            case "Owner":
+                toRegister = new User(name, lastname, username, password, confirmPassword, address, phone, Role.OWNER, false, false);
+                api.register(toRegister).enqueue(new Callback<UserCredentials>() {
+                    @Override
+                    public void onResponse(Call<UserCredentials> call, Response<UserCredentials> response) {
+                        showSnackbar("Uspesno kreirao");
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserCredentials> call, Throwable t) {
+                        showSnackbar("ne radi");
+                        Logger.getLogger(RegisterScreen.class.getName()).log(Level.SEVERE, "Error occurred", t);
+                    }
+                });
                 break;
         }
 
