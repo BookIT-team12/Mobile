@@ -17,9 +17,8 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
-public class OwnerAccommodationUpdate extends AppCompatActivity {
+public class UpdateAccommodation extends AppCompatActivity {
 
     private AccommodationApi accommodationApi;
     private ListView accommodationListView;
@@ -44,7 +43,7 @@ public class OwnerAccommodationUpdate extends AppCompatActivity {
                 Accommodation selectedAccommodation = (Accommodation) accommodationListView.getItemAtPosition(selectedPosition);
                 updateAccommodation(selectedAccommodation.getId());
             } else {
-                Toast.makeText(OwnerAccommodationUpdate.this, "Please select an accommodation to update", Toast.LENGTH_SHORT).show();
+                Toast.makeText(UpdateAccommodation.this, "Please select an accommodation to update", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -58,13 +57,13 @@ public class OwnerAccommodationUpdate extends AppCompatActivity {
                     List<Accommodation> accommodations = response.body();
                     displayAccommodationsForUpdate(accommodations);
                 } else {
-                    Toast.makeText(OwnerAccommodationUpdate.this, "Failed to fetch accommodations for update", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UpdateAccommodation.this, "Failed to fetch accommodations for update", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Accommodation>> call, Throwable t) {
-                Toast.makeText(OwnerAccommodationUpdate.this, "Failed to fetch accommodations for update", Toast.LENGTH_SHORT).show();
+                Toast.makeText(UpdateAccommodation.this, "Failed to fetch accommodations for update", Toast.LENGTH_SHORT).show();
             }
         });
     }

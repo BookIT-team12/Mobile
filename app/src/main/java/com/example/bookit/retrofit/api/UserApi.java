@@ -24,6 +24,9 @@ public interface UserApi {
     @GET("/users/{email}")
     Call<User> getUser(@Path("email") String email);
 
+    @POST("/users/{email}")
+    Call<String> updateUser(@Path("email") String email, @Body User user);
+
     @GET("/users")
     Call<List<User>> getAllUsers();
 

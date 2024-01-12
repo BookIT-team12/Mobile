@@ -19,7 +19,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AdminUserBlockingActivity extends AppCompatActivity {
+public class BlockUsers extends AppCompatActivity {
 
     private UserApi userApi;
     private ListView userListView;
@@ -45,7 +45,7 @@ public class AdminUserBlockingActivity extends AppCompatActivity {
                 User selectedUser = (User) userListView.getItemAtPosition(selectedPosition);
                 blockUser(selectedUser.getEmail());
             } else {
-                Toast.makeText(AdminUserBlockingActivity.this, "Please select a user to block", Toast.LENGTH_SHORT).show();
+                Toast.makeText(BlockUsers.this, "Please select a user to block", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -59,13 +59,13 @@ public class AdminUserBlockingActivity extends AppCompatActivity {
                     List<User> users = response.body();
                     displayUsersForBlocking(users);
                 } else {
-                    Toast.makeText(AdminUserBlockingActivity.this, "Failed to fetch users for blocking", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BlockUsers.this, "Failed to fetch users for blocking", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<User>> call, Throwable t) {
-                Toast.makeText(AdminUserBlockingActivity.this, "Failed to fetch users for blocking", Toast.LENGTH_SHORT).show();
+                Toast.makeText(BlockUsers.this, "Failed to fetch users for blocking", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -87,16 +87,16 @@ public class AdminUserBlockingActivity extends AppCompatActivity {
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
                     String responseMessage = response.body();
-                    Toast.makeText(AdminUserBlockingActivity.this, responseMessage, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BlockUsers.this, responseMessage, Toast.LENGTH_SHORT).show();
                     fetchUsersForBlocking();
                 } else {
-                    Toast.makeText(AdminUserBlockingActivity.this, "Failed to block user", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BlockUsers.this, "Failed to block user", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                Toast.makeText(AdminUserBlockingActivity.this, "Failed to block user", Toast.LENGTH_SHORT).show();
+                Toast.makeText(BlockUsers.this, "Failed to block user", Toast.LENGTH_SHORT).show();
             }
         });
     }

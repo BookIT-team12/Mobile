@@ -22,7 +22,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class AccommodationApprovalActivity extends AppCompatActivity {
+public class ApproveAccommodation extends AppCompatActivity {
 
     private AccommodationApi accommodationApi;
     private ListView accommodationListView;
@@ -50,13 +50,13 @@ public class AccommodationApprovalActivity extends AppCompatActivity {
                     List<Accommodation> accommodations = response.body();
                     displayAccommodations(accommodations);
                 } else {
-                    Toast.makeText(AccommodationApprovalActivity.this, "Failed to fetch accommodations for approval", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ApproveAccommodation.this, "Failed to fetch accommodations for approval", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Accommodation>> call, Throwable t) {
-                Toast.makeText(AccommodationApprovalActivity.this, "Failed to fetch accommodations for approval", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ApproveAccommodation.this, "Failed to fetch accommodations for approval", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -112,16 +112,16 @@ public class AccommodationApprovalActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(AccommodationApprovalActivity.this, successMessage, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ApproveAccommodation.this, successMessage, Toast.LENGTH_SHORT).show();
                     fetchAccommodationsForApproval();
                 } else {
-                    Toast.makeText(AccommodationApprovalActivity.this, "Failed to process accommodation", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ApproveAccommodation.this, "Failed to process accommodation", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(AccommodationApprovalActivity.this, "Failed to process accommodation", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ApproveAccommodation.this, "Failed to process accommodation", Toast.LENGTH_SHORT).show();
             }
         });
     }

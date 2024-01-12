@@ -14,7 +14,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.bookit.retrofit.RetrofitService;
-import com.example.bookit.retrofit.api.AccommodationApi;
 import com.example.bookit.retrofit.api.UserApi;
 
 import java.util.Map;
@@ -117,7 +116,7 @@ public class HomeScreen extends AppCompatActivity {
         manageAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                redirectActivity(HomeScreen.this, AccountDetails.class);
+                redirectActivity(HomeScreen.this, ManageAccount.class);
             }
         });
 
@@ -131,14 +130,14 @@ public class HomeScreen extends AppCompatActivity {
         approveAccommodations.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                redirectActivity(HomeScreen.this, AccommodationApprovalActivity.class);
+                redirectActivity(HomeScreen.this, ApproveAccommodation.class);
             }
         });
 
         blockUsers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                redirectActivity(HomeScreen.this, AdminUserBlockingActivity.class);
+                redirectActivity(HomeScreen.this, BlockUsers.class);
             }
         });
 
