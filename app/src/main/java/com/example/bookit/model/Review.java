@@ -1,5 +1,7 @@
 package com.example.bookit.model;
 
+import com.example.bookit.model.enums.ReviewStatus;
+
 import java.util.Date;
 
 public class Review {
@@ -8,6 +10,16 @@ public class Review {
     private String text;
     private Date createdAt;
     private User author;
+
+    public ReviewStatus getReviewStatus() {
+        return reviewStatus;
+    }
+
+    public void setReviewStatus(ReviewStatus reviewStatus) {
+        this.reviewStatus = reviewStatus;
+    }
+
+    private ReviewStatus reviewStatus;
 
     public Review() {}
 

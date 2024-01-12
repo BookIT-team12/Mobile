@@ -120,7 +120,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/favorites_host"
+        android:id="@+id/manage_my_apartments"
         android:layout_marginStart="12dp"
         android:layout_marginTop="12dp"
         android:orientation="horizontal">

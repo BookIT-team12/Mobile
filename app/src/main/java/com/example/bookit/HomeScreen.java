@@ -16,6 +16,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.example.bookit.retrofit.RetrofitService;
 import com.example.bookit.retrofit.api.UserApi;
 
+import org.mapsforge.map.rendertheme.renderinstruction.Line;
+
 import java.util.Map;
 
 import retrofit2.Call;
@@ -34,6 +36,8 @@ public class HomeScreen extends AppCompatActivity {
 
     private LinearLayout deleteAccount;
 
+    private LinearLayout approveReviews;
+
     private String userId; //TODO: RESOLVE USER ID FETCH
 
 
@@ -41,6 +45,8 @@ public class HomeScreen extends AppCompatActivity {
 
     private LinearLayout blockUsers;
     private LinearLayout approveAccommodations;
+    private LinearLayout manageAccommodations;
+
 
     private Retrofit retrofit;
 
@@ -67,7 +73,7 @@ public class HomeScreen extends AppCompatActivity {
             logout = findViewById(R.id.logout_admin);
             approveAccommodations=findViewById(R.id.manage_apartments);
             blockUsers=findViewById(R.id.manage_accounts);
-
+            approveReviews=findViewById(R.id.manage_reviews);
 
         }
         else if ("owner".equals(role)) {
@@ -76,6 +82,7 @@ public class HomeScreen extends AppCompatActivity {
             home = findViewById(R.id.home_host);
             logout = findViewById(R.id.logout_host);
             addAccommodation=findViewById(R.id.add_accommodation);
+            manageAccommodations=findViewById(R.id.manage_my_apartments);
 
         }
         else {
@@ -145,6 +152,21 @@ public class HomeScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 deleteAccount();
+            }
+        });
+
+        approveReviews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                redirectActivity(HomeScreen.this, ApproveReviews.class);
+            }
+        });
+
+
+        manageAccommodations.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                redirectActivity(HomeScreen.this, UpdateAccommodation.class);
             }
         });
 
