@@ -35,6 +35,7 @@ public class ApproveReviews extends AppCompatActivity {
 
     private ReviewAdapter reviewAdapter;
 
+    //TODO: SOLVE APPROVE AND DELETE BUTTON BINDING AS WELL AS THE DATA BINDING IN THE EVERY SINGLE CONTAINER!!!!!!
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,13 +50,13 @@ public class ApproveReviews extends AppCompatActivity {
         reviewListView.setAdapter(reviewAdapter);
 
 
-        approveButton = findViewById(R.id.approveButton);
-        deleteButton = findViewById(R.id.deleteButton);
+//        approveButton = findViewById(R.id.approveButton);
+//        deleteButton = findViewById(R.id.deleteButton);
 
         fetchAccommodationReviewsForApproval();
 
-        approveButton.setOnClickListener(v -> approveSelectedReview());
-        deleteButton.setOnClickListener(v -> deleteSelectedReview());
+//        approveButton.setOnClickListener(v -> approveSelectedReview());
+//        deleteButton.setOnClickListener(v -> deleteSelectedReview());
     }
 
     private void fetchAccommodationReviewsForApproval() {

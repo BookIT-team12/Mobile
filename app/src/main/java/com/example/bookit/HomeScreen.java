@@ -75,6 +75,28 @@ public class HomeScreen extends AppCompatActivity {
             blockUsers=findViewById(R.id.manage_accounts);
             approveReviews=findViewById(R.id.manage_reviews);
 
+
+            approveAccommodations.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    redirectActivity(HomeScreen.this, ApproveAccommodation.class);
+                }
+            });
+
+            approveReviews.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    redirectActivity(HomeScreen.this, ApproveReviews.class);
+                }
+            });
+
+            blockUsers.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    redirectActivity(HomeScreen.this, BlockUsers.class);
+                }
+            });
+
         }
         else if ("owner".equals(role)) {
             includeNavDrawer(R.layout.nav_drawer_host);
@@ -83,6 +105,21 @@ public class HomeScreen extends AppCompatActivity {
             logout = findViewById(R.id.logout_host);
             addAccommodation=findViewById(R.id.add_accommodation);
             manageAccommodations=findViewById(R.id.manage_my_apartments);
+
+            manageAccommodations.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    redirectActivity(HomeScreen.this, UpdateAccommodation.class);
+                }
+            });
+
+
+            addAccommodation.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    redirectActivity(HomeScreen.this, AddAccommodation.class);
+                }
+            });
 
         }
         else {
@@ -127,46 +164,11 @@ public class HomeScreen extends AppCompatActivity {
             }
         });
 
-//        addAccommodation.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                redirectActivity(HomeScreen.this, AddAccommodation.class);
-//            }
-//        });
-
-        approveAccommodations.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                redirectActivity(HomeScreen.this, ApproveAccommodation.class);
-            }
-        });
-
-        blockUsers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                redirectActivity(HomeScreen.this, BlockUsers.class);
-            }
-        });
 
         deleteAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 deleteAccount();
-            }
-        });
-
-        approveReviews.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                redirectActivity(HomeScreen.this, ApproveReviews.class);
-            }
-        });
-
-
-        manageAccommodations.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                redirectActivity(HomeScreen.this, UpdateAccommodation.class);
             }
         });
 
