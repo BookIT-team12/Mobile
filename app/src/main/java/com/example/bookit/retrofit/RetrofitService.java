@@ -1,7 +1,12 @@
 package com.example.bookit.retrofit;
 
+import android.content.Context;
+
+import com.example.bookit.security.ApiInterceptor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -11,8 +16,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitService {
     private Retrofit retrofit;
 
-    public RetrofitService(){
-        initializeRetrofitFactory();
+    public RetrofitService(Context context){
+        initializeRetrofitFactory(context);
 //        initializeRetrofit();
     }
 
@@ -24,15 +29,19 @@ public class RetrofitService {
                 .build();
     }
 
-    private void initializeRetrofitFactory() {
+    private void initializeRetrofitFactory(Context context) {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
+                .addInterceptor(new ApiInterceptor(context))
+                .connectTimeout(15, TimeUnit.MINUTES)   //during debug this will make problem and will return SocketClosed err!
+                .readTimeout(15, TimeUnit.MINUTES)
+                .writeTimeout(15, TimeUnit.MINUTES)
                 .build();
         this.retrofit = new Retrofit.Builder()
-                .baseUrl("https://192.168.1.6:8080")
+                .baseUrl("http://192.168.0.22:8080")
                 .addConverterFactory(GsonConverterFactory.create(new Gson()))
                 .client(client)
                 .build();

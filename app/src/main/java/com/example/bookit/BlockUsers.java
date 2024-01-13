@@ -30,7 +30,7 @@ public class BlockUsers extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_blocking);
 
-        userApi = new RetrofitService().getRetrofit().create(UserApi.class);
+        userApi = new RetrofitService(getApplicationContext()).getRetrofit().create(UserApi.class);
 
         userListView = findViewById(R.id.userListView);
         textViewMessage = findViewById(R.id.textViewMessageBlock);

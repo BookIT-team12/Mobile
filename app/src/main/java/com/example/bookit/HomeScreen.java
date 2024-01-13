@@ -25,6 +25,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
+import com.example.bookit.app.AppPreferences;
+import com.example.bookit.security.UserTokenService;
+
 public class HomeScreen extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
@@ -150,16 +153,23 @@ public class HomeScreen extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(HomeScreen.this, "You have successfully logged out!", Toast.LENGTH_SHORT).show();
+                AppPreferences.deleteToken(getApplicationContext());
                 redirectActivity(HomeScreen.this, LoginScreen.class);
             }
 
         });
 
+        //        addAccommodation.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                redirectActivity(HomeScreen.this, AddAccommodation.class);
+//            }
+//        });
+
         manageAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                redirectActivity(HomeScreen.this, ManageAccount.class);
+                redirectActivity(HomeScreen.this, AccountDetails.class);
             }
         });
 
@@ -169,6 +179,13 @@ public class HomeScreen extends AppCompatActivity {
                 deleteAccount();
             }
         });
+
+        //        blockUsers.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                redirectActivity(HomeScreen.this, AdminUserBlockingActivity.class);
+//            }
+//        });
 
     }
 
@@ -199,8 +216,9 @@ public class HomeScreen extends AppCompatActivity {
     }
 
 
-    private void includeNavDrawer(int layoutResId) {
 
+    private void includeNavDrawer(int layoutResId) {
+        // Include the navigation drawer layout
         RelativeLayout navDrawer = findViewById(R.id.navDrawer);
         navDrawer.removeAllViews(); // Clear existing views
         View customNavDrawer = getLayoutInflater().inflate(layoutResId, navDrawer, false);

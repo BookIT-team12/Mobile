@@ -11,6 +11,8 @@
     <string name="phone">Phone:</string>
     <string name="confirm">Confirm</string>
     <string name="owner">Owner</string>
+    <string name="address">Address</string>
     <string name="guest">Guest</string>
     <string name="role">Role:</string>
+    <string name="fieldDescription">Descriptor not implemented yet:</string>
 </resources>

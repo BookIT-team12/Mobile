@@ -1,23 +1,57 @@
 package com.example.bookit;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.bookit.app.AppPreferences;
 import com.example.bookit.databinding.ActivityLoginScreenBinding;
+import com.example.bookit.model.User;
+import com.example.bookit.model.UserCredentials;
+import com.example.bookit.model.enums.Role;
+import com.example.bookit.retrofit.RetrofitService;
+import com.example.bookit.retrofit.api.UserApi;
+import com.example.bookit.security.UserTokenService;
+import com.example.bookit.security.UserTokenState;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
+import com.nimbusds.jwt.JWT;
+import com.nimbusds.jwt.JWTClaimsSet;
+import com.nimbusds.jwt.JWTParser;
+
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginScreen extends AppCompatActivity {
 
-    private ActivityLoginScreenBinding binding;
+    RetrofitService retrofitService;
+    UserApi api;
+    EditText usernameTF;
+    EditText passwordTF;
+    UserTokenService tokenService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityLoginScreenBinding.inflate(getLayoutInflater());
-        View view = binding.getRoot();
-        setContentView(view);
+        setContentView(R.layout.activity_login_screen);
+        usernameTF = findViewById(R.id.usernameTF);
+        passwordTF = findViewById(R.id.passwordTF);
+        retrofitService = new RetrofitService(getApplicationContext());
+        api = retrofitService.getRetrofit().create(UserApi.class);
+        tokenService = new UserTokenService(getApplicationContext());
     }
 
     @Override
@@ -51,27 +85,56 @@ public class LoginScreen extends AppCompatActivity {
     }
 
     public void LogIn(View view) {
-        String role = checkCredentials();
-        if (role == null){
-            Toast.makeText(getApplicationContext(), "Wrong credentials! We don't know your role!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        Intent intent = new Intent(LoginScreen.this, HomeScreen.class);
-        intent.putExtra("ROLE", role);
-        startActivity(intent);
+        String username = usernameTF.getText().toString();
+        String password = passwordTF.getText().toString();
+        UserCredentials toLogin = new UserCredentials();
+        toLogin.setEmail(username);
+        toLogin.setPassword(password);
+        api.login(toLogin).enqueue(new Callback<UserTokenState>() {
+
+            @Override
+            public void onResponse(Call<UserTokenState> call, Response<UserTokenState> response) {
+                UserTokenState jwtToken = response.body();
+                assert jwtToken != null;
+                AppPreferences.saveToken(getApplicationContext(), jwtToken);
+                AppPreferences.debug_printAllSharedPreferences(getApplicationContext());
+                try {
+                    Role loggedRole = tokenService.getRole(jwtToken);
+                    Intent intent = new Intent(LoginScreen.this, HomeScreen.class);
+                    switch (loggedRole){
+                        case OWNER:
+                            intent.putExtra("ROLE", "owner");
+                            startActivity(intent);
+                            break;
+                        case ADMINISTRATOR:
+                            intent.putExtra("ROLE", "admin");
+                            startActivity(intent);
+                            break;
+                        default:
+                            intent.putExtra("ROLE", "guest");
+                            startActivity(intent);
+                    }
+                } catch (ParseException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserTokenState> call, Throwable t) {
+                showSnackbar("ne radi");
+                Logger.getLogger(RegisterScreen.class.getName()).log(Level.SEVERE, "Error occurred", t);
+            }
+        });
+
+//        Intent intent = new Intent(LoginScreen.this, HomeScreen.class);
+//        intent.putExtra("ROLE", role);
+//        startActivity(intent);
     }
 
-    private String checkCredentials(){
-        String username = binding.usernameTF.getText().toString();
-
-        if (username.equals("owner") || username.equals("admin") || username.equals("guest")){
-            return username;
-        } else {
-            return null;
-        }
-
+    private void showSnackbar(String message) {
+        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT);
+        snackbar.show();
     }
-
     public void Register(View view) {
         Intent intent = new Intent(LoginScreen.this, RegisterScreen.class);
         startActivity(intent);
