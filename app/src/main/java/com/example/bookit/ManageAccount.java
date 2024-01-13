@@ -42,6 +42,8 @@ public class ManageAccount extends AppCompatActivity {
 
     private UserApi userApi;
 
+    private User currentUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +52,12 @@ public class ManageAccount extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_details);
 
-        userApi = new RetrofitService().getRetrofit().create(UserApi.class);
+        userApi = new RetrofitService(getApplicationContext()).getRetrofit().create(UserApi.class);
+
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra("USER_VALUE")) {
+            currentUser = (User) intent.getSerializableExtra("USER_VALUE");
+        }
 
         navDrawerInitialization();
         fetchUserDetails();
@@ -69,33 +76,12 @@ public class ManageAccount extends AppCompatActivity {
         });
     }
 
-    //TODO: FINISH IMPLEMENTATION OF FETCH USER DATA AND UPDATE USER DETAILS!!!!!!
     private void fetchUserDetails() {
-        // Use the logged-in user's email to fetch the user details
-        String loggedInUserEmail = "user@example.com"; // Replace with the actual email of the logged-in user
-        Call<User> call = userApi.getUser(loggedInUserEmail);
-
-        call.enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                if (response.isSuccessful()) {
-                    User user = response.body();
-
-                    editUsername.setText(user.getEmail());
-                    editName.setText(user.getName());
-                    editSurname.setText(user.getLastName());
-                    editPhoneNumber.setText(user.getPhone());
-
-                } else {
-                    Toast.makeText(ManageAccount.this, "Failed to fetch user details", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                Toast.makeText(ManageAccount.this, "Failed to fetch user details", Toast.LENGTH_SHORT).show();
-            }
-        });}
+        editUsername.setText(currentUser.getEmail());
+        editName.setText(currentUser.getName());
+        editSurname.setText(currentUser.getLastName());
+        editPhoneNumber.setText(currentUser.getPhone());
+    }
 
     private void handleSaveChanges() {
 

@@ -9,8 +9,11 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.bookit.model.Accommodation;
+import com.example.bookit.model.User;
 import com.example.bookit.retrofit.RetrofitService;
 import com.example.bookit.retrofit.api.AccommodationApi;
+import com.example.bookit.security.UserTokenService;
+import com.example.bookit.security.UserTokenState;
 
 import java.util.List;
 
@@ -23,6 +26,10 @@ public class UpdateAccommodation extends AppCompatActivity {
     private AccommodationApi accommodationApi;
     private ListView accommodationListView;
 
+    private UserTokenService userTokenService;
+
+    User currentUser;
+
     private String ownerEmail; //TODO: fetch ownerEmail from the user that is logged in!!!!
 
     @Override
@@ -30,9 +37,10 @@ public class UpdateAccommodation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_owner_accommodation_update);
 
-        accommodationApi = new RetrofitService().getRetrofit().create(AccommodationApi.class);
+        accommodationApi = new RetrofitService(getApplicationContext()).getRetrofit().create(AccommodationApi.class);
 
         accommodationListView = findViewById(R.id.accommodationListView);
+
 
         fetchAccommodationsForUpdate();
 

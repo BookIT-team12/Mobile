@@ -16,17 +16,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitService {
     private Retrofit retrofit;
 
+
+    private final String NATASA_IP=" http://192.168.1.5:8080";
+    private final String DULE_IP="http://192.168.0.22:8080";
+
     public RetrofitService(Context context){
         initializeRetrofitFactory(context);
-//        initializeRetrofit();
-    }
-
-
-    private void initializeRetrofit() {
-        this.retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.22:8080")
-                .addConverterFactory(GsonConverterFactory.create(new Gson()))
-                .build();
     }
 
     private void initializeRetrofitFactory(Context context) {
@@ -41,7 +36,7 @@ public class RetrofitService {
                 .writeTimeout(15, TimeUnit.MINUTES)
                 .build();
         this.retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.22:8080")
+                .baseUrl(NATASA_IP) //izdvojila sam nam ip adrese u const stringove, da lakse menjamo po potrebi-DULE_IP
                 .addConverterFactory(GsonConverterFactory.create(new Gson()))
                 .client(client)
                 .build();

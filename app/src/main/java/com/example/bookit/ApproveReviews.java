@@ -42,7 +42,7 @@ public class ApproveReviews extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_approve_reviews_and_ratings);
 
-        reviewApi = new RetrofitService().getRetrofit().create(ReviewApi.class);
+        reviewApi = new RetrofitService(getApplicationContext()).getRetrofit().create(ReviewApi.class);
 
         reviewAdapter = new ReviewAdapter(this, new ArrayList<>());
 

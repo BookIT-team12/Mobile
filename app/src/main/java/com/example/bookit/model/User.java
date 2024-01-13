@@ -1,13 +1,17 @@
 package com.example.bookit.model;
 
 import com.example.bookit.model.enums.Role;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Objects;
-
-public class User {
+public class User implements Serializable {
     private String name;
     private String lastName;
+    @SerializedName("email")
+
     private String email;
     private String password;
     private String confirmPassword;

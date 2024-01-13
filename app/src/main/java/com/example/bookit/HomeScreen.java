@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.bookit.model.User;
 import com.example.bookit.retrofit.RetrofitService;
 import com.example.bookit.retrofit.api.UserApi;
 
@@ -55,6 +56,10 @@ public class HomeScreen extends AppCompatActivity {
 
     private UserApi userApi;
 
+    private User currentUser;
+
+    private String currentUserEmail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -63,9 +68,23 @@ public class HomeScreen extends AppCompatActivity {
 
         String role = getIntent().getStringExtra("ROLE");
 
-        retrofit=new RetrofitService().getRetrofit();
-        userApi = new RetrofitService().getRetrofit().create(UserApi.class);
 
+        retrofit=new RetrofitService(getApplicationContext()).getRetrofit();
+        userApi = new RetrofitService(getApplicationContext()).getRetrofit().create(UserApi.class);
+
+
+        currentUserEmail=getIntent().getStringExtra("USER_EMAIL");
+        userApi.getUser(currentUserEmail).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                currentUser = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                currentUser = null;
+            }
+        });
 
 
         if ("admin".equals(role)) {
@@ -169,7 +188,9 @@ public class HomeScreen extends AppCompatActivity {
         manageAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                redirectActivity(HomeScreen.this, AccountDetails.class);
+                Intent intent = new Intent(HomeScreen.this, ManageAccount.class);
+                intent.putExtra("USER_VALUE", currentUser);
+                startActivity(intent);
             }
         });
 
