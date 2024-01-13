@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -49,7 +50,7 @@ public class RegisterScreen extends AppCompatActivity {
         phoneEditText = findViewById(R.id.RegFormPhoneTF);
         addressEditText = findViewById(R.id.RegFormAddressTF);
         roleRadioGroup = findViewById(R.id.roleRadioGroup);
-        retrofitService = new RetrofitService();
+        retrofitService = new RetrofitService(getApplicationContext());
         api = retrofitService.getRetrofit().create(UserApi.class);
     }
 
@@ -86,6 +87,14 @@ public class RegisterScreen extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<UserCredentials> call, Response<UserCredentials> response) {
                         showSnackbar("Uspesno kreirao");
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                // This code will run after the delay
+                                Intent intent = new Intent(RegisterScreen.this, LoginScreen.class);
+                                startActivity(intent);
+                            }
+                        }, 2000);
                     }
 
                     @Override
@@ -98,8 +107,6 @@ public class RegisterScreen extends AppCompatActivity {
         }
 
 
-        Intent intent = new Intent(RegisterScreen.this, LoginScreen.class);
-        startActivity(intent);
     }
 
     public String formValidation(String username, String name, String lastname, String password,

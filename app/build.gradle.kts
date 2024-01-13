@@ -57,6 +57,11 @@ dependencies {
     // https://mvnrepository.com/artifact/com.squareup.retrofit2/converter-gson
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
+    implementation("io.jsonwebtoken:jjwt-api:0.11.2")
+    implementation("io.jsonwebtoken:jjwt-impl:0.11.2")
+    implementation("io.jsonwebtoken:jjwt-jackson:0.11.2")
+    implementation("com.nimbusds:nimbus-jose-jwt:9.3")
+
 
 
 }

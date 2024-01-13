@@ -2,6 +2,7 @@ package com.example.bookit.retrofit.api;
 
 import com.example.bookit.model.User;
 import com.example.bookit.model.UserCredentials;
+import com.example.bookit.security.UserTokenState;
 
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,9 @@ import retrofit2.http.Query;
 public interface UserApi {
     @POST("/users/register")
     Call<UserCredentials> register(@Body User toRegister);
+
+    @POST("/users/login")
+    Call<UserTokenState> login(@Body UserCredentials credentials);
 
     @DELETE("/users/{email}")
     Call<Map<String, String>> deleteUser(@Path("email") String email);

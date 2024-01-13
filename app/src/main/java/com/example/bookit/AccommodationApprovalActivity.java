@@ -33,7 +33,7 @@ public class AccommodationApprovalActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accommodation_approval);
 
-        retrofit = new RetrofitService().getRetrofit();
+        retrofit = new RetrofitService(getApplicationContext()).getRetrofit();
         accommodationApi = retrofit.create(AccommodationApi.class);
 
         accommodationListView = findViewById(R.id.accommodationListView);
