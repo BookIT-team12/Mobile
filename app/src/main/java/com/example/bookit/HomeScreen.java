@@ -133,7 +133,6 @@ public class HomeScreen extends AppCompatActivity {
         menu = findViewById(R.id.menu);
         deleteAccount=findViewById(R.id.deleteAccount);
 
-
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -164,14 +163,12 @@ public class HomeScreen extends AppCompatActivity {
             }
         });
 
-
         deleteAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 deleteAccount();
             }
         });
-
 
     }
 
