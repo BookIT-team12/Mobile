@@ -36,9 +36,9 @@ public class RetrofitService {
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
                 .addInterceptor(new ApiInterceptor(context))
-                .connectTimeout(15, TimeUnit.SECONDS)   //during debug this will make problem and will return SocketClosed err!
-                .readTimeout(15, TimeUnit.SECONDS)
-                .writeTimeout(15, TimeUnit.SECONDS)
+                .connectTimeout(15, TimeUnit.MINUTES)   //during debug this will make problem and will return SocketClosed err!
+                .readTimeout(15, TimeUnit.MINUTES)
+                .writeTimeout(15, TimeUnit.MINUTES)
                 .build();
         this.retrofit = new Retrofit.Builder()
                 .baseUrl("http://192.168.0.22:8080")

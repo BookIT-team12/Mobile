@@ -100,8 +100,20 @@ public class LoginScreen extends AppCompatActivity {
                 AppPreferences.debug_printAllSharedPreferences(getApplicationContext());
                 try {
                     Role loggedRole = tokenService.getRole(jwtToken);
-                    //todo: open activity depending on role!
-                    //todo: have to implement this before tests so i could log out and delete token, then everything will be set up for good
+                    Intent intent = new Intent(LoginScreen.this, HomeScreen.class);
+                    switch (loggedRole){
+                        case OWNER:
+                            intent.putExtra("ROLE", "owner");
+                            startActivity(intent);
+                            break;
+                        case ADMINISTRATOR:
+                            intent.putExtra("ROLE", "admin");
+                            startActivity(intent);
+                            break;
+                        default:
+                            intent.putExtra("ROLE", "guest");
+                            startActivity(intent);
+                    }
                 } catch (ParseException ex) {
                     throw new RuntimeException(ex);
                 }

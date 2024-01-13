@@ -13,6 +13,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.bookit.app.AppPreferences;
+import com.example.bookit.security.UserTokenService;
+
 public class HomeScreen extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
@@ -82,7 +85,7 @@ public class HomeScreen extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(HomeScreen.this, "You have successfully logged out!", Toast.LENGTH_SHORT).show();
+                AppPreferences.deleteToken(getApplicationContext());
                 redirectActivity(HomeScreen.this, LoginScreen.class);
             }
 
@@ -102,19 +105,19 @@ public class HomeScreen extends AppCompatActivity {
 //            }
 //        });
 
-        approveAccommodations.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                redirectActivity(HomeScreen.this, AccommodationApprovalActivity.class);
-            }
-        });
+//        approveAccommodations.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                redirectActivity(HomeScreen.this, AccommodationApprovalActivity.class);
+//            }
+//        });
 
-        blockUsers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                redirectActivity(HomeScreen.this, AdminUserBlockingActivity.class);
-            }
-        });
+//        blockUsers.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                redirectActivity(HomeScreen.this, AdminUserBlockingActivity.class);
+//            }
+//        });
 
 
     }
