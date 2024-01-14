@@ -6,7 +6,9 @@ import android.preference.PreferenceManager;
 
 import com.example.bookit.security.UserTokenState;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 public class AppPreferences {

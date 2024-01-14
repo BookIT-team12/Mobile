@@ -20,7 +20,7 @@ public interface AccommodationApi {
     @GET("/accommodations/owner/{ownerEmail}")
     Call<List<Accommodation>> getOwnerAccommodations(@Path("ownerEmail") String ownerEmail);
 
-    @GET("/accommodations/pending")
+    @GET("/api/accommodations/pending")
     Call<List<Accommodation>> getPendingAccommodations();
 
     @GET("/accommodations")
@@ -41,10 +41,10 @@ public interface AccommodationApi {
             @Part List<MultipartBody.Part> images
     );
 
-    @POST("/accommodations/approve/{id}")
+    @POST("/api/accommodations/approve/{id}")
     Call<Void> approveAccommodation(@Path("id") int id);
 
-    @POST("/accommodations/deny/{id}")
+    @POST("/api/accommodations/deny/{id}")
     Call<Void> denyAccommodation(@Path("id") int id);
 
     @DELETE("/accommodations/{id}")

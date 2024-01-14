@@ -17,8 +17,7 @@
         android:dividerHeight="0.5dp"
         android:choiceMode="singleChoice"
         android:footerDividersEnabled="false"
-        android:headerDividersEnabled="false"
-/>
+        android:headerDividersEnabled="false" />
     <TextView
         android:id="@+id/textViewMessage"
         android:layout_width="match_parent"
