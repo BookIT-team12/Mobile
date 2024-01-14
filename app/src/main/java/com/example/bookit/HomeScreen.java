@@ -72,7 +72,6 @@ public class HomeScreen extends AppCompatActivity {
         retrofit=new RetrofitService(getApplicationContext()).getRetrofit();
         userApi = new RetrofitService(getApplicationContext()).getRetrofit().create(UserApi.class);
 
-
         currentUserEmail=getIntent().getStringExtra("USER_EMAIL");
         userApi.getUser(currentUserEmail).enqueue(new Callback<User>() {
             @Override
@@ -121,6 +120,7 @@ public class HomeScreen extends AppCompatActivity {
 
         }
         else if ("owner".equals(role)) {
+
             includeNavDrawer(R.layout.nav_drawer_host);
             manageAccount = findViewById(R.id.account_details_host);
             home = findViewById(R.id.home_host);
@@ -128,18 +128,13 @@ public class HomeScreen extends AppCompatActivity {
             addAccommodation=findViewById(R.id.add_accommodation);
             manageAccommodations=findViewById(R.id.manage_my_apartments);
 
+
             manageAccommodations.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    redirectActivity(HomeScreen.this, UpdateAccommodation.class);
-                }
-            });
-
-
-            addAccommodation.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    redirectActivity(HomeScreen.this, AddAccommodation.class);
+                    Intent intent = new Intent(HomeScreen.this, UpdateAccommodation.class);
+                    intent.putExtra("USER_VALUE", currentUser);
+                    startActivity(intent);
                 }
             });
 

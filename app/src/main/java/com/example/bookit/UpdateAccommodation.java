@@ -2,6 +2,7 @@ package com.example.bookit;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -26,11 +27,9 @@ public class UpdateAccommodation extends AppCompatActivity {
     private AccommodationApi accommodationApi;
     private ListView accommodationListView;
 
-    private UserTokenService userTokenService;
+    private User currentUser;
 
-    User currentUser;
-
-    private String ownerEmail; //TODO: fetch ownerEmail from the user that is logged in!!!!
+    private String ownerEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +39,12 @@ public class UpdateAccommodation extends AppCompatActivity {
         accommodationApi = new RetrofitService(getApplicationContext()).getRetrofit().create(AccommodationApi.class);
 
         accommodationListView = findViewById(R.id.accommodationListView);
+
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra("USER_VALUE")) {
+            currentUser = (User) intent.getSerializableExtra("USER_VALUE");
+            ownerEmail=currentUser.getEmail();
+        }
 
 
         fetchAccommodationsForUpdate();
@@ -57,7 +62,7 @@ public class UpdateAccommodation extends AppCompatActivity {
     }
 
     private void fetchAccommodationsForUpdate() {
-        Call<List<Accommodation>> call = accommodationApi.getOwnerAccommodations(ownerEmail); // Replace ownerEmail with the actual owner's email
+        Call<List<Accommodation>> call = accommodationApi.getOwnerAccommodations(ownerEmail);
         call.enqueue(new Callback<List<Accommodation>>() {
             @Override
             public void onResponse(Call<List<Accommodation>> call, Response<List<Accommodation>> response) {

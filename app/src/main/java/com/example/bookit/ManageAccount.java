@@ -108,14 +108,12 @@ public class ManageAccount extends AppCompatActivity {
             return;  // Stop further processing
         }
 
-        //TODO: SEE IF THE LOGIC WILL BE CHANGED
-        // Prepare User object with updated details
         User updatedUser = new User();
         updatedUser.setEmail(username);
         updatedUser.setName(name);
         updatedUser.setLastName(surname);
         updatedUser.setPhone(phoneNumber);
-
+        updatedUser.setPassword(currentUser.getPassword());
         // Call the updateUser API method
         updateUserDetails(updatedUser);
 
@@ -123,9 +121,7 @@ public class ManageAccount extends AppCompatActivity {
     }
 
     private void updateUserDetails(User updatedUser) {
-        //TODO: SET THE EMAIL OF THE CURRENTLY LOGGED IN USER
-        // Use the logged-in user's email for the update
-        String loggedInUserEmail = "mika@gmail.com";
+        String loggedInUserEmail = updatedUser.getEmail();
         Call<String> call = userApi.updateUser(loggedInUserEmail, updatedUser);
 
         call.enqueue(new Callback<String>() {
@@ -134,7 +130,7 @@ public class ManageAccount extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     String responseMessage = response.body();
                     Toast.makeText(ManageAccount.this, responseMessage, Toast.LENGTH_SHORT).show();
-                    fetchUserDetails(); // Fetch updated details after a successful update
+                    fetchUserDetails();
 
                 } else {
                     Toast.makeText(ManageAccount.this, "Failed to update user details", Toast.LENGTH_SHORT).show();
@@ -165,7 +161,6 @@ public class ManageAccount extends AppCompatActivity {
         changePasswordDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         changePasswordDialog.setContentView(R.layout.dialog_change_password);
 
-        // Initialize views in the dialog layout
         final EditText currentPasswordEditText = changePasswordDialog.findViewById(R.id.currentPasswordEditText);
         final EditText newPasswordEditText = changePasswordDialog.findViewById(R.id.newPasswordEditText);
         final EditText confirmPasswordEditText = changePasswordDialog.findViewById(R.id.confirmPasswordEditText);
@@ -174,13 +169,12 @@ public class ManageAccount extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Retrieve input values
                 String currentPassword = currentPasswordEditText.getText().toString();
                 String newPassword = newPasswordEditText.getText().toString();
                 String confirmPassword = confirmPasswordEditText.getText().toString();
 
-                if (newPassword.equals(confirmPassword)) {
-                    // TODO: Implement your password change logic here
+                if (currentPassword.equals(currentUser.getPassword())  && newPassword.equals(confirmPassword)) {
+                    currentUser.setPassword(newPassword);
                     Toast.makeText(ManageAccount.this, "Password changed successfully", Toast.LENGTH_SHORT).show();
                     changePasswordDialog.dismiss();
 
