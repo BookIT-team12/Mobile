@@ -1,12 +1,17 @@
 package com.example.bookit.model;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.time.LocalDateTime;
 
 public class AvailabilityPeriod {
     private int id;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime startDate;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime endDate;
     private double price;
-    private Accommodation accommodation;
+
 
     public AvailabilityPeriod() {}
 
@@ -42,12 +47,5 @@ public class AvailabilityPeriod {
         this.price = price;
     }
 
-    public Accommodation getAccommodation() {
-        return accommodation;
-    }
-
-    public void setAccommodation(Accommodation accommodation) {
-        this.accommodation = accommodation;
-    }
 }
 
