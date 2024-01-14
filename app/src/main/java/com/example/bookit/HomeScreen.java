@@ -97,7 +97,7 @@ public class HomeScreen extends AppCompatActivity {
             approveAccommodations.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    redirectActivity(HomeScreen.this, ApproveAccommodation.class);
+                    redirectActivity(HomeScreen.this, AccommodationApprovalActivity.class);
                 }
             });
 

@@ -1,5 +1,6 @@
 package com.example.bookit;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -37,17 +38,11 @@ public class BlockUsers extends AppCompatActivity {
 
         fetchUsersForBlocking();
 
-        Button btnBlock = findViewById(R.id.btnBlock);
-        btnBlock.setOnClickListener(v -> {
-            // Handle blocking user here
-            int selectedPosition = userListView.getCheckedItemPosition();
-            if (selectedPosition != ListView.INVALID_POSITION) {
-                User selectedUser = (User) userListView.getItemAtPosition(selectedPosition);
-                blockUser(selectedUser.getEmail());
-            } else {
-                Toast.makeText(BlockUsers.this, "Please select a user to block", Toast.LENGTH_SHORT).show();
-            }
+        userListView.setOnItemClickListener((parent, view, position, id) -> {
+            User selectedUser = (User) userListView.getItemAtPosition(position);
+            showBlockUserConfirmationDialog(selectedUser.getEmail());
         });
+
     }
 
     private void fetchUsersForBlocking() {
@@ -71,9 +66,22 @@ public class BlockUsers extends AppCompatActivity {
     }
 
     private void displayUsersForBlocking(List<User> users) {
-        ArrayAdapter<User> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_single_choice, users);
-        userListView.setAdapter(adapter);
-        userListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        if (users != null) {
+            ArrayAdapter<User> adapter = new BlockUsersAdapter(this, users);
+            userListView.setAdapter(adapter);
+        } else {
+            Toast.makeText(BlockUsers.this, "No users available for blocking", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void showBlockUserConfirmationDialog(String userEmail) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
+        builder.setTitle("Block User");
+
+        builder.setMessage("Are you sure you want to block this user?");
+        builder.setPositiveButton("Yes", (dialog, which) -> blockUser(userEmail));
+        builder.setNegativeButton("No", (dialog, which) -> dialog.dismiss());
+        builder.show();
     }
 
     private void blockUser(String userId) {
@@ -81,16 +89,24 @@ public class BlockUsers extends AppCompatActivity {
         handleUserAPIResponse(call, "User blocked successfully");
     }
 
+    //TODO: RESI ZASTO BACA BLOCK FAILED, STATUS-->200, BAZA UPDATED?
     private void handleUserAPIResponse(Call<String> call, String successMessage) {
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
-                    String responseMessage = response.body();
+                    String responseMessage;
+                    if (response.body() != null && !response.body().isEmpty()) {
+                        responseMessage = response.body();
+                    } else {
+                        responseMessage = successMessage;
+                    }
+
                     Toast.makeText(BlockUsers.this, responseMessage, Toast.LENGTH_SHORT).show();
-                    fetchUsersForBlocking();
+
+                    runOnUiThread(() -> fetchUsersForBlocking());
                 } else {
-                    Toast.makeText(BlockUsers.this, "Failed to block user", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BlockUsers.this, "User can't be blocked!", Toast.LENGTH_SHORT).show();
                 }
             }
 
