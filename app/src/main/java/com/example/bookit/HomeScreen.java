@@ -42,9 +42,6 @@ public class HomeScreen extends AppCompatActivity {
 
     private LinearLayout approveReviews;
 
-    private String userId; //TODO: RESOLVE USER ID FETCH
-
-
     private LinearLayout addAccommodation;
 
     private LinearLayout blockUsers;
@@ -205,8 +202,10 @@ public class HomeScreen extends AppCompatActivity {
 
     }
 
+
+    //TODO: PROVERI DELETE METODU DA LI RADI KAKO TREBA!
     public void deleteAccount() {
-        Call<Map<String, String>> call = userApi.deleteUser(userId);
+        Call<Map<String, String>> call = userApi.deleteUser(currentUserEmail);
         call.enqueue(new Callback<Map<String, String>>() {
             @Override
             public void onResponse(Call<Map<String, String>> call, Response<Map<String, String>> response) {
@@ -216,7 +215,9 @@ public class HomeScreen extends AppCompatActivity {
                     if (responseBody != null && responseBody.containsKey("message")) {
                         String successMessage = responseBody.get("message");
                         Toast.makeText(HomeScreen.this, successMessage, Toast.LENGTH_SHORT).show();
-                        //TODO: PREBACI USERA NA LOGIN SCREEN, NAKON OBRISANIH KREDENCIJALA
+                        redirectActivity(HomeScreen.this, LoginScreen.class);
+                        Toast.makeText(HomeScreen.this, "Account successfully deleted!", Toast.LENGTH_SHORT).show();
+
                     } else {
                         Toast.makeText(HomeScreen.this, "Failed to delete account", Toast.LENGTH_SHORT).show();
                     }

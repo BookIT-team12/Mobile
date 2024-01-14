@@ -173,7 +173,7 @@ public class ManageAccount extends AppCompatActivity {
                 String newPassword = newPasswordEditText.getText().toString();
                 String confirmPassword = confirmPasswordEditText.getText().toString();
 
-                if (currentPassword.equals(currentUser.getPassword())  && newPassword.equals(confirmPassword)) {
+                if (newPassword.equals(confirmPassword)) {
                     currentUser.setPassword(newPassword);
                     Toast.makeText(ManageAccount.this, "Password changed successfully", Toast.LENGTH_SHORT).show();
                     changePasswordDialog.dismiss();
