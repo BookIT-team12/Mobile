@@ -8,19 +8,21 @@ import java.util.List;
 
 public class Accommodation {
     private int id;
-    private User owner;
+    private String ownerEmail;
     private AccommodationType accommodationType;
     private String description;
     private String name;
     private int minGuests;
     private int maxGuests;
-    private List<Amenity> amenities;
+    private List<Integer> amenities;
     private List<ReviewAccommodation> reviews;
     private List<Reservation> reservations;
     private BookingConfirmationType bookingConfirmationType;
-    private AccommodationStatus accommodationStatus;
+    private AccommodationStatus status;
     private List<AvailabilityPeriod> availabilityPeriods;
     private String imagesFolder;
+    private Location location;
+    private boolean isFavorite;
 
     public int getId() {
         return id;
@@ -30,12 +32,12 @@ public class Accommodation {
         this.id = id;
     }
 
-    public User getOwner() {
-        return owner;
+    public String getOwnerEmail() {
+        return ownerEmail;
     }
 
-    public void setOwner(User owner) {
-        this.owner = owner;
+    public void setOwnerEmail(String ownerEmail) {
+        this.ownerEmail = ownerEmail;
     }
 
     public AccommodationType getAccommodationType() {
@@ -78,11 +80,11 @@ public class Accommodation {
         this.maxGuests = maxGuests;
     }
 
-    public List<Amenity> getAmenities() {
+    public List<Integer> getAmenities() {
         return amenities;
     }
 
-    public void setAmenities(List<Amenity> amenities) {
+    public void setAmenities(List<Integer> amenities) {
         this.amenities = amenities;
     }
 
@@ -110,12 +112,12 @@ public class Accommodation {
         this.bookingConfirmationType = bookingConfirmationType;
     }
 
-    public AccommodationStatus getAccommodationStatus() {
-        return accommodationStatus;
+    public AccommodationStatus getStatus() {
+        return status;
     }
 
-    public void setAccommodationStatus(AccommodationStatus accommodationStatus) {
-        this.accommodationStatus = accommodationStatus;
+    public void setStatus(AccommodationStatus status) {
+        this.status = status;
     }
 
     public List<AvailabilityPeriod> getAvailabilityPeriods() {
@@ -142,19 +144,18 @@ public class Accommodation {
         this.location = location;
     }
 
-    private Location location;
-    private boolean isFavorite;
+
 
     // Constructors, getters, and setters
 
     // Example constructor (you may need to create other constructors)
-    public Accommodation(int id, User owner, AccommodationType accommodationType, String description, String name,
-                         int minGuests, int maxGuests, List<Amenity> amenities, List<ReviewAccommodation> reviews,
+    public Accommodation(int id, String owner, AccommodationType accommodationType, String description, String name,
+                         int minGuests, int maxGuests, List<Integer> amenities, List<ReviewAccommodation> reviews,
                          List<Reservation> reservations, BookingConfirmationType bookingConfirmationType,
                          AccommodationStatus accommodationStatus, List<AvailabilityPeriod> availabilityPeriods,
                          String imagesFolder, Location location, boolean isFavorite) {
         this.id = id;
-        this.owner = owner;
+        this.ownerEmail = owner;
         this.accommodationType = accommodationType;
         this.description = description;
         this.name = name;
@@ -164,7 +165,7 @@ public class Accommodation {
         this.reviews = reviews;
         this.reservations = reservations;
         this.bookingConfirmationType = bookingConfirmationType;
-        this.accommodationStatus = accommodationStatus;
+        this.status = accommodationStatus;
         this.availabilityPeriods = availabilityPeriods;
         this.imagesFolder = imagesFolder;
         this.location = location;
