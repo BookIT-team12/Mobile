@@ -44,24 +44,32 @@ public class AccommodationApprovalActivity extends AppCompatActivity {
 
         fetchAccommodationsForApproval();
 
+    }
 
-        Button approveBtn = findViewById(R.id.btnApprove);
-        approveBtn.setOnClickListener(view -> {
-            if (selectedAccommodation != null) {
-                approveAccommodation(selectedAccommodation.getId());
-            } else {
-                //handle if null!!!
-            }
+    private void showApprovalDialog(Accommodation accommodation) {
+        Log.d("Dialog", "Preparing to show dialog");
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.approve_dialog, null);
+        builder.setView(view);
+
+        TextView dialogTextViewMessage = view.findViewById(R.id.dialogTextViewMessage);
+        Button dialogBtnApprove = view.findViewById(R.id.dialogBtnApprove);
+        Button dialogBtnDeny = view.findViewById(R.id.dialogBtnDeny);
+
+        AlertDialog dialog = builder.create();
+
+        dialogBtnApprove.setOnClickListener(v -> {
+            dialog.dismiss();
+            approveAccommodation(accommodation.getId());
         });
 
-        Button denyBtn = findViewById(R.id.btnDeny);
-        denyBtn.setOnClickListener(view -> {
-            if (selectedAccommodation != null) {
-                denyAccommodation(selectedAccommodation.getId());
-            } else {
-                //handle if null!!!
-            }
+        dialogBtnDeny.setOnClickListener(v -> {
+            dialog.dismiss();
+            denyAccommodation(accommodation.getId());
         });
+        Log.d("Dialog", "Showing dialog");
+        dialog.show();
     }
 
     private void fetchAccommodationsForApproval() {
@@ -72,6 +80,11 @@ public class AccommodationApprovalActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     List<Accommodation> accommodations = response.body();
                     displayAccommodations(accommodations);
+
+                    accommodationListView.setOnItemClickListener((parent, view, position, id) -> {
+                        Accommodation selectedAccommodation = accommodations.get(position);
+                        showApprovalDialog(selectedAccommodation);
+                    });
                 } else {
                     Toast.makeText(AccommodationApprovalActivity.this, "Failed to fetch accommodations for approval", Toast.LENGTH_SHORT).show();
                 }
@@ -103,31 +116,6 @@ public class AccommodationApprovalActivity extends AppCompatActivity {
             this.selectedAccommodation = accommodations.get(position);
         });
     }
-
-//    private void showApprovalDialog(Accommodation accommodation) {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        View view = getLayoutInflater().inflate(R.layout.activity_accommodation_approval, null);
-//        builder.setView(view);
-//
-//        TextView textViewMessage = view.findViewById(R.id.textViewMessage);
-//        Button btnApprove = view.findViewById(R.id.btnApprove);
-//        Button btnDeny = view.findViewById(R.id.btnDeny);
-//
-//
-//        AlertDialog dialog = builder.create();
-//
-//        btnApprove.setOnClickListener(v -> {
-//            dialog.dismiss();
-//            approveAccommodation(accommodation.getId());
-//        });
-//
-//        btnDeny.setOnClickListener(v -> {
-//            dialog.dismiss();
-//            denyAccommodation(accommodation.getId());
-//        });
-//
-//        dialog.show();
-//    }
 
     private void approveAccommodation(int accommodationID) {
         Call<Void> call = accommodationApi.approveAccommodation(accommodationID);

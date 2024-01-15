@@ -29,18 +29,29 @@ public class AccommodationApprovalAdapter extends ArrayAdapter<Accommodation> {
         // Get the current accommodation item
         Accommodation accommodation = getItem(position);
 
-//         Update the UI elements in the list item layout based on the accommodation data
+        // Update the UI elements in the list item layout based on the accommodation data
         TextView headerTF = convertView.findViewById(R.id.accommodation_approval_item_header);
+        TextView ownerTF = convertView.findViewById(R.id.accommodation_approval_item_owner);
+        TextView typeTF = convertView.findViewById(R.id.accommodation_approval_item_type);
         TextView infoTF = convertView.findViewById(R.id.accommodation_approval_item_info);
-//
+
         if (accommodation != null) {
-            String header = "  Apartment Name:  " + accommodation.getName();
+            String header = accommodation.getName();
             headerTF.setText(header);
-            String info = " \n        Owner: " + accommodation.getOwnerEmail()+ "  Min Guests:" + accommodation.getMinGuests() + "  Max Guests: " + accommodation.getMaxGuests() + "\n" +
-                    "Type:" + accommodation.getAccommodationType() + " Description: " + accommodation.getDescription();
+
+            String ownerInfo = "\nOwner: " + accommodation.getOwnerEmail();
+            ownerTF.setText(ownerInfo);
+
+            String typeInfo = "Type: " + accommodation.getAccommodationType();
+            typeTF.setText(typeInfo);
+
+            String info = "Min Guests: " + accommodation.getMinGuests() + "\n" +
+                    "Max Guests: " + accommodation.getMaxGuests() + "\n" +
+                    "Description: " + accommodation.getDescription();
             infoTF.setText(info);
         }
 
         return convertView;
     }
 }
+
