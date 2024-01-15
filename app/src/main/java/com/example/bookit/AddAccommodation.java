@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 
 import org.osmdroid.api.IGeoPoint;
@@ -155,15 +156,17 @@ public class AddAccommodation extends AppCompatActivity {
 
     private void setupDateSpinner(Spinner dateSpinnerFrom) {
         // Populate the Spinner with date options
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getDateOptions());
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.custom_date_spinner_item, getDateOptions());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dateSpinnerFrom.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        dateSpinnerFrom.setSelection(0);
     }
 
     private void setupAccommodationTypeSpinnner(){
         Spinner accommodationTypeSpinner = findViewById(R.id.accommodationType);
         ArrayAdapter<String> accommodationTypeAdapter = new ArrayAdapter<>(
-                this, android.R.layout.simple_spinner_item,
+                this, R.layout.custom_date_spinner_item,
                 new String[]{"Select accommodation type", "STUDIO", "APARTMENT", "HOTEL", "ROOM"}
         );
         accommodationTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -173,7 +176,7 @@ public class AddAccommodation extends AppCompatActivity {
     private void setupBookingConfirmationTypeSpinner(){
             Spinner confirmationTypeSpinner = findViewById(R.id.confirmationType);
             ArrayAdapter<String> confirmationTypeAdapter = new ArrayAdapter<>(
-                    this, android.R.layout.simple_spinner_item,
+                    this, R.layout.custom_date_spinner_item,
                     new String[]{"Select confirmation type", "MANUAL", "AUTOMATIC"}
             );
             confirmationTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -217,11 +220,19 @@ public class AddAccommodation extends AppCompatActivity {
         }
 
         ArrayAdapter<String> newAdapter = new ArrayAdapter<>(
-                this, android.R.layout.simple_spinner_item, dateOptions);
+                this, R.layout.custom_date_spinner_item, dateOptions);
         newAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         dateSpinnerFrom.setAdapter(newAdapter);
         dateSpinnerFrom.setSelection(currentPosition); // Set the selection to the updated position
+
+        // Manually update the displayed value in the Spinner
+        runOnUiThread(() -> {
+            View selectedView = dateSpinnerFrom.getSelectedView();
+            if (selectedView instanceof TextView) {
+                ((TextView) selectedView).setText(selectedDateStr);
+            }
+        });
     }
 
     private String[] getDateOptions() {
