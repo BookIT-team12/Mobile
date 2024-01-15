@@ -13,10 +13,12 @@
         android:layout_height="wrap_content"
         android:text="User Blocking"
         android:textColor="@color/logo"
-        android:textSize="24sp"
+        android:textSize="35sp"
+        android:gravity="left"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:textStyle="bold"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="20dp"/>
+        />
 
     <ListView
         android:id="@+id/userListView"

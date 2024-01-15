@@ -1,9 +1,11 @@
 package com.example.bookit;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -49,17 +51,54 @@ public class UpdateAccommodation extends AppCompatActivity {
 
         fetchAccommodationsForUpdate();
 
-        Button btnUpdate = findViewById(R.id.btnUpdate);
-        btnUpdate.setOnClickListener(v -> {
-            int selectedPosition = accommodationListView.getCheckedItemPosition();
-            if (selectedPosition != ListView.INVALID_POSITION) {
-                Accommodation selectedAccommodation = (Accommodation) accommodationListView.getItemAtPosition(selectedPosition);
-                updateAccommodation(selectedAccommodation.getId());
-            } else {
-                Toast.makeText(UpdateAccommodation.this, "Please select an accommodation to update", Toast.LENGTH_SHORT).show();
-            }
+//        Button btnUpdate = findViewById(R.id.btnUpdate);
+//        btnUpdate.setOnClickListener(v -> {
+//            int selectedPosition = accommodationListView.getCheckedItemPosition();
+//            if (selectedPosition != ListView.INVALID_POSITION) {
+//                Accommodation selectedAccommodation = (Accommodation) accommodationListView.getItemAtPosition(selectedPosition);
+//                updateAccommodation(selectedAccommodation.getId());
+//            } else {
+//                Toast.makeText(UpdateAccommodation.this, "Please select an accommodation to update", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+    }
+
+    private void displayAccommodationsForUpdate(List<Accommodation> accommodations) {
+        AccommodationApprovalAdapter adapter = new AccommodationApprovalAdapter(this, accommodations);
+        accommodationListView.setAdapter(adapter);
+
+        accommodationListView.setOnItemClickListener((parent, view, position, id) -> {
+            Accommodation selectedAccommodation = (Accommodation) parent.getItemAtPosition(position);
+            showUpdatePrompt(selectedAccommodation);
         });
     }
+
+    private void showUpdatePrompt(Accommodation accommodation) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.update_accommodation_prompt, null);
+        builder.setView(view);
+
+        Button btnUpdate = view.findViewById(R.id.btnUpdate);
+        Button btnCancel = view.findViewById(R.id.btnCancel);
+
+        AlertDialog dialog = builder.create();
+
+        btnUpdate.setOnClickListener(v -> {
+            dialog.dismiss();
+            startUpdateActivity(accommodation);
+        });
+
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
+    }
+
+    private void startUpdateActivity(Accommodation accommodation) {
+        Intent intent = new Intent(UpdateAccommodation.this, HomeScreen.class);
+        intent.putExtra("SELECTED_ACCOMMODATION", accommodation.getId());
+        startActivity(intent);
+    }
+
 
     private void fetchAccommodationsForUpdate() {
         Call<List<Accommodation>> call = accommodationApi.getOwnerAccommodations(ownerEmail);
@@ -81,13 +120,4 @@ public class UpdateAccommodation extends AppCompatActivity {
         });
     }
 
-    private void displayAccommodationsForUpdate(List<Accommodation> accommodations) {
-        ArrayAdapter<Accommodation> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_single_choice, accommodations);
-        accommodationListView.setAdapter(adapter);
-        accommodationListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-    }
-
-    //TODO: CREATE THAT ACCOMMODATION UPDATE PAGE IS OPENED FOR THE CHOSEN ACCOMMODATION!
-    private void updateAccommodation(int accommodationId) {
-    }
 }
