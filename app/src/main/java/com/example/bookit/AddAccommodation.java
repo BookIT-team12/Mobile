@@ -5,8 +5,11 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.AttributeSet;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebView;
@@ -20,6 +23,7 @@ import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.events.MapAdapter;
 import org.osmdroid.events.MapEventsReceiver;
+import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
@@ -37,11 +41,17 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-
 // Create a custom MapEventsReceiver class
 class MyMapEventsReceiver extends Overlay implements MapEventsReceiver {
     private MapView mapView;
+    public MyMapEventsReceiver(MapView mapView) {
+        this.mapView = mapView;
+    }
 
+    //// Set up the initial marker at the center
+    //        Marker initialMarker = new Marker(mapView);
+    //        initialMarker.setPosition(initialCenter);
+    //        mapView.getOverlays().add(initialMarker);
 
     // Set up the initial marker at the center
     final Marker[] userMarker = {null};
@@ -76,8 +86,7 @@ public class AddAccommodation extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ImageView menu;
     private LinearLayout home;
-    private MapView mapView;
-
+    private CustomMapView customMapView;
 
 
     @Override
@@ -85,67 +94,40 @@ public class AddAccommodation extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_accommodation);
+//        System.setProperty("javax.net.debug", "ssl");
 
 
         dateSpinnerFrom = findViewById(R.id.dateFromSpinner);
         dateSpinnerTo = findViewById(R.id.dateToSpinner);
 
         // Initialize map view
-        mapView = findViewById(R.id.mapView);
-        mapView.setTileSource(TileSourceFactory.MAPNIK);
+        customMapView = findViewById(R.id.mapView);
+        customMapView.setTileSource(TileSourceFactory.DEFAULT_TILE_SOURCE);
 
-        GeoPoint initialCenter = new GeoPoint(40.7128, -74.0060); // Example: New York City
-        mapView.getController().setCenter(initialCenter);
-        mapView.getController().setZoom(15);
+        GeoPoint initialCenter = new GeoPoint(45.2671, 19.8335); // Example: New York City
+        customMapView.getController().setCenter(initialCenter);
+        customMapView.getController().setZoom(15);
 
         // Enable zoom controls
-        mapView.setBuiltInZoomControls(true);
+        customMapView.setBuiltInZoomControls(true);
 
         // Enable touch controls
-        mapView.setMultiTouchControls(true);
+        customMapView.setMultiTouchControls(true);
+        customMapView.setClickable(true);
 
 
-// Set up the initial marker at the center
-        Marker initialMarker = new Marker(mapView);
-        initialMarker.setPosition(initialCenter);
-        mapView.getOverlays().add(initialMarker);
-
-        // Set up a click listener for the map using your custom MapEventsReceiver
-        mapView.getOverlays().add(new MyMapEventsReceiver());
-
-// Set up a click listener for the ma
+//        customMapView.getOverlays().add(new MyMapEventsReceiver(customMapView));
 
 
-//        mapView.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-//                    IGeoPoint geoPoint = mapView.getProjection().fromPixels((int) event.getX(), (int) event.getY());
-//
-//                    Marker marker = new Marker(mapView);
-//                    marker.setPosition(new GeoPoint(geoPoint.getLatitude(), geoPoint.getLongitude()));
-//                    marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-//                    mapView.getOverlayManager().add(marker);
-//
-//                    mapView.performClick();
-//
-//                    return true;
-//                }
-//
-//                return false;
-//            }
-//        });
         // Initialize drawer and menu
         drawerLayout = findViewById(R.id.drawerLayout);
         menu = findViewById(R.id.menu);
-
 
         // SPINNERS POPULATION
         setupDateSpinner(dateSpinnerFrom);
         setupDateSpinner(dateSpinnerTo);
         setupAccommodationTypeSpinnner();
         setupBookingConfirmationTypeSpinner();
-
 
         dateSpinnerFrom.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -169,8 +151,7 @@ public class AddAccommodation extends AppCompatActivity {
         Configuration.getInstance().load(this, androidx.preference.PreferenceManager.getDefaultSharedPreferences(this));
     }
 
-    private void handleSelectedLocation(GeoPoint selectedPoint) {
-    }
+    private void handleSelectedLocation(GeoPoint selectedPoint) {    }
 
     private void setupDateSpinner(Spinner dateSpinnerFrom) {
         // Populate the Spinner with date options
@@ -271,3 +252,33 @@ public class AddAccommodation extends AppCompatActivity {
     }
 
 }
+
+
+//// Set up the initial marker at the center
+//        Marker initialMarker = new Marker(mapView);
+//        initialMarker.setPosition(initialCenter);
+//        mapView.getOverlays().add(initialMarker);
+
+// Set up a click listener for the map using your custom MapEventsReceiver
+
+// Set up a click listener for the ma
+
+//        mapView.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//                    IGeoPoint geoPoint = mapView.getProjection().fromPixels((int) event.getX(), (int) event.getY());
+//
+//                    Marker marker = new Marker(mapView);
+//                    marker.setPosition(new GeoPoint(geoPoint.getLatitude(), geoPoint.getLongitude()));
+//                    marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+//                    mapView.getOverlayManager().add(marker);
+//
+//                    mapView.performClick();
+//
+//                    return true;
+//                }
+//
+//                return false;
+//            }
+//        });

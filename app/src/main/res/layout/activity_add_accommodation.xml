@@ -287,11 +287,13 @@
         </GridLayout>
 
 
-        <org.osmdroid.views.MapView
+        <com.example.bookit.CustomMapView
             android:id="@+id/mapView"
             android:layout_width="390dp"
             android:layout_height="400dp"
-
+            android:clickable="true"
+            android:enabled="true"
+            android:focusable="true"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="8dp"
             android:layout_marginRight="10dp"

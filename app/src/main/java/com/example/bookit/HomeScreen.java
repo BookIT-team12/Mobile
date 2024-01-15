@@ -98,12 +98,12 @@ public class HomeScreen extends AppCompatActivity {
             }
         });
 
-//        addAccommodation.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                redirectActivity(HomeScreen.this, AddAccommodation.class);
-//            }
-//        });
+        addAccommodation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                redirectActivity(HomeScreen.this, AddAccommodation.class);
+            }
+        });
 
 //        approveAccommodations.setOnClickListener(new View.OnClickListener() {
 //            @Override
