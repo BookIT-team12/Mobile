@@ -69,6 +69,8 @@ public class User implements Serializable {
     public void setReported(boolean reported) {
         isReported = reported;
     }
+    @SerializedName("blocked")
+    private boolean isBlocked;
 
     public boolean isBlocked() {
         return isBlocked;
@@ -77,8 +79,6 @@ public class User implements Serializable {
     public void setBlocked(boolean blocked) {
         isBlocked = blocked;
     }
-
-    private boolean isBlocked;
 
     public String getName() {
         return name;

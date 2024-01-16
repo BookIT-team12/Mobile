@@ -14,6 +14,8 @@ import com.example.bookit.model.User;
 import com.example.bookit.retrofit.RetrofitService;
 import com.example.bookit.retrofit.api.UserApi;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -26,6 +28,13 @@ public class BlockUsers extends AppCompatActivity {
     private ListView userListView;
     private TextView textViewMessage;
 
+    private User blockedUser;
+
+    private ArrayAdapter<User> arrayAdapter;
+    private List<User> usersForBlocking;
+    private BlockUsersAdapter blockUsersAdapter;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,10 +45,16 @@ public class BlockUsers extends AppCompatActivity {
         userListView = findViewById(R.id.userListView);
         textViewMessage = findViewById(R.id.textViewMessageBlock);
 
+
+        // Initialize the adapter
+        blockUsersAdapter = new BlockUsersAdapter(this, new ArrayList<>());
+        userListView.setAdapter(blockUsersAdapter);
+
         fetchUsersForBlocking();
 
         userListView.setOnItemClickListener((parent, view, position, id) -> {
             User selectedUser = (User) userListView.getItemAtPosition(position);
+            blockedUser=selectedUser;
             showBlockUserConfirmationDialog(selectedUser.getEmail());
         });
 
@@ -52,7 +67,21 @@ public class BlockUsers extends AppCompatActivity {
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                 if (response.isSuccessful()) {
                     List<User> users = response.body();
-                    displayUsersForBlocking(users);
+
+                    List<User> nonBlockedUsers = filterBlockedUsers(users);
+
+                    if (nonBlockedUsers.isEmpty()) {
+                        textViewMessage.setText("You have 0 users for blocking.");
+                    } else {
+                        textViewMessage.setText("");
+                    }
+
+                    if (blockUsersAdapter == null) {
+                        blockUsersAdapter = new BlockUsersAdapter(BlockUsers.this, nonBlockedUsers);
+                        userListView.setAdapter(blockUsersAdapter);
+                    } else {
+                        blockUsersAdapter.updateData(nonBlockedUsers);
+                    }
                 } else {
                     Toast.makeText(BlockUsers.this, "Failed to fetch users for blocking", Toast.LENGTH_SHORT).show();
                 }
@@ -65,10 +94,20 @@ public class BlockUsers extends AppCompatActivity {
         });
     }
 
+
+    private List<User> filterBlockedUsers(List<User> users) {
+        List<User> nonBlockedUsers = new ArrayList<>();
+        for (User user : users) {
+            if (!user.isBlocked()) {
+                nonBlockedUsers.add(user);
+            }
+        }
+        return nonBlockedUsers;
+    }
+
     private void displayUsersForBlocking(List<User> users) {
         if (users != null) {
-            ArrayAdapter<User> adapter = new BlockUsersAdapter(this, users);
-            userListView.setAdapter(adapter);
+            blockUsersAdapter.updateData(users);
         } else {
             Toast.makeText(BlockUsers.this, "No users available for blocking", Toast.LENGTH_SHORT).show();
         }
@@ -85,35 +124,36 @@ public class BlockUsers extends AppCompatActivity {
     }
 
     private void blockUser(String userId) {
-        Call<String> call = userApi.blockUser(userId);
+        Call<Void> call = userApi.blockUser(userId);
         handleUserAPIResponse(call, "User blocked successfully");
     }
 
-    //TODO: RESI ZASTO BACA BLOCK FAILED, STATUS-->200, BAZA UPDATED?
-    private void handleUserAPIResponse(Call<String> call, String successMessage) {
-        call.enqueue(new Callback<String>() {
+
+    private void handleUserAPIResponse(Call<Void> call, String successMessage) {
+        call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    String responseMessage;
-                    if (response.body() != null && !response.body().isEmpty()) {
-                        responseMessage = response.body();
+                    int statusCode = response.code();
+                    if (statusCode == 200) {
+                        String responseMessage = "User blocked successfully";
+                        Toast.makeText(BlockUsers.this, responseMessage, Toast.LENGTH_SHORT).show();
+                        blockedUser.setBlocked(true);
+                        fetchUsersForBlocking();
+
                     } else {
-                        responseMessage = successMessage;
+                        Toast.makeText(BlockUsers.this, "Unexpected response code: " + statusCode, Toast.LENGTH_SHORT).show();
                     }
-
-                    Toast.makeText(BlockUsers.this, responseMessage, Toast.LENGTH_SHORT).show();
-
-                    runOnUiThread(() -> fetchUsersForBlocking());
                 } else {
                     Toast.makeText(BlockUsers.this, "User can't be blocked!", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<Void> call, Throwable t) {
                 Toast.makeText(BlockUsers.this, "Failed to block user", Toast.LENGTH_SHORT).show();
             }
         });
     }
+
 }

@@ -1,19 +1,17 @@
 package com.example.bookit;
 
-import static java.security.AccessController.getContext;
-
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.bookit.model.Review;
-import com.example.bookit.model.ReviewAccommodation;
-import com.example.bookit.model.ReviewOwner;
 
 import java.util.List;
 
@@ -28,13 +26,14 @@ public class ReviewAdapter extends ArrayAdapter<Review> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        // Get the review at the current position
+
+        Log.d("ReviewAdapter", "getView called for position: " + position);
+
+
         Review review = getItem(position);
 
-        // Use the appropriate layout for the review type (accommodation or owner)
         View itemView = inflateReviewLayout(review, parent);
 
-        // Handle the data binding for the review type
         bindData(itemView, review);
 
         return itemView;
@@ -42,30 +41,28 @@ public class ReviewAdapter extends ArrayAdapter<Review> {
 
     private View inflateReviewLayout(Review review, ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
-        if (review instanceof ReviewAccommodation) {
+        if (review.getAccommodationId()!=-100) {
             return inflater.inflate(R.layout.accommodation_review_approval, parent, false);
-        } else if (review instanceof ReviewOwner) {
+        } else if (review.getAuthorEmail()!=null) {
             return inflater.inflate(R.layout.owner_review_approval, parent, false);
         }
         return inflater.inflate(R.layout.review_card_container, parent, false);
     }
 
     private void bindData(View itemView, Review review) {
-        // Implement data binding logic based on the review type
-        if (review instanceof ReviewAccommodation) {
-            ReviewAccommodation accommodationReview = (ReviewAccommodation) review;
-            // Bind data for accommodation review
-            // Example: ((TextView) itemView.findViewById(R.id.apartmentNameTextView)).setText(accommodationReview.getApartmentName());
-        } else if (review instanceof ReviewOwner) {
-            ReviewOwner ownerReview = (ReviewOwner) review;
-            // Bind data for owner review
-            // Example: ((TextView) itemView.findViewById(R.id.ownerNameTextView)).setText(ownerReview.getOwnerName());
-        }
+        if (review.getAuthorEmail()==null) {
+            ((TextView) itemView.findViewById(R.id.apartmentNameTextView)).setText(review.getAccommodationId());
+            ((TextView) itemView.findViewById(R.id.commentTextView)).setText(review.getText());
+            ((TextView) itemView.findViewById(R.id.gradeTextView)).setText(String.valueOf(review.getRating()));
+            ((TextView) itemView.findViewById(R.id.authorTextView)).setText(review.getAuthorEmail());
 
-        // Handle approve and delete button clicks if needed
-        // Example:
-        // itemView.findViewById(R.id.approveButton).setOnClickListener(v -> approveReview(review));
-        // itemView.findViewById(R.id.deleteButton).setOnClickListener(v -> deleteReview(review));
+        } else{
+            ((TextView) itemView.findViewById(R.id.ownerReview)).setText(review.getOwnerEmail());
+            ((TextView) itemView.findViewById(R.id.commentReview)).setText(review.getText());
+            ((TextView) itemView.findViewById(R.id.gradeReview)).setText(String.valueOf(review.getRating()));
+            ((TextView) itemView.findViewById(R.id.authorReview)).setText(review.getAuthorEmail());
+
+        }
     }
 }
 

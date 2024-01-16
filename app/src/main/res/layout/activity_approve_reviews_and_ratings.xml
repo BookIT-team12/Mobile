@@ -2,15 +2,30 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@drawable/white_minimalist">
+
+    <TextView
+        android:id="@+id/reviewApprovalHeading"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:text="Review and rating management"
+        android:textColor="@color/logo"
+        android:textSize="35dp"
+        android:textStyle="bold">
+
+    </TextView>
 
     <ListView
         android:id="@+id/reviewListView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@android:color/darker_gray"
+        android:layout_width="wrap_content"
+        android:layout_height="748dp"
+        android:layout_below="@+id/reviewApprovalHeading"
+        android:layout_marginTop="1dp"
+        android:clipToPadding="false"
+        android:divider="@android:color/transparent"
         android:dividerHeight="0.5dp"
-        android:paddingBottom="16dp"
-        android:clipToPadding="false"/>
+        android:paddingBottom="16dp" >
+    </ListView>
 
 </RelativeLayout>

@@ -1,23 +1,38 @@
 package com.example.bookit.model;
 
 import com.example.bookit.model.enums.ReviewStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Review {
+public class Review implements Serializable {
+
+    @JsonProperty("id")
     private int id;
-    private double rating;
+
+    @JsonProperty("accommodationId")
+    private int accommodationId;
+
+    @JsonProperty("ownerEmail")
+    private String ownerEmail;
+
+    @JsonProperty("text")
     private String text;
+
+    @JsonProperty("authorEmail")
+    private String authorEmail;
+
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @JsonProperty("createdAt")
     private Date createdAt;
-    private User author;
 
-    public ReviewStatus getReviewStatus() {
-        return reviewStatus;
-    }
+    @JsonProperty("rating")
+    private double rating;
 
-    public void setReviewStatus(ReviewStatus reviewStatus) {
-        this.reviewStatus = reviewStatus;
-    }
+    @JsonProperty("status")
+    private String status;
 
     private ReviewStatus reviewStatus;
 
@@ -31,12 +46,20 @@ public class Review {
         this.id = id;
     }
 
-    public double getRating() {
-        return rating;
+    public int getAccommodationId() {
+        return accommodationId;
     }
 
-    public void setRating(double rating) {
-        this.rating = rating;
+    public void setAccommodationId(int accommodationId) {
+        this.accommodationId = accommodationId;
+    }
+
+    public String getOwnerEmail() {
+        return ownerEmail;
+    }
+
+    public void setOwnerEmail(String ownerEmail) {
+        this.ownerEmail = ownerEmail;
     }
 
     public String getText() {
@@ -47,6 +70,14 @@ public class Review {
         this.text = text;
     }
 
+    public String getAuthorEmail() {
+        return authorEmail;
+    }
+
+    public void setAuthorEmail(String authorEmail) {
+        this.authorEmail = authorEmail;
+    }
+
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -55,11 +86,27 @@ public class Review {
         this.createdAt = createdAt;
     }
 
-    public User getAuthor() {
-        return author;
+    public double getRating() {
+        return rating;
     }
 
-    public void setAuthor(User author) {
-        this.author = author;
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public ReviewStatus getReviewStatus() {
+        return reviewStatus;
+    }
+
+    public void setReviewStatus(ReviewStatus reviewStatus) {
+        this.reviewStatus = reviewStatus;
     }
 }

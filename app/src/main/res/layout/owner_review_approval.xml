@@ -59,7 +59,7 @@
                     android:layout_marginRight="8dp"/>
 
                 <TextView
-                    android:id="@+id/apartmentNameTextView"
+                    android:id="@+id/ownerReview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Owner's name"
@@ -68,49 +68,23 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/commentTextView"
+                android:id="@+id/commentReview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Comment: Review text"/>
 
             <TextView
-                android:id="@+id/gradeTextView"
+                android:id="@+id/gradeReview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Grade: Review rating"/>
 
             <TextView
-                android:id="@+id/authorTextView"
+                android:id="@+id/authorReview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Author: Review author"/>
 
-            <!-- Buttons placed horizontally -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/deleteButton"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Delete review"
-                    android:textColor="@android:color/white"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="5dp"/>
-
-                <Button
-                    android:id="@+id/approveButton"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginTop="10dp"
-                    android:text="Approve review"
-                    android:textColor="@android:color/white"
-                    android:layout_marginStart="5dp"/>
-            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

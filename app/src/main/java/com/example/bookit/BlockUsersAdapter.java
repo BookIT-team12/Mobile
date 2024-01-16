@@ -35,8 +35,6 @@ public class BlockUsersAdapter extends ArrayAdapter<User> {
         TextView usernameTextView = convertView.findViewById(R.id.authorTextView);
         TextView blockUserTextView = convertView.findViewById(R.id.isBlocked);
 
-
-
         if (user != null) {
             nameTextView.setText("Name: " + user.getName());
             lastnameTextView.setText("Lastname: " + user.getLastName());
@@ -45,5 +43,11 @@ public class BlockUsersAdapter extends ArrayAdapter<User> {
         }
 
         return convertView;
+    }
+
+    public void updateData(List<User> newData) {
+        clear();
+        addAll(newData);
+        notifyDataSetChanged();
     }
 }

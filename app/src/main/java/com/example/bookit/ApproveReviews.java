@@ -1,24 +1,20 @@
 package com.example.bookit;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.bookit.model.Review;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.bookit.model.ReviewAccommodation;
-import com.example.bookit.model.ReviewOwner;
-import com.example.bookit.model.enums.ReviewStatus;
 import com.example.bookit.retrofit.RetrofitService;
 import com.example.bookit.retrofit.api.ReviewApi;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,12 +26,7 @@ public class ApproveReviews extends AppCompatActivity {
 
     private ReviewApi reviewApi;
     private ListView reviewListView;
-    private Button deleteButton;
-    private Button approveButton;
-
     private ReviewAdapter reviewAdapter;
-
-    //TODO: SOLVE APPROVE AND DELETE BUTTON BINDING AS WELL AS THE DATA BINDING IN THE EVERY SINGLE CONTAINER!!!!!!
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,16 +40,16 @@ public class ApproveReviews extends AppCompatActivity {
         reviewListView = findViewById(R.id.reviewListView);
         reviewListView.setAdapter(reviewAdapter);
 
-
-//        approveButton = findViewById(R.id.approveButton);
-//        deleteButton = findViewById(R.id.deleteButton);
+        reviewListView.setOnItemClickListener((parent, view, position, id) -> {
+            Review selectedReview = reviewAdapter.getItem(position);
+        });
 
         fetchAccommodationReviewsForApproval();
+        fetchOwnerReviewsForApproval();
 
-//        approveButton.setOnClickListener(v -> approveSelectedReview());
-//        deleteButton.setOnClickListener(v -> deleteSelectedReview());
     }
 
+    //-------------------------- FETCH AND DISPLAY DATA
     private void fetchAccommodationReviewsForApproval() {
         Call<List<Optional<Review>>> call = reviewApi.getAllReviewAccommodationForApproval();
         call.enqueue(new Callback<List<Optional<Review>>>() {
@@ -66,6 +57,11 @@ public class ApproveReviews extends AppCompatActivity {
             public void onResponse(Call<List<Optional<Review>>> call, Response<List<Optional<Review>>> response) {
                 if (response.isSuccessful()) {
                     List<Optional<Review>> accommodationReviews = response.body();
+
+                    // Log the raw JSON response
+                    String rawJson = new Gson().toJson(accommodationReviews);
+                    Log.d(TAG, "Raw JSON response: " + rawJson);
+
                     displayNonEmptyReviews(accommodationReviews);
                 } else {
                     Toast.makeText(ApproveReviews.this, "Failed to fetch accommodation reviews for approval", Toast.LENGTH_SHORT).show();
@@ -85,96 +81,94 @@ public class ApproveReviews extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Optional<Review>>> call, Response<List<Optional<Review>>> response) {
                 if (response.isSuccessful()) {
-                    List<Optional<Review>> ownerReviews = response.body();
-                    displayNonEmptyReviews(ownerReviews);
+                    List<Optional<Review>> reviews = response.body();
+                    Log.d(TAG, "Response body: " + reviews);
+                    displayNonEmptyReviews(reviews);
                 } else {
-                    Toast.makeText(ApproveReviews.this, "Failed to fetch owner reviews for approval", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "Failed to fetch reviews. Response code: " + response.code());
+                    Toast.makeText(ApproveReviews.this, "Failed to fetch reviews", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Optional<Review>>> call, Throwable t) {
                 Toast.makeText(ApproveReviews.this, "Failed to fetch owner reviews for approval", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "Error: " + t.getMessage());
             }
         });
     }
 
     private void displayNonEmptyReviews(List<Optional<Review>> reviews) {
+        Log.d(TAG, "Displaying reviews: " + reviews.size());
         reviewAdapter.clear();
         for (Optional<Review> optionalReview : reviews) {
-            optionalReview.ifPresent(reviewAdapter::add);
+            optionalReview.ifPresent(review -> {
+                Log.d(TAG, "Added review: " + review.getId() + ", " + review.getText());
+                reviewAdapter.add(review);
+            });
         }
+        reviewAdapter.notifyDataSetChanged();
     }
 
-    private void approveSelectedReview() {
-        Review selectedReview = (Review) reviewListView.getSelectedItem();
-        if (selectedReview != null) {
-            Call<Review> call = reviewApi.updateReviewStatus(selectedReview.getId(), selectedReview);
-            call.enqueue(new Callback<Review>() {
-                @Override
-                public void onResponse(Call<Review> call, Response<Review> response) {
-                    if (response.isSuccessful()) {
-                        displayNonEmptyReviews(Collections.singletonList(Optional.of(response.body())));
-                        Toast.makeText(ApproveReviews.this, "Review approved", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(ApproveReviews.this, "Failed to approve review", Toast.LENGTH_SHORT).show();
-                    }
-                }
 
-                @Override
-                public void onFailure(Call<Review> call, Throwable t) {
+
+    // ---------------------- APPROVE AND DELETE A SELECTED REVIEW
+    private void approveSelectedReview(Review selectedReview) {
+        Call<Review> call = reviewApi.updateReviewStatus(selectedReview.getId(), selectedReview);
+        handleApprovalResponse(call, selectedReview);
+    }
+
+    private void deleteSelectedReview(Review selectedReview) {
+        Call<Void> call;
+        if(selectedReview.getAccommodationId()!=-100){
+        call = reviewApi.deleteAccommodationReview(selectedReview.getId());}
+        else{ call = reviewApi.deleteOwnerReview(selectedReview.getId());}
+
+
+        handleDeleteResponse(call, selectedReview);
+    }
+
+
+    //-------------------- HANDLE REPSPONSES
+
+
+    private void handleApprovalResponse(Call<Review> call, Review selectedReview) {
+        call.enqueue(new Callback<Review>() {
+            @Override
+            public void onResponse(Call<Review> call, Response<Review> response) {
+                if (response.isSuccessful()) {
+                    Review updatedReview = response.body();
+                    reviewAdapter.remove(selectedReview);
+                    Toast.makeText(ApproveReviews.this, "Review approval successful", Toast.LENGTH_SHORT).show();
+                } else {
                     Toast.makeText(ApproveReviews.this, "Failed to approve review", Toast.LENGTH_SHORT).show();
                 }
-            });
-        } else {
-            Toast.makeText(this, "Please select a review to approve", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void deleteSelectedReview() {
-        Review selectedReview = (Review) reviewListView.getSelectedItem();
-        if (selectedReview != null) {
-            if (selectedReview instanceof ReviewAccommodation) {
-                deleteAccommodationReview((ReviewAccommodation) selectedReview);
-            } else if (selectedReview instanceof ReviewOwner) {
-                deleteOwnerReview((ReviewOwner) selectedReview);
-            } else {
-                Toast.makeText(this, "Unknown review type", Toast.LENGTH_SHORT).show();
             }
-        } else {
-            Toast.makeText(this, "Please select a review to delete", Toast.LENGTH_SHORT).show();
-        }
-    }
 
-    private void deleteAccommodationReview(Review selectedReview) {
-        Call<Void> call = reviewApi.deleteAccommodationReview(selectedReview.getId());
-        handleDeleteResponse(call, selectedReview);
+            @Override
+            public void onFailure(Call<Review> call, Throwable t) {
+                Toast.makeText(ApproveReviews.this, "Failed to approve review", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
-
-    private void deleteOwnerReview(Review selectedReview) {
-        Call<Void> call = reviewApi.deleteOwnerReview(selectedReview.getId());
-        handleDeleteResponse(call, selectedReview);
-    }
-
     private void handleDeleteResponse(Call<Void> call, Review selectedReview) {
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    displayNonEmptyReviews(Collections.singletonList(Optional.empty()));
-                    Toast.makeText(ApproveReviews.this, "Review deleted", Toast.LENGTH_SHORT).show();
+                    reviewAdapter.remove(selectedReview);
+                    Toast.makeText(ApproveReviews.this, "Review operation successful", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(ApproveReviews.this, "Failed to delete review", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ApproveReviews.this, "Failed to process review", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(ApproveReviews.this, "Failed to delete review", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ApproveReviews.this, "Failed to process review", Toast.LENGTH_SHORT).show();
             }
         });
     }
-
 
 
 }
