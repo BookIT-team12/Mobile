@@ -14,6 +14,7 @@ import com.example.bookit.retrofit.RetrofitService;
 import com.example.bookit.retrofit.api.ReviewApi;
 import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +28,7 @@ public class ApproveReviews extends AppCompatActivity {
     private ReviewApi reviewApi;
     private ListView reviewListView;
     private ReviewAdapter reviewAdapter;
-
+    private List<Review> displayReviews;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,61 +52,69 @@ public class ApproveReviews extends AppCompatActivity {
 
     //-------------------------- FETCH AND DISPLAY DATA
     private void fetchAccommodationReviewsForApproval() {
-        Call<List<Optional<Review>>> call = reviewApi.getAllReviewAccommodationForApproval();
-        call.enqueue(new Callback<List<Optional<Review>>>() {
+        Call<List<Review>> call = reviewApi.getAllReviewAccommodationForApprovalAndroid();
+        call.enqueue(new Callback<List<Review>>() {
             @Override
-            public void onResponse(Call<List<Optional<Review>>> call, Response<List<Optional<Review>>> response) {
+            public void onResponse(Call<List<Review>> call, Response<List<Review>> response) {
                 if (response.isSuccessful()) {
-                    List<Optional<Review>> accommodationReviews = response.body();
-
-                    // Log the raw JSON response
-                    String rawJson = new Gson().toJson(accommodationReviews);
-                    Log.d(TAG, "Raw JSON response: " + rawJson);
-
+                    List<Review> accommodationReviews = response.body();
                     displayNonEmptyReviews(accommodationReviews);
                 } else {
-                    Toast.makeText(ApproveReviews.this, "Failed to fetch accommodation reviews for approval", Toast.LENGTH_SHORT).show();
+                    handleFailure("Failed to fetch accommodation reviews for approval", response);
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Optional<Review>>> call, Throwable t) {
-                Toast.makeText(ApproveReviews.this, "Failed to fetch accommodation reviews for approval", Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<List<Review>> call, Throwable t) {
+                t.printStackTrace();
+                handleFailure("Failed to fetch accommodation reviews for approval", null);
             }
         });
     }
 
     private void fetchOwnerReviewsForApproval() {
-        Call<List<Optional<Review>>> call = reviewApi.getAllReviewOwnerForApproval();
-        call.enqueue(new Callback<List<Optional<Review>>>() {
+        Call<List<Review>> call = reviewApi.getAllReviewOwnerForApprovalAndroid();
+        call.enqueue(new Callback<List<Review>>() {
             @Override
-            public void onResponse(Call<List<Optional<Review>>> call, Response<List<Optional<Review>>> response) {
+            public void onResponse(Call<List<Review>> call, Response<List<Review>> response) {
                 if (response.isSuccessful()) {
-                    List<Optional<Review>> reviews = response.body();
-                    Log.d(TAG, "Response body: " + reviews);
+                    List<Review> reviews = response.body();
                     displayNonEmptyReviews(reviews);
                 } else {
-                    Log.d(TAG, "Failed to fetch reviews. Response code: " + response.code());
-                    Toast.makeText(ApproveReviews.this, "Failed to fetch reviews", Toast.LENGTH_SHORT).show();
+                    handleFailure("Failed to fetch reviews", response);
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Optional<Review>>> call, Throwable t) {
-                Toast.makeText(ApproveReviews.this, "Failed to fetch owner reviews for approval", Toast.LENGTH_SHORT).show();
-                Log.e(TAG, "Error: " + t.getMessage());
+            public void onFailure(Call<List<Review>> call, Throwable t) {
+                t.printStackTrace();
+                handleFailure("Failed to fetch reviews", null);
             }
         });
     }
 
-    private void displayNonEmptyReviews(List<Optional<Review>> reviews) {
-        Log.d(TAG, "Displaying reviews: " + reviews.size());
-        reviewAdapter.clear();
-        for (Optional<Review> optionalReview : reviews) {
-            optionalReview.ifPresent(review -> {
-                Log.d(TAG, "Added review: " + review.getId() + ", " + review.getText());
-                reviewAdapter.add(review);
-            });
+    private void handleFailure(String message, Response<List<Review>> response) {
+        if (response != null) {
+            Log.e(TAG, "Error response code: " + response.code());
+            try {
+                Log.e(TAG, "Error response body: " + response.errorBody().string());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        Toast.makeText(ApproveReviews.this, message, Toast.LENGTH_SHORT).show();
+    }
+
+
+
+    private void displayNonEmptyReviews(List<Review> reviews) {
+        Log.d("ApproveReview", "Reviews size: " + reviews.size());
+
+        for (Review optionalReview : reviews) {
+            // Check if the review is already present in the adapter
+            if (!reviewAdapter.containsReview(optionalReview)) {
+                reviewAdapter.add(optionalReview);
+            }
         }
         reviewAdapter.notifyDataSetChanged();
     }

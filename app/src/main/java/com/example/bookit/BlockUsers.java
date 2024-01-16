@@ -73,7 +73,7 @@ public class BlockUsers extends AppCompatActivity {
                     if (nonBlockedUsers.isEmpty()) {
                         textViewMessage.setText("You have 0 users for blocking.");
                     } else {
-                        textViewMessage.setText("");
+                        textViewMessage.setText("Users for blocking");
                     }
 
                     if (blockUsersAdapter == null) {

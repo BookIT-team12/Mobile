@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Review implements Serializable {
@@ -26,7 +27,7 @@ public class Review implements Serializable {
 
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @JsonProperty("createdAt")
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
     @JsonProperty("rating")
     private double rating;
@@ -34,6 +35,7 @@ public class Review implements Serializable {
     @JsonProperty("status")
     private String status;
 
+    @JsonProperty("reviewStatus")
     private ReviewStatus reviewStatus;
 
     public Review() {}
@@ -78,11 +80,11 @@ public class Review implements Serializable {
         this.authorEmail = authorEmail;
     }
 
-    public Date getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
