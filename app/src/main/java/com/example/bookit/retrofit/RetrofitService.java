@@ -23,6 +23,8 @@ public class RetrofitService {
     private final String NATASA_IP=" http://192.168.1.5:8080";
     private final String DULE_IP="http://192.168.0.22:8080";
 
+    private final String ALEX_IP="http://192.168.1.12:8080";
+
     public RetrofitService(Context context){
         initializeRetrofitFactory(context);
 //        initializeRetrofit();

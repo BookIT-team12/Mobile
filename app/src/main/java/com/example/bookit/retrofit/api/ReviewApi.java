@@ -45,10 +45,10 @@ public interface ReviewApi {
     @GET("/api/reviews/averageGrade/accommodation/{id}")
     Call<Double> getAccommodationAverageGrade(@Path("id") int id);
 
-    @GET("/api/reviews/owner/toApprove")
-    Call<List<Optional<Review>>> getAllReviewOwnerForApproval();
+    @GET("/api/reviews/owners/toApprove")
+    Call<List<Review>> getAllReviewOwnerForApprovalAndroid();
 
-    @GET("/api/reviews/accommodation/toApprove")
-    Call<List<Optional<Review>>> getAllReviewAccommodationForApproval();
+    @GET("/api/reviews/accommodations/toApprove")
+    Call<List<Review>> getAllReviewAccommodationForApprovalAndroid();
 
 }
