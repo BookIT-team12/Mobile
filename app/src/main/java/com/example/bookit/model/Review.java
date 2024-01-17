@@ -1,30 +1,47 @@
 package com.example.bookit.model;
 
+import com.example.bookit.model.enums.ReviewStatus;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Review {
-    private int id;
-    private double rating;
+    private Integer id;
+    private Integer accommodationId;
+    private String ownerEmail;
     private String text;
-    private Date createdAt;
-    private User author;
+
+    private String authorEmail;
+    private LocalDateTime createdAt;
+
+    private double rating;
+
+    private ReviewStatus status;
 
     public Review() {}
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public double getRating() {
-        return rating;
+    public Integer getAccommodationId() {
+        return accommodationId;
     }
 
-    public void setRating(double rating) {
-        this.rating = rating;
+    public void setAccommodationId(Integer accommodationId) {
+        this.accommodationId = accommodationId;
+    }
+
+    public String getOwnerEmail() {
+        return ownerEmail;
+    }
+
+    public void setOwnerEmail(String ownerEmail) {
+        this.ownerEmail = ownerEmail;
     }
 
     public String getText() {
@@ -35,19 +52,35 @@ public class Review {
         this.text = text;
     }
 
-    public Date getCreatedAt() {
+    public String getAuthorEmail() {
+        return authorEmail;
+    }
+
+    public void setAuthorEmail(String authorEmail) {
+        this.authorEmail = authorEmail;
+    }
+
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public User getAuthor() {
-        return author;
+    public double getRating() {
+        return rating;
     }
 
-    public void setAuthor(User author) {
-        this.author = author;
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    public ReviewStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ReviewStatus status) {
+        this.status = status;
     }
 }
