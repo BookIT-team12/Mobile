@@ -30,6 +30,9 @@
         android:theme="@style/Theme.V2"
         tools:targetApi="31" >
         <activity
+            android:name=".UpdateAccommodation"
+            android:exported="false" />
+        <activity
             android:name=".ManageMyReservations"
             android:exported="false" />
         <activity
@@ -48,7 +51,7 @@
             android:name=".AccommodationApprovalActivity"
             android:exported="false" />
         <activity
-            android:name=".UpdateAccommodation"
+            android:name=".ManageAccommodations"
             android:exported="false" />
         <activity
             android:name=".AddAccommodation"

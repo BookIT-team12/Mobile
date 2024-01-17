@@ -7,7 +7,7 @@
     android:paddingEnd="16dp"
     android:paddingTop="32dp"
     android:paddingBottom="16dp"
-    tools:context=".UpdateAccommodation"
+    tools:context=".ManageAccommodations"
     android:background="@drawable/white_minimalist">
 
 

@@ -17,8 +17,6 @@ import com.example.bookit.model.User;
 import com.example.bookit.retrofit.RetrofitService;
 import com.example.bookit.retrofit.api.UserApi;
 
-import org.mapsforge.map.rendertheme.renderinstruction.Line;
-
 import java.util.Map;
 
 import retrofit2.Call;
@@ -27,7 +25,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 import com.example.bookit.app.AppPreferences;
-import com.example.bookit.security.UserTokenService;
 
 public class HomeScreen extends AppCompatActivity {
 
@@ -129,7 +126,7 @@ public class HomeScreen extends AppCompatActivity {
             manageAccommodations.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(HomeScreen.this, UpdateAccommodation.class);
+                    Intent intent = new Intent(HomeScreen.this, ManageAccommodations.class);
                     intent.putExtra("USER_VALUE", currentUser);
                     startActivity(intent);
                 }
