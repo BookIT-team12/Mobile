@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ManageUserReservations"
+    tools:context=".ManageMyReservations"
     android:background="@drawable/white_minimalist">
 
     <TextView
@@ -12,8 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/logo"
-        android:text="Manage user reservations"
-        android:textSize="39dp"
+        android:text="Manage my\nreservations"
+        android:textSize="40dp"
         android:gravity="left"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="13dp"
@@ -23,7 +23,7 @@
         />
 
     <ListView
-        android:id="@+id/manageUserReservations"
+        android:id="@+id/myReservationsList"
         android:layout_below="@id/reservationHeading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
