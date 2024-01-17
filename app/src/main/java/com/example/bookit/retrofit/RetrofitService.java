@@ -3,6 +3,8 @@ package com.example.bookit.retrofit;
 import android.content.Context;
 
 import com.example.bookit.app.LocalDateTimeDeserializer;
+import com.example.bookit.app.LocalDateTimeSerializer;
+
 import com.example.bookit.model.enums.AccommodationStatus;
 import com.example.bookit.security.ApiInterceptor;
 import com.google.gson.Gson;
@@ -59,6 +61,7 @@ public class RetrofitService {
     private Gson customGson(){
         return new GsonBuilder()
                 .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer())
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer())
                 .create();
     }
 

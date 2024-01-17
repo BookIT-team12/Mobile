@@ -97,10 +97,14 @@ public class BlockUsers extends AppCompatActivity {
 
     private List<User> filterBlockedUsers(List<User> users) {
         List<User> nonBlockedUsers = new ArrayList<>();
+        if(users!=null){
         for (User user : users) {
             if (!user.isBlocked()) {
                 nonBlockedUsers.add(user);
             }
+        }
+        }else{
+            textViewMessage.setText("You have 0 users for blocking.");
         }
         return nonBlockedUsers;
     }

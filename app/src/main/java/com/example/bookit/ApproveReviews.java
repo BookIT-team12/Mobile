@@ -2,19 +2,28 @@ package com.example.bookit;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
 import com.example.bookit.model.Review;
 
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.bookit.model.enums.ReviewStatus;
 import com.example.bookit.retrofit.RetrofitService;
 import com.example.bookit.retrofit.api.ReviewApi;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -43,12 +52,14 @@ public class ApproveReviews extends AppCompatActivity {
 
         reviewListView.setOnItemClickListener((parent, view, position, id) -> {
             Review selectedReview = reviewAdapter.getItem(position);
+            showConfirmationDialog(selectedReview);
         });
 
         fetchAccommodationReviewsForApproval();
         fetchOwnerReviewsForApproval();
 
     }
+
 
     //-------------------------- FETCH AND DISPLAY DATA
     private void fetchAccommodationReviewsForApproval() {
@@ -105,13 +116,8 @@ public class ApproveReviews extends AppCompatActivity {
         Toast.makeText(ApproveReviews.this, message, Toast.LENGTH_SHORT).show();
     }
 
-
-
     private void displayNonEmptyReviews(List<Review> reviews) {
-        Log.d("ApproveReview", "Reviews size: " + reviews.size());
-
         for (Review optionalReview : reviews) {
-            // Check if the review is already present in the adapter
             if (!reviewAdapter.containsReview(optionalReview)) {
                 reviewAdapter.add(optionalReview);
             }
@@ -120,12 +126,41 @@ public class ApproveReviews extends AppCompatActivity {
     }
 
 
-
     // ---------------------- APPROVE AND DELETE A SELECTED REVIEW
+    private void showConfirmationDialog(Review selectedReview) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        // Get the color resource
+        int colorLogo = ContextCompat.getColor(this, R.color.logo);
+
+        // Create a SpannableString to apply color
+        String messageText = "Do you want to approve or delete this review?";
+        SpannableString spannableString = new SpannableString(messageText);
+        spannableString.setSpan(new ForegroundColorSpan(colorLogo), 0, messageText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        builder.setTitle("Review Action")
+                .setMessage(spannableString)
+                .setPositiveButton("Approve", (dialog, which) -> {
+                    approveSelectedReview(selectedReview);
+                })
+                .setNegativeButton("Delete", (dialog, which) -> {
+                    deleteSelectedReview(selectedReview);
+                })
+                .setNeutralButton("Cancel", (dialog, which) -> {
+                    dialog.dismiss();
+                })
+                .show();
+    }
+
+    //TODO: NAMESTI NA BACKU APPROVAL KAKO TREBA
     private void approveSelectedReview(Review selectedReview) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        String formattedDateTime = selectedReview.getCreatedAt().format(formatter);
+        selectedReview.setCreatedAt(LocalDateTime.parse(formattedDateTime, formatter));
         Call<Review> call = reviewApi.updateReviewStatus(selectedReview.getId(), selectedReview);
         handleApprovalResponse(call, selectedReview);
     }
+
 
     private void deleteSelectedReview(Review selectedReview) {
         Call<Void> call;
@@ -139,9 +174,10 @@ public class ApproveReviews extends AppCompatActivity {
 
 
     //-------------------- HANDLE REPSPONSES
-
-
     private void handleApprovalResponse(Call<Review> call, Review selectedReview) {
+        selectedReview.setReviewStatus(ReviewStatus.APPROVED);
+        Log.d("Review", "JSON Payload: " + new Gson().toJson(selectedReview));
+
         call.enqueue(new Callback<Review>() {
             @Override
             public void onResponse(Call<Review> call, Response<Review> response) {
@@ -150,7 +186,7 @@ public class ApproveReviews extends AppCompatActivity {
                     reviewAdapter.remove(selectedReview);
                     Toast.makeText(ApproveReviews.this, "Review approval successful", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(ApproveReviews.this, "Failed to approve review", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ApproveReviews.this, "Approval not successful", Toast.LENGTH_SHORT).show();
                 }
             }
 

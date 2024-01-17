@@ -26,10 +26,8 @@ public class AccommodationApprovalAdapter extends ArrayAdapter<Accommodation> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.accommodation_approval_item, parent, false);
         }
 
-        // Get the current accommodation item
         Accommodation accommodation = getItem(position);
 
-        // Update the UI elements in the list item layout based on the accommodation data
         TextView headerTF = convertView.findViewById(R.id.accommodation_approval_item_header);
         TextView ownerTF = convertView.findViewById(R.id.accommodation_approval_item_owner);
         TextView typeTF = convertView.findViewById(R.id.accommodation_approval_item_type);

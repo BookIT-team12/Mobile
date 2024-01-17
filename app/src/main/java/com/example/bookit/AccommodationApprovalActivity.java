@@ -97,7 +97,6 @@ public class AccommodationApprovalActivity extends AppCompatActivity {
                     // Network error
                     Log.e("NetworkError", t.getMessage(), t);
                 } else if (call.isCanceled()) {
-                    // Request was cancelled
                     Log.e("RequestCancelled", "Request was cancelled");
                 } else {
                     // Other error

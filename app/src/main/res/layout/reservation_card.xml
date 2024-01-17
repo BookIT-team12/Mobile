@@ -23,7 +23,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="0dp"
             android:layout_marginTop="5dp"
-            android:text="Owner review"
+            android:text="Reservation details"
             android:textColor="@color/logo"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -63,34 +63,54 @@
                         android:src="@drawable/nav_person" />
 
                     <TextView
-                        android:id="@+id/ownerReview"
+                        android:id="@+id/resUsername"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Owner's name"
+                        android:text="Username"
                         android:textColor="@color/logo"
                         android:textSize="16sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/commentReview"
+                    android:id="@+id/resAccommodation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Comment: Review text" />
+                    android:text="Accommodation: Sunny Hill" />
 
                 <TextView
-                    android:id="@+id/gradeReview"
+                    android:id="@+id/resStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Grade: Review rating" />
+                    android:text="Reservation status: PENDING" />
 
                 <TextView
-                    android:id="@+id/authorReview"
+                    android:id="@+id/resPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Author: Review author" />
+                    android:text="Price: 80$" />
+
+                <TextView
+                    android:id="@+id/resGuests"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Number of guests: 5" />
+
+                <TextView
+                    android:id="@+id/resEnd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="End Date: 23-12-2023 15:30" />
+
+                <TextView
+                    android:id="@+id/resStart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Start Date: 13-12-2023 14:40" />
+
+
 
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-    </RelativeLayout>
+</RelativeLayout>
