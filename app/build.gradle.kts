@@ -56,11 +56,13 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     // https://mvnrepository.com/artifact/com.squareup.retrofit2/converter-gson
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.13.0")
 
     implementation("io.jsonwebtoken:jjwt-api:0.11.2")
     implementation("io.jsonwebtoken:jjwt-impl:0.11.2")
     implementation("io.jsonwebtoken:jjwt-jackson:0.11.2")
     implementation("com.nimbusds:nimbus-jose-jwt:9.3")
+    implementation("com.google.android.flexbox:flexbox:3.0.0")
 
 
 

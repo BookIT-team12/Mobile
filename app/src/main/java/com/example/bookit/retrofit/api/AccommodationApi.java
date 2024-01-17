@@ -27,9 +27,9 @@ public interface AccommodationApi {
     Call<List<Accommodation>> getAllApartments();
 
     @Multipart
-    @POST("/accommodations")
+    @POST("/api/accommodations")
     Call<Accommodation> createAccommodation(
-            @Part("accommodation") Accommodation accommodation,
+            @Part("accommodationDTO") Accommodation accommodation,
             @Part List<MultipartBody.Part> images
     );
 

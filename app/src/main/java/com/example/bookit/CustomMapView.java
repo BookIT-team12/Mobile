@@ -15,7 +15,7 @@ import org.osmdroid.views.overlay.Marker;
 
 public class CustomMapView extends MapView {
     private Marker marker;
-
+    private GeoPoint selectedGeoPoint;
     private GestureDetector gestureDetector;
 
     public CustomMapView(Context context) {
@@ -30,17 +30,12 @@ public class CustomMapView extends MapView {
         initializeMarker();
     }
 
-//    public CustomMapView(Context context, ITileSource tileSource) {
-//        super(context, tileSource);
-//        initializeGestureDetector(context);
-//    }
-
     private void initializeGestureDetector(Context context) {
         gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onDown(MotionEvent e) {
-                GeoPoint geoPoint = (GeoPoint) getProjection().fromPixels((int) e.getX(), (int) e.getY());
-                addMarker(geoPoint);
+                selectedGeoPoint = (GeoPoint) getProjection().fromPixels((int) e.getX(), (int) e.getY());
+                addMarker(selectedGeoPoint);
                 return true;
             }
         });
@@ -49,6 +44,7 @@ public class CustomMapView extends MapView {
 
     private void initializeMarker(){
         GeoPoint initialCenter = new GeoPoint(45.2671, 19.8335);
+        selectedGeoPoint = initialCenter;
         this.marker = new Marker(this);
         this.marker.setPosition(initialCenter);
         marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
@@ -73,18 +69,15 @@ public class CustomMapView extends MapView {
         invalidate(); // Redraw the map to show the new marker
     }
 
+    public GeoPoint getSelectedGeoPoint() {
+        return selectedGeoPoint;
+    }
+
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         // Let the GestureDetector handle the event before interception
         getParent().requestDisallowInterceptTouchEvent(true);
         gestureDetector.onTouchEvent(ev);
-
-//        // Only intercept the event if it's not an ACTION_DOWN
-//        if (ev.getAction() != MotionEvent.ACTION_DOWN) {
-            return super.onInterceptTouchEvent(ev);
-//        }
-
-        // Return false to allow the event to be passed down the view hierarchy
-//        return true;
+        return super.onInterceptTouchEvent(ev);
     }
 }

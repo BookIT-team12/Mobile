@@ -7,14 +7,14 @@ import com.example.bookit.model.enums.BookingConfirmationType;
 import java.util.List;
 
 public class Accommodation {
-    private int id;
-    private User owner;
+    private Integer id;
+    private String ownerEmail;
     private AccommodationType accommodationType;
     private String description;
     private String name;
     private int minGuests;
     private int maxGuests;
-    private List<Amenity> amenities;
+    private List<Integer> amenities;
     private List<ReviewAccommodation> reviews;
     private List<Reservation> reservations;
     private BookingConfirmationType bookingConfirmationType;
@@ -30,12 +30,12 @@ public class Accommodation {
         this.id = id;
     }
 
-    public User getOwner() {
-        return owner;
+    public String getOwnerEmail() {
+        return ownerEmail;
     }
 
-    public void setOwner(User owner) {
-        this.owner = owner;
+    public void setOwnerEmail(String ownerEmail) {
+        this.ownerEmail = ownerEmail;
     }
 
     public AccommodationType getAccommodationType() {
@@ -78,11 +78,11 @@ public class Accommodation {
         this.maxGuests = maxGuests;
     }
 
-    public List<Amenity> getAmenities() {
+    public List<Integer> getAmenities() {
         return amenities;
     }
 
-    public void setAmenities(List<Amenity> amenities) {
+    public void setAmenities(List<Integer> amenities) {
         this.amenities = amenities;
     }
 
@@ -148,13 +148,13 @@ public class Accommodation {
     // Constructors, getters, and setters
 
     // Example constructor (you may need to create other constructors)
-    public Accommodation(int id, User owner, AccommodationType accommodationType, String description, String name,
-                         int minGuests, int maxGuests, List<Amenity> amenities, List<ReviewAccommodation> reviews,
+    public Accommodation(Integer id, String owner, AccommodationType accommodationType, String description, String name,
+                         int minGuests, int maxGuests, List<Integer> amenities, List<ReviewAccommodation> reviews,
                          List<Reservation> reservations, BookingConfirmationType bookingConfirmationType,
                          AccommodationStatus accommodationStatus, List<AvailabilityPeriod> availabilityPeriods,
                          String imagesFolder, Location location, boolean isFavorite) {
         this.id = id;
-        this.owner = owner;
+        this.ownerEmail = owner;
         this.accommodationType = accommodationType;
         this.description = description;
         this.name = name;

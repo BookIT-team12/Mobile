@@ -3,9 +3,11 @@ package com.example.bookit.retrofit;
 import android.content.Context;
 
 import com.example.bookit.security.ApiInterceptor;
+import com.example.bookit.utils.LocalDateTimeTypeAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -40,9 +42,12 @@ public class RetrofitService {
                 .readTimeout(15, TimeUnit.MINUTES)
                 .writeTimeout(15, TimeUnit.MINUTES)
                 .build();
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeTypeAdapter())
+                .create();
         this.retrofit = new Retrofit.Builder()
                 .baseUrl("http://192.168.0.22:8080")
-                .addConverterFactory(GsonConverterFactory.create(new Gson()))
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(client)
                 .build();
     }

@@ -45,23 +45,13 @@ public class UserTokenService {
         }
     }
 
-    public User getCurrentUser(UserTokenState jwtToken) throws ParseException {     //could cause errors, caase it could return currentUser before userApi.getUser() sets it.
+    public String getCurrentUser(UserTokenState jwtToken) throws ParseException {     //could cause errors, caase it could return currentUser before userApi.getUser() sets it.
         JWT jwt = JWTParser.parse(jwtToken.getAccessToken());
 
         // Get JWT Claims
         JWTClaimsSet jwtClaimsSet = jwt.getJWTClaimsSet();
         String username = jwtClaimsSet.getSubject();
-        userApi.getUser(username).enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                currentUser = response.body();
-            }
+        return username;
 
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                currentUser = null;
-            }
-        });
-        return currentUser;
     }
 }
