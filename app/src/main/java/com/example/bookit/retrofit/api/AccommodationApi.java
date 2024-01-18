@@ -3,9 +3,9 @@ package com.example.bookit.retrofit.api;
 import android.util.Pair;
 
 import com.example.bookit.model.Accommodation;
+import com.example.bookit.model.ResponseAccommodationImages;
 
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -14,8 +14,8 @@ import java.util.Optional;
 
 public interface AccommodationApi {
 
-    @GET("/accommodations/{id}")
-    Call<Pair<Optional<Accommodation>, List<byte[]>>> viewAccommodationDetails(@Path("id") int id);
+    @GET("/api/accommodations/{id}")
+    Call<ResponseAccommodationImages> viewAccommodationDetails(@Path("id") int id);
 
     @GET("/accommodations/owner/{ownerEmail}")
     Call<List<Accommodation>> getOwnerAccommodations(@Path("ownerEmail") String ownerEmail);

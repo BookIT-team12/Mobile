@@ -46,6 +46,8 @@ dependencies {
     implementation ("androidx.preference:preference:1.2.1")
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("androidx.navigation:navigation-fragment:2.7.5")
+    implementation("androidx.navigation:navigation-ui:2.7.5")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     implementation ("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2")
@@ -63,6 +65,8 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt-jackson:0.11.2")
     implementation("com.nimbusds:nimbus-jose-jwt:9.3")
     implementation("com.google.android.flexbox:flexbox:3.0.0")
+    implementation("androidx.cardview:cardview:1.0.0")
+
 
 
 

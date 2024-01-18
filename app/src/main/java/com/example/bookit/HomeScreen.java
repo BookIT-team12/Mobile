@@ -24,6 +24,7 @@ public class HomeScreen extends AppCompatActivity {
     private LinearLayout manageAccount;
     private LinearLayout logout;
     private LinearLayout favorites;
+    private LinearLayout placesVisited;
 
     private LinearLayout addAccommodation;
 
@@ -55,6 +56,12 @@ public class HomeScreen extends AppCompatActivity {
             home = findViewById(R.id.home_host);
             logout = findViewById(R.id.logout_host);
             addAccommodation=findViewById(R.id.add_accommodation);
+            addAccommodation.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    redirectActivity(HomeScreen.this, AddAccommodation.class);
+                }
+            });
 
         }
         else {
@@ -62,6 +69,13 @@ public class HomeScreen extends AppCompatActivity {
             logout = findViewById(R.id.logout);
             manageAccount = findViewById(R.id.account_details);
             home = findViewById(R.id.home);
+            placesVisited = findViewById(R.id.user_reviews);
+            placesVisited.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    redirectActivity(HomeScreen.this, PlacesVisitedActivity.class);
+                }
+            });
         }
 
         drawerLayout = findViewById(R.id.drawerLayout);
@@ -98,12 +112,8 @@ public class HomeScreen extends AppCompatActivity {
             }
         });
 
-        addAccommodation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                redirectActivity(HomeScreen.this, AddAccommodation.class);
-            }
-        });
+
+
 
 //        approveAccommodations.setOnClickListener(new View.OnClickListener() {
 //            @Override

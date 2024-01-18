@@ -33,6 +33,7 @@ import com.example.bookit.model.Accommodation;
 import com.example.bookit.model.AvailabilityPeriod;
 import com.example.bookit.model.Location;
 import com.example.bookit.model.Reservation;
+import com.example.bookit.model.Review;
 import com.example.bookit.model.enums.AccommodationStatus;
 import com.example.bookit.model.enums.AccommodationType;
 import com.example.bookit.model.enums.BookingConfirmationType;
@@ -404,7 +405,7 @@ public class AddAccommodation extends AppCompatActivity {
         List<AvailabilityPeriod> periodsVal = new ArrayList<>();
         periodsVal.add(new AvailabilityPeriod(startDate, endDate, priceVal));
         List<Reservation> reservations = new ArrayList<>();
-        List<ReviewAccommodation> reviews = new ArrayList<>();
+        List<Review> reviews = new ArrayList<>();
         Accommodation toSubmit = new Accommodation(null, owner, typeVal, descriptionVal, nameVal, minGuestsVal, maxGuestsVal,
                 amenitiesVal, reviews, reservations, confirmationTypeVal, AccommodationStatus.PENDING,
                 periodsVal, null, locationVal, false);

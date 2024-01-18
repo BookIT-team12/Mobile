@@ -15,7 +15,7 @@ public class Accommodation {
     private int minGuests;
     private int maxGuests;
     private List<Integer> amenities;
-    private List<ReviewAccommodation> reviews;
+    private List<Review> reviews;
     private List<Reservation> reservations;
     private BookingConfirmationType bookingConfirmationType;
     private AccommodationStatus accommodationStatus;
@@ -86,11 +86,11 @@ public class Accommodation {
         this.amenities = amenities;
     }
 
-    public List<ReviewAccommodation> getReviews() {
+    public List<Review> getReviews() {
         return reviews;
     }
 
-    public void setReviews(List<ReviewAccommodation> reviews) {
+    public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
     }
 
@@ -149,7 +149,7 @@ public class Accommodation {
 
     // Example constructor (you may need to create other constructors)
     public Accommodation(Integer id, String owner, AccommodationType accommodationType, String description, String name,
-                         int minGuests, int maxGuests, List<Integer> amenities, List<ReviewAccommodation> reviews,
+                         int minGuests, int maxGuests, List<Integer> amenities, List<Review> reviews,
                          List<Reservation> reservations, BookingConfirmationType bookingConfirmationType,
                          AccommodationStatus accommodationStatus, List<AvailabilityPeriod> availabilityPeriods,
                          String imagesFolder, Location location, boolean isFavorite) {
