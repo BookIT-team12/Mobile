@@ -24,7 +24,6 @@ import java.util.Optional;
 
 public class PlacesVisitedActivity extends AppCompatActivity implements PlacesVisitedLoading.MyCallback {
 
-    List<Accommodation> allPlacesVisited;
     UserTokenService userTokenService;
     List<ResponseAccommodationImages> placesVisited;
     Map<Integer, Boolean> containingMap;
@@ -48,11 +47,6 @@ public class PlacesVisitedActivity extends AppCompatActivity implements PlacesVi
         }
 
 
-    }
-
-    private void showSnackbar(String message) {
-        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT);
-        snackbar.show();
     }
 
     @Override

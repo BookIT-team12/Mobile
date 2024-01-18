@@ -1,5 +1,6 @@
 package com.example.bookit.utils;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Picture;
@@ -16,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bookit.R;
+import com.example.bookit.ReviewOwnerActivity;
 import com.example.bookit.model.ResponseAccommodationImages;
 
 import java.util.List;
@@ -40,7 +42,6 @@ public class AccommodationRecycleViewAdapter extends RecyclerView.Adapter<Accomm
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Log.d("Adapter", "onBindViewHolder called for position: " + position);
         ResponseAccommodationImages accommodation = accommodationList.get(position);
         Boolean canReviewAccommodation = containing.get(accommodation.getFirst().getId());
         // Bind data to the views
@@ -57,7 +58,12 @@ public class AccommodationRecycleViewAdapter extends RecyclerView.Adapter<Accomm
         holder.image.setImageBitmap(bitmap);
 
         holder.reviewOwnerBtn.setOnClickListener(view -> {
-            //start review owner activity
+            // Start ReviewOwnerActivity
+            Intent intent = new Intent(view.getContext(), ReviewOwnerActivity.class);
+            // If you need to pass any data to the ReviewOwnerActivity, you can use putExtra here
+             intent.putExtra("owner", accommodation.getFirst().getOwnerEmail());
+
+            view.getContext().startActivity(intent);
         });
 
         holder.reviewAccommodationBtn.setOnClickListener(view -> {

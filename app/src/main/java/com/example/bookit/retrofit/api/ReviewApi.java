@@ -5,6 +5,7 @@ import com.example.bookit.model.Review;
 import java.util.List;
 import java.util.Optional;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -21,7 +22,7 @@ public interface ReviewApi {
     Call<Review> updateReviewStatus(@Body Review review, @Path("id") int id);
 
     @DELETE("/api/reviews/owner/{id}")
-    Call<String> deleteOwnerReview(@Path("id") int id);
+    Call<ResponseBody> deleteOwnerReview(@Path("id") int id);
 
     @DELETE("/api/reviews/accommodation/{id}")
     Call<String> deleteAccommodationReview(@Path("id") int id);
@@ -33,7 +34,7 @@ public interface ReviewApi {
     Call<List<Optional<Review>>> getAllReviewsOnOwnerAccommodations(@Path("email") String email);
 
     @GET("/api/reviews/authorReviews/owners/{email}")
-    Call<List<Optional<Review>>> getReviewsOwnerByAuthor(@Path("email") String email);
+    Call<List<Review>> getReviewsOwnerByAuthor(@Path("email") String email);
 
     @GET("/api/reviews/authorReviews/accommodations/{email}")
     Call<List<Optional<Review>>> getReviewsAccommodationByAuthor(@Path("email") String email);
