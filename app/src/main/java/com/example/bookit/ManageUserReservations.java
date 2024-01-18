@@ -75,11 +75,13 @@ public class ManageUserReservations extends AppCompatActivity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.approve_dialog, null);
-        TextView dialogText=findViewById(R.id.dialogTextViewMessage);
-        dialogText.setText("Do you want to approve or deny this reservation?");
+
+        // Inflate layout before finding views
         builder.setView(view);
 
         TextView dialogTextViewMessage = view.findViewById(R.id.dialogTextViewMessage);
+        dialogTextViewMessage.setText("Do you want to approve or deny this reservation?");
+
         Button dialogBtnApprove = view.findViewById(R.id.dialogBtnApprove);
         Button dialogBtnDeny = view.findViewById(R.id.dialogBtnDeny);
 
@@ -94,9 +96,11 @@ public class ManageUserReservations extends AppCompatActivity {
             dialog.dismiss();
             denyReservation(reservation);
         });
+
         Log.d("Dialog", "Showing dialog");
         dialog.show();
     }
+
 
     private void approveReservation(Reservation reservation) {
         Call<Void> call = reservationApi.changeReservationStatus(2,reservation);
@@ -133,6 +137,7 @@ public class ManageUserReservations extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Reservation>> call, Response<List<Reservation>> response) {
                 if (response.isSuccessful()) {
+                    updateAdapter(response);
                     Toast.makeText(ManageUserReservations.this, successMessage, Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(ManageUserReservations.this, "Failed to fetch reservations!", Toast.LENGTH_SHORT).show();
@@ -145,6 +150,14 @@ public class ManageUserReservations extends AppCompatActivity {
             }
         });
     }
+
+    public void updateAdapter(Response<List<Reservation>> response){
+        reservationAdapter.clear();
+        reservationAdapter.addAll(response.body());
+        reservationAdapter.notifyDataSetChanged();
+    }
+
+
 
     private void fetchExistingOwnersReservations(String ownerEmail){
         Call<List<Reservation>> call=reservationApi.getOwnerReservations(ownerEmail);

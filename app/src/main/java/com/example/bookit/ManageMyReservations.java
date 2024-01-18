@@ -73,39 +73,39 @@ import retrofit2.Retrofit;
     }
 
      //------------- CANCEL A RESERVATION
-    public void showCancelDialog(Reservation reservation){
-        Log.d("Dialog", "Preparing to show dialog");
+     public void showCancelDialog(Reservation reservation) {
+         Log.d("Dialog", "Preparing to show dialog");
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View view = getLayoutInflater().inflate(R.layout.approve_dialog, null);
-        TextView dialogText=findViewById(R.id.dialogTextViewMessage);
-        dialogText.setText("Are you sure you want to cancel this reservation?");
+         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+         View view = getLayoutInflater().inflate(R.layout.approve_dialog, null);
 
-        builder.setView(view);
+         // Find TextView in the inflated view
+         TextView dialogText = view.findViewById(R.id.dialogTextViewMessage);
+         dialogText.setText("Are you sure you want to cancel this reservation?");
 
-        TextView dialogTextViewMessage = view.findViewById(R.id.dialogTextViewMessage);
-        Button dialogBtnApprove = view.findViewById(R.id.dialogBtnApprove);
-        dialogBtnApprove.setText("Yes");
-        Button dialogBtnDeny = view.findViewById(R.id.dialogBtnDeny);
-        dialogBtnDeny.setText("No");
+         builder.setView(view);
 
-        AlertDialog dialog = builder.create();
+         Button dialogBtnApprove = view.findViewById(R.id.dialogBtnApprove);
+         dialogBtnApprove.setText("Yes");
+         Button dialogBtnDeny = view.findViewById(R.id.dialogBtnDeny);
+         dialogBtnDeny.setText("No");
 
-        dialogBtnApprove.setOnClickListener(v -> {
+         AlertDialog dialog = builder.create();
 
-            dialog.dismiss();
-            CancelUserReservation(reservation);
-        });
+         dialogBtnApprove.setOnClickListener(v -> {
+             dialog.dismiss();
+             cancelUserReservation(reservation);
+         });
 
-        dialogBtnDeny.setOnClickListener(v -> {
+         dialogBtnDeny.setOnClickListener(v -> {
+             dialog.dismiss();
+         });
 
-            dialog.dismiss();
-        });
-        Log.d("Dialog", "Showing dialog");
-        dialog.show();
-    }
+         Log.d("Dialog", "Showing dialog");
+         dialog.show();
+     }
 
-     public void CancelUserReservation(Reservation reservation){
+     public void cancelUserReservation(Reservation reservation){
          Call<Void> call = reservationApi.changeReservationStatus(3,reservation);
          handleReservationResponse(call, "Reservation canceled successfully");}
 
@@ -135,6 +135,7 @@ import retrofit2.Retrofit;
              public void onResponse(Call<List<Reservation>> call, Response<List<Reservation>> response) {
                  if (response.isSuccessful()) {
                      Toast.makeText(ManageMyReservations.this, successMessage, Toast.LENGTH_SHORT).show();
+                     updateAdapter(response);
                  } else {
                      Toast.makeText(ManageMyReservations.this, "Failed to fetch reservations!", Toast.LENGTH_SHORT).show();
                  }
@@ -146,4 +147,10 @@ import retrofit2.Retrofit;
              }
          });
      }
+
+    public void updateAdapter(Response<List<Reservation>> response){
+        reservationAdapter.clear();
+        reservationAdapter.addAll(response.body());
+        reservationAdapter.notifyDataSetChanged();
+    }
 }
