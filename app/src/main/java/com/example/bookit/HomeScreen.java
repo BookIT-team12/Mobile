@@ -17,6 +17,8 @@ import com.example.bookit.model.User;
 import com.example.bookit.retrofit.RetrofitService;
 import com.example.bookit.retrofit.api.UserApi;
 
+import org.mapsforge.map.rendertheme.renderinstruction.Line;
+
 import java.util.Map;
 
 import retrofit2.Call;
@@ -25,6 +27,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 import com.example.bookit.app.AppPreferences;
+import com.example.bookit.security.UserTokenService;
 
 public class HomeScreen extends AppCompatActivity {
 
@@ -40,6 +43,10 @@ public class HomeScreen extends AppCompatActivity {
     private LinearLayout approveReviews;
 
     private LinearLayout addAccommodation;
+
+    private LinearLayout manageGuestReservations;
+
+    private LinearLayout manageMyReservations;
 
     private LinearLayout blockUsers;
     private LinearLayout approveAccommodations;
@@ -62,11 +69,28 @@ public class HomeScreen extends AppCompatActivity {
 
         String role = getIntent().getStringExtra("ROLE");
 
-
-        retrofit=new RetrofitService(getApplicationContext()).getRetrofit();
-        userApi = new RetrofitService(getApplicationContext()).getRetrofit().create(UserApi.class);
-
+        setupRetrofit();
         currentUserEmail=getIntent().getStringExtra("USER_EMAIL");
+        getUserData(currentUserEmail);
+
+        setUpCommonUI();
+        if ("admin".equals(role)) {
+            setUpAdminUI();
+        }
+        else if ("owner".equals(role)) {
+            setUpHostUI();
+        }
+        else {
+            setUpGuestUI();
+        }
+    }
+
+    private void setupRetrofit() {
+        retrofit = new RetrofitService(getApplicationContext()).getRetrofit();
+        userApi = retrofit.create(UserApi.class);
+    }
+
+    public void getUserData(String currentUserEmail){
         userApi.getUser(currentUserEmail).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
@@ -78,76 +102,78 @@ public class HomeScreen extends AppCompatActivity {
                 currentUser = null;
             }
         });
+    }
+
+    public void setUpAdminUI(){
+        includeNavDrawer(R.layout.nav_drawer_admin);
+        manageAccount = findViewById(R.id.account_details_admin);
+        home = findViewById(R.id.home_admin);
+        logout = findViewById(R.id.logout_admin);
+        approveAccommodations=findViewById(R.id.manage_apartments);
+        blockUsers=findViewById(R.id.manage_accounts);
+        approveReviews=findViewById(R.id.manage_reviews);
 
 
-        if ("admin".equals(role)) {
-
-            includeNavDrawer(R.layout.nav_drawer_admin);
-            manageAccount = findViewById(R.id.account_details_admin);
-            home = findViewById(R.id.home_admin);
-            logout = findViewById(R.id.logout_admin);
-            approveAccommodations=findViewById(R.id.manage_apartments);
-            blockUsers=findViewById(R.id.manage_accounts);
-            approveReviews=findViewById(R.id.manage_reviews);
-
-
-            approveAccommodations.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    redirectActivity(HomeScreen.this, AccommodationApprovalActivity.class);
-                }
-            });
-
-            approveReviews.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    redirectActivity(HomeScreen.this, ApproveReviews.class);
-                }
-            });
-
-            blockUsers.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    redirectActivity(HomeScreen.this, BlockUsers.class);
-                }
-            });
-
-        }
-        else if ("owner".equals(role)) {
-
-            includeNavDrawer(R.layout.nav_drawer_host);
-            manageAccount = findViewById(R.id.account_details_host);
-            home = findViewById(R.id.home_host);
-            logout = findViewById(R.id.logout_host);
-            addAccommodation=findViewById(R.id.add_accommodation);
-            manageAccommodations=findViewById(R.id.manage_my_apartments);
-
-
-            manageAccommodations.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(HomeScreen.this, ManageAccommodations.class);
-                    intent.putExtra("USER_VALUE", currentUser);
-                    startActivity(intent);
-                }
-            });
-
-        }
-        else {
-            includeNavDrawer(R.layout.nav_drawer_guest);
-            logout = findViewById(R.id.logout);
-            manageAccount = findViewById(R.id.account_details);
-            home = findViewById(R.id.home);
-        }
-
-        drawerLayout = findViewById(R.id.drawerLayout);
-        menu = findViewById(R.id.menu);
-        deleteAccount=findViewById(R.id.deleteAccount);
-
-        menu.setOnClickListener(new View.OnClickListener() {
+        approveAccommodations.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openDrawer(drawerLayout);
+                redirectActivity(HomeScreen.this, AccommodationApprovalActivity.class);
+            }
+        });
+
+        approveReviews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                redirectActivity(HomeScreen.this, ApproveReviews.class);
+            }
+        });
+
+        blockUsers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                redirectActivity(HomeScreen.this, BlockUsers.class);
+            }
+        });
+
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recreate();
+            }
+        });
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppPreferences.deleteToken(getApplicationContext());
+                redirectActivity(HomeScreen.this, LoginScreen.class);
+            }
+
+        });
+
+        manageAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeScreen.this, ManageAccount.class);
+                intent.putExtra("USER_VALUE", currentUser);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    public void setUpGuestUI(){
+        includeNavDrawer(R.layout.nav_drawer_guest);
+        logout = findViewById(R.id.logout);
+        manageAccount = findViewById(R.id.account_details);
+        home = findViewById(R.id.home);
+        manageMyReservations=findViewById(R.id.manage_my_reservations);
+
+        manageMyReservations.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeScreen.this, ManageMyReservations.class);
+                intent.putExtra("USER_VALUE", currentUser);
+                startActivity(intent);
             }
         });
 
@@ -167,12 +193,26 @@ public class HomeScreen extends AppCompatActivity {
 
         });
 
-        //        addAccommodation.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                redirectActivity(HomeScreen.this, AddAccommodation.class);
-//            }
-//        });
+        manageAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeScreen.this, ManageAccount.class);
+                intent.putExtra("USER_VALUE", currentUser);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    public void setUpHostUI(){
+        includeNavDrawer(R.layout.nav_drawer_host);
+        manageAccount = findViewById(R.id.account_details_host);
+        home = findViewById(R.id.home_host);
+        logout = findViewById(R.id.logout_host);
+        addAccommodation=findViewById(R.id.add_accommodation);
+        manageAccommodations=findViewById(R.id.manage_my_apartments);
+        manageGuestReservations=findViewById(R.id.manage_reservations);
+
 
         manageAccount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,6 +220,54 @@ public class HomeScreen extends AppCompatActivity {
                 Intent intent = new Intent(HomeScreen.this, ManageAccount.class);
                 intent.putExtra("USER_VALUE", currentUser);
                 startActivity(intent);
+            }
+        });
+
+
+        manageAccommodations.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeScreen.this, UpdateAccommodation.class);
+                intent.putExtra("USER_VALUE", currentUser);
+                startActivity(intent);
+            }
+        });
+
+        manageGuestReservations.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeScreen.this, ManageUserReservations.class);
+                intent.putExtra("USER_VALUE", currentUser);
+                startActivity(intent);
+            }
+        });
+
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recreate();
+            }
+        });
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppPreferences.deleteToken(getApplicationContext());
+                redirectActivity(HomeScreen.this, LoginScreen.class);
+            }
+
+        });
+
+    }
+
+    public void setUpCommonUI(){
+        drawerLayout = findViewById(R.id.drawerLayout);
+        menu = findViewById(R.id.menu);
+        deleteAccount=findViewById(R.id.deleteAccount);
+
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDrawer(drawerLayout);
             }
         });
 
