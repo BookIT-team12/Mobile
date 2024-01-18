@@ -3,6 +3,7 @@
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,16 +13,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bookit.model.Reservation;
+import com.example.bookit.model.User;
 import com.example.bookit.retrofit.RetrofitService;
 import com.example.bookit.retrofit.api.ReservationApi;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
+//TODO: NAMESTI PROSLEDJIVANJE ID-A ULOGOVANOG USERA!
  public class ManageMyReservations extends AppCompatActivity {
 
 
@@ -31,6 +35,8 @@ import retrofit2.Retrofit;
      private Retrofit retrofit;
 
      private ReservationAdapter reservationAdapter;
+
+     private User guest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +56,23 @@ import retrofit2.Retrofit;
             Reservation selectedReservation = reservationAdapter.getItem(position);
             showCancelDialog(selectedReservation);
         });
+
+
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra("USER_VALUE")) {
+            guest = (User) intent.getSerializableExtra("USER_VALUE");
+        }
+
+        fetchUserReservations(guest.getEmail());
     }
 
 
-    private void fetchUserReservations(){}
+    private void fetchUserReservations(String userID){
+        Call<List<Reservation>> call=reservationApi.getGuestReservations(userID);
+        handleGuestReservationsResponse(call, "Successfully fetched reservations");
+    }
+
+     //------------- CANCEL A RESERVATION
     public void showCancelDialog(Reservation reservation){
         Log.d("Dialog", "Preparing to show dialog");
 
@@ -87,17 +106,18 @@ import retrofit2.Retrofit;
     }
 
      public void CancelUserReservation(Reservation reservation){
-         Call<Void> call = reservationApi.cancelReservation(reservation.getId());
+         Call<Void> call = reservationApi.changeReservationStatus(3,reservation);
          handleReservationResponse(call, "Reservation canceled successfully");}
 
 
+     //------------------------- HANDLE CALLS
      private void handleReservationResponse(Call<Void> call, String successMessage) {
          call.enqueue(new Callback<Void>() {
              @Override
              public void onResponse(Call<Void> call, Response<Void> response) {
                  if (response.isSuccessful()) {
                      Toast.makeText(ManageMyReservations.this, successMessage, Toast.LENGTH_SHORT).show();
-                     fetchUserReservations();
+                     fetchUserReservations(guest.getEmail());
                  } else {
                      Toast.makeText(ManageMyReservations.this, "Failed to process a reservation! Cancel not successful!", Toast.LENGTH_SHORT).show();
                  }
@@ -106,6 +126,23 @@ import retrofit2.Retrofit;
              @Override
              public void onFailure(Call<Void> call, Throwable t) {
                  Toast.makeText(ManageMyReservations.this, "Cancel failed!", Toast.LENGTH_SHORT).show();
+             }
+         });
+     }
+     private void handleGuestReservationsResponse(Call<List<Reservation>> call, String successMessage) {
+         call.enqueue(new Callback<List<Reservation>>() {
+             @Override
+             public void onResponse(Call<List<Reservation>> call, Response<List<Reservation>> response) {
+                 if (response.isSuccessful()) {
+                     Toast.makeText(ManageMyReservations.this, successMessage, Toast.LENGTH_SHORT).show();
+                 } else {
+                     Toast.makeText(ManageMyReservations.this, "Failed to fetch reservations!", Toast.LENGTH_SHORT).show();
+                 }
+             }
+
+             @Override
+             public void onFailure(Call<List<Reservation>> call, Throwable t) {
+                 Toast.makeText(ManageMyReservations.this, "Couldn't fetch reservations!", Toast.LENGTH_SHORT).show();
              }
          });
      }
