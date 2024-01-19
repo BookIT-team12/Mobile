@@ -227,7 +227,7 @@ public class HomeScreen extends AppCompatActivity {
         manageAccommodations.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomeScreen.this, UpdateAccommodation.class);
+                Intent intent = new Intent(HomeScreen.this, ManageAccommodations.class);
                 intent.putExtra("USER_VALUE", currentUser);
                 startActivity(intent);
             }
