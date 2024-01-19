@@ -31,6 +31,7 @@ public class HomeScreen extends AppCompatActivity {
     private LinearLayout addAccommodation;
     private LinearLayout reportReviewsAccommodation;
     private LinearLayout reportReviewsOwner;
+    private LinearLayout ownerReportUser;
 
     private LinearLayout blockUsers;
     private LinearLayout approveAccommodations;
@@ -62,6 +63,7 @@ public class HomeScreen extends AppCompatActivity {
             addAccommodation=findViewById(R.id.add_accommodation);
             reportReviewsAccommodation = findViewById(R.id.manage_user_comments_on_owner_accommodations);
             reportReviewsOwner = findViewById(R.id.manage_user_comments_on_owner);
+            ownerReportUser = findViewById(R.id.owner_report_user);
             addAccommodation.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -81,6 +83,13 @@ public class HomeScreen extends AppCompatActivity {
                     redirectActivity(HomeScreen.this, OwnerReportReviewOwner.class);
                 }
             });
+            ownerReportUser.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    redirectActivity(HomeScreen.this, OwnerReportGuest.class);
+                }
+            });
+
         }
         else {
             includeNavDrawer(R.layout.nav_drawer_guest);
