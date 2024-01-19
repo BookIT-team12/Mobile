@@ -22,6 +22,8 @@ public interface AccommodationApi {
 
     @GET("/accommodations/pending")
     Call<List<Accommodation>> getPendingAccommodations();
+    @GET("/api/accommodations/name/{id}")
+    Call<String> getNameById(@Path("id") int id);
 
     @GET("/accommodations")
     Call<List<Accommodation>> getAllApartments();

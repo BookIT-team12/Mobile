@@ -27,6 +27,17 @@
         tools:remove="android:appComponentFactory"
         tools:targetApi="31">
         <activity
+            android:name=".OwnerReportGuest"
+            android:exported="false" />
+        <activity
+            android:name=".OwnerReportReviewAccommodation"
+            android:exported="false"
+            android:label="@string/title_activity_owner_report_review_accommodation"
+            android:theme="@style/Theme.V2" />
+        <activity
+            android:name=".OwnerReportReviewOwner"
+            android:exported="false" />
+        <activity
             android:name=".ReviewAccommodationActivity"
             android:exported="false" />
         <activity

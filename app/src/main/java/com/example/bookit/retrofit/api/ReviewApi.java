@@ -28,10 +28,10 @@ public interface ReviewApi {
     Call<ResponseBody> deleteAccommodationReview(@Path("id") int id);
 
     @GET("/api/reviews/ownerReviews/{email}")
-    Call<List<Optional<Review>>> getAllReviewsForOwner(@Path("email") String email);
+    Call<List<Review>> getAllReviewsForOwner(@Path("email") String email);
 
     @GET("/api/reviews/ownersAccommodationReviews/{email}")
-    Call<List<Optional<Review>>> getAllReviewsOnOwnerAccommodations(@Path("email") String email);
+    Call<List<Review>> getAllReviewsOnOwnerAccommodations(@Path("email") String email);
 
     @GET("/api/reviews/authorReviews/owners/{email}")
     Call<List<Review>> getReviewsOwnerByAuthor(@Path("email") String email);

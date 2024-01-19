@@ -16,6 +16,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.example.bookit.app.AppPreferences;
 import com.example.bookit.security.UserTokenService;
 
+import org.mapsforge.map.rendertheme.renderinstruction.Line;
+
 public class HomeScreen extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
@@ -27,6 +29,8 @@ public class HomeScreen extends AppCompatActivity {
     private LinearLayout placesVisited;
 
     private LinearLayout addAccommodation;
+    private LinearLayout reportReviewsAccommodation;
+    private LinearLayout reportReviewsOwner;
 
     private LinearLayout blockUsers;
     private LinearLayout approveAccommodations;
@@ -56,6 +60,8 @@ public class HomeScreen extends AppCompatActivity {
             home = findViewById(R.id.home_host);
             logout = findViewById(R.id.logout_host);
             addAccommodation=findViewById(R.id.add_accommodation);
+            reportReviewsAccommodation = findViewById(R.id.manage_user_comments_on_owner_accommodations);
+            reportReviewsOwner = findViewById(R.id.manage_user_comments_on_owner);
             addAccommodation.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -63,6 +69,18 @@ public class HomeScreen extends AppCompatActivity {
                 }
             });
 
+            reportReviewsAccommodation.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    redirectActivity(HomeScreen.this, OwnerReportReviewAccommodation.class);
+                }
+            });
+            reportReviewsOwner.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    redirectActivity(HomeScreen.this, OwnerReportReviewOwner.class);
+                }
+            });
         }
         else {
             includeNavDrawer(R.layout.nav_drawer_guest);
