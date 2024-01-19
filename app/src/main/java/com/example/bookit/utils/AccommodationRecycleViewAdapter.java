@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bookit.R;
+import com.example.bookit.ReviewAccommodationActivity;
 import com.example.bookit.ReviewOwnerActivity;
 import com.example.bookit.model.ResponseAccommodationImages;
 
@@ -67,9 +68,10 @@ public class AccommodationRecycleViewAdapter extends RecyclerView.Adapter<Accomm
         });
 
         holder.reviewAccommodationBtn.setOnClickListener(view -> {
-            //start review accommodation activity
+            Intent intent = new Intent(view.getContext(), ReviewAccommodationActivity.class);
+            intent.putExtra("accommodationId", accommodation.getFirst().getId());
+            view.getContext().startActivity(intent);
         });
-        // Add more bindings for other basic information
     }
 
     @Override

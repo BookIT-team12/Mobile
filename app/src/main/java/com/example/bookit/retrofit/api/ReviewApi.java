@@ -25,7 +25,7 @@ public interface ReviewApi {
     Call<ResponseBody> deleteOwnerReview(@Path("id") int id);
 
     @DELETE("/api/reviews/accommodation/{id}")
-    Call<String> deleteAccommodationReview(@Path("id") int id);
+    Call<ResponseBody> deleteAccommodationReview(@Path("id") int id);
 
     @GET("/api/reviews/ownerReviews/{email}")
     Call<List<Optional<Review>>> getAllReviewsForOwner(@Path("email") String email);
@@ -37,7 +37,7 @@ public interface ReviewApi {
     Call<List<Review>> getReviewsOwnerByAuthor(@Path("email") String email);
 
     @GET("/api/reviews/authorReviews/accommodations/{email}")
-    Call<List<Optional<Review>>> getReviewsAccommodationByAuthor(@Path("email") String email);
+    Call<List<Review>> getReviewsAccommodationByAuthor(@Path("email") String email);
 
     @GET("/api/reviews/averageGrade/owner/{email}")
     Call<Double> getOwnerAverageGrade(@Path("email") String email);

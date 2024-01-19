@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
@@ -13,15 +14,18 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.bookit.app.AppPreferences;
+import com.example.bookit.model.Accommodation;
+import com.example.bookit.model.ResponseAccommodationImages;
 import com.example.bookit.model.Review;
-import com.example.bookit.model.User;
 import com.example.bookit.model.enums.ReviewStatus;
 import com.example.bookit.retrofit.RetrofitService;
+import com.example.bookit.retrofit.api.AccommodationApi;
 import com.example.bookit.retrofit.api.ReviewApi;
-import com.example.bookit.retrofit.api.UserApi;
 import com.example.bookit.security.UserTokenService;
-import com.example.bookit.utils.asyncTasks.FetchOwnerReviewsTask;
-import com.example.bookit.utils.ReviewOwnerRecycleViewAdapter;
+import com.example.bookit.utils.asyncTasks.FetchAccommodationForReviewTask;
+import com.example.bookit.utils.asyncTasks.FetchAccommodationReviewsTask;
+import com.example.bookit.utils.ReviewAccommodationRecycleViewAdapter;
+import com.example.bookit.utils.asyncTasks.FetchAverageAccommodatioGradeTask;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.text.ParseException;
@@ -33,51 +37,55 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ReviewOwnerActivity extends AppCompatActivity {
+public class ReviewAccommodationActivity extends AppCompatActivity {
+
     private RecyclerView recyclerView;
-    private ReviewOwnerRecycleViewAdapter adapter;
+    private ReviewAccommodationRecycleViewAdapter adapter;
     private List<Review> allAuthorReviews;
     private ReviewApi api;
-    private UserApi userApi;
-    Button submitBtn;
+    private AccommodationApi accommodationApi;
     String loggedUser;
+    Button submitBtn;
     Spinner gradeSpinner;
     TextView nameTF;
-    TextView lastNameTF;
+    TextView maxGuestsTF;
+    TextView minGuestsTF;
     TextView averageGradeTF;
     TextView ownerEmailTF;
-
-    String owner;
+    Integer reviewingAccommodationId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_review_owner);
+        setContentView(R.layout.activity_review_accommodation);
+
         allAuthorReviews = new ArrayList<>();
-        owner = getIntent().getStringExtra("owner");
+        reviewingAccommodationId = getIntent().getIntExtra("accommodationId", -100);
 
-        nameTF = findViewById(R.id.ownerNameTextView_review_owner_activity);
-        lastNameTF = findViewById(R.id.lastNameTextView_review_owner_activity);
-        averageGradeTF = findViewById(R.id.averageGradeTextView_review_owner_activity);
-        ownerEmailTF = findViewById(R.id.ownerEmailTextView_review_owner_activity);
-        gradeSpinner = findViewById(R.id.spinnerGrade_review_owner_activity);
+        nameTF = findViewById(R.id.accommodationNameTextView_review_accommodation_activity);
+        maxGuestsTF = findViewById(R.id.maxGuestsTextView_review_accommodation_activity);
+        minGuestsTF = findViewById(R.id.minGuestsTextView_review_accommodation_activity);
+        averageGradeTF = findViewById(R.id.averageGradeTextView_review_accommodation_activity);
+        ownerEmailTF = findViewById(R.id.ownerEmailTextView_review_accommodation_activity);
+        gradeSpinner = findViewById(R.id.spinnerGrade_review_accommodation_activity);
         populateSpinner();
-        RetrofitService retrofitService = new RetrofitService(getApplicationContext());
-        UserTokenService tokenService = new UserTokenService(getApplicationContext());
+        submitBtn = findViewById(R.id.submitBtn_accommodation_review_activity);
 
-        recyclerView = findViewById(R.id.recycler_view_owner_review_activity);
+        RetrofitService retrofitService = new RetrofitService(getApplicationContext());
+        UserTokenService userTokenService = new UserTokenService(getApplicationContext());
+
+        recyclerView = findViewById(R.id.recycler_view_accommodation_review_activity);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new ReviewOwnerRecycleViewAdapter(allAuthorReviews, retrofitService);
+        adapter = new ReviewAccommodationRecycleViewAdapter(allAuthorReviews, retrofitService);
         recyclerView.setAdapter(adapter);
 
         try {
-            loggedUser = tokenService.getCurrentUser(AppPreferences.getToken(getApplicationContext()));
+            loggedUser = userTokenService.getCurrentUser(AppPreferences.getToken(getApplicationContext()));
             api = retrofitService.getRetrofit().create(ReviewApi.class);
-            new FetchOwnerReviewsTask(api, loggedUser, allAuthorReviews, adapter).execute();
+            new FetchAccommodationReviewsTask(api, loggedUser, allAuthorReviews, adapter).execute();
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
 
-        submitBtn = findViewById(R.id.submitBtn_owner_review_activity);
         submitBtn.setOnClickListener(view -> {
             api.createReview(createNewReview()).enqueue(new Callback<Review>() {
                 @Override
@@ -91,60 +99,27 @@ public class ReviewOwnerActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<Review> call, Throwable t) {
-                    showSnackbar("You didnt submit review for owner! Something went wrong");
+                    showSnackbar("You didnt submit review for accommodation! Something went wrong");
                 }
             });
         });
 
-        userApi = retrofitService.getRetrofit().create(UserApi.class);
-        userApi.getUser(owner).enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                User ownerToReview = response.body();
-                nameTF.setText(String.format("Name: %s", ownerToReview.getName()));
-                lastNameTF.setText(String.format("Last Name: %s", ownerToReview.getLastName()));
-                ownerEmailTF.setText(String.format("Owner email: %s", ownerToReview.getEmail()));
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                showSnackbar("Something went wrong in fetching owner data");
-            }
-        });
-
-        api.getOwnerAverageGrade(owner).enqueue(new Callback<Double>() {
-            @Override
-            public void onResponse(Call<Double> call, Response<Double> response) {
-                Double averageGrade = response.body();
-                averageGradeTF.setText(String.format("Average grade: %s", averageGrade));
-            }
-
-            @Override
-            public void onFailure(Call<Double> call, Throwable t) {
-                showSnackbar("Something went wrong in fetching average grade for owner");
-            }
-        });
-
-    }
-
-    private void showSnackbar(String message) {
-        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT);
-        snackbar.show();
+        accommodationApi = retrofitService.getRetrofit().create(AccommodationApi.class);
+        new FetchAccommodationForReviewTask(accommodationApi, reviewingAccommodationId, nameTF, minGuestsTF, maxGuestsTF, ownerEmailTF).execute();
+        new FetchAverageAccommodatioGradeTask(api, reviewingAccommodationId, averageGradeTF).execute();
     }
 
     public Review createNewReview(){
-        EditText textTF = findViewById(R.id.editTextMultiline);
+        EditText textTF = findViewById(R.id.editTextMultiline_review_accommodation_activity);
         String text = textTF.getText().toString();
         Double grade = (Double) gradeSpinner.getItemAtPosition(gradeSpinner.getSelectedItemPosition());
         String author = loggedUser;
         LocalDateTime createdAt = LocalDateTime.now();
         ReviewStatus status = ReviewStatus.PENDING;
-        return new Review(null, null, owner, text, author, createdAt, grade, status);
+        return new Review(null, reviewingAccommodationId, null, text, author, createdAt, grade, status);
     }
 
     public void populateSpinner(){
-        Spinner spinner = findViewById(R.id.spinnerGrade_review_owner_activity);
-
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<Double> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
 
@@ -159,7 +134,13 @@ public class ReviewOwnerActivity extends AppCompatActivity {
         adapter.add(5.0);
 
         // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
+        gradeSpinner.setAdapter(adapter);
 
     }
+
+    private void showSnackbar(String message) {
+        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT);
+        snackbar.show();
+    }
+
 }
