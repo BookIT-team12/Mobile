@@ -62,6 +62,29 @@
             android:background="@drawable/edit_details"
             />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Accommodation description:"
+            android:textColor="@color/logo"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"/>
+
+        <EditText
+            android:id="@+id/accommodationDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:hint="Enter accommodation description"
+            android:padding="10dp"
+            android:textColor="@color/logo"
+            android:inputType="text"
+            android:background="@drawable/edit_details"
+            />
+
         <!-- Name -->
         <TextView
             android:layout_width="wrap_content"
@@ -82,6 +105,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:padding="10dp"
+            android:background="@drawable/edit_details"
             android:spinnerMode="dropdown"
             />
 
@@ -106,6 +130,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:padding="10dp"
+            android:background="@drawable/edit_details"
             android:spinnerMode="dropdown" />
         <TextView
             android:layout_width="wrap_content"
@@ -127,7 +152,7 @@
             android:padding="10dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="10dp"
-            android:hint="Enter max number of guests"
+            android:hint="Enter min number of guests"
             android:background="@drawable/edit_details"
             android:textColor="@color/logo"
             android:inputType="number"/>
@@ -152,7 +177,7 @@
             android:padding="10dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="10dp"
-            android:hint="Enter min number of guests"
+            android:hint="Enter max number of guests"
             android:background="@drawable/edit_details"
             android:textColor="@color/logo"
             android:inputType="number"/>
@@ -199,28 +224,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            />
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/edit_details"
+            android:visibility="visible" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Accommodation available until:"
             android:layout_marginBottom="10dp"
-
             android:textColor="@color/logo"
             android:textStyle="bold"
-
             android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"/>
+            android:layout_marginStart="20dp"/>
 
         <Spinner
             android:id="@+id/dateToSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
             android:layout_marginTop="10dp"
-
-            />
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/edit_details"
+            android:visibility="visible" />
 
         <GridLayout
             android:layout_width="match_parent"
@@ -285,13 +313,47 @@
             <!-- Add more checkboxes as needed -->
 
         </GridLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnSelectImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select Image" />
+
+            <Button
+                android:id="@+id/btnDeleteImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Delete Image" />
+
+        </LinearLayout>
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/imageUrisList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="10dp"
+            app:flexWrap="wrap"
+            app:justifyContent="flex_start"
+            app:alignItems="flex_start"
+            app:alignContent="flex_start"/>
 
 
-        <org.osmdroid.views.MapView
+
+        <com.example.bookit.CustomMapView
             android:id="@+id/mapView"
             android:layout_width="390dp"
             android:layout_height="400dp"
-
+            android:clickable="true"
+            android:enabled="true"
+            android:focusable="true"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="8dp"
             android:layout_marginRight="10dp"
@@ -314,6 +376,8 @@
                 android:layout_marginRight="20dp"/>
 
         </LinearLayout>
+
+
 
 
     </LinearLayout>

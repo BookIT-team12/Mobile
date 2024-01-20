@@ -18,6 +18,7 @@ public class User implements Serializable {
     private String address;
     private String phone;
     private Role role;
+    @SerializedName("reported")
     private boolean isReported;
 
 

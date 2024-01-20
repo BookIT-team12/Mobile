@@ -7,6 +7,7 @@ import com.example.bookit.app.LocalDateTimeSerializer;
 
 import com.example.bookit.model.enums.AccommodationStatus;
 import com.example.bookit.security.ApiInterceptor;
+import com.example.bookit.utils.LocalDateTimeTypeAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -51,7 +52,12 @@ public class RetrofitService {
                 .readTimeout(15, TimeUnit.MINUTES)
                 .writeTimeout(15, TimeUnit.MINUTES)
                 .build();
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeTypeAdapter())
+                .setLenient()
+                .create();
         this.retrofit = new Retrofit.Builder()
+
                 .baseUrl(NATASA_IP) //izdvojila sam nam ip adrese u const stringove, da lakse menjamo po potrebi-DULE_IP
                 .addConverterFactory(GsonConverterFactory.create(customGson()))
                 .client(client)

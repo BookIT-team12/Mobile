@@ -29,6 +29,8 @@ import retrofit2.Retrofit;
 import com.example.bookit.app.AppPreferences;
 import com.example.bookit.security.UserTokenService;
 
+import org.mapsforge.map.rendertheme.renderinstruction.Line;
+
 public class HomeScreen extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
@@ -37,12 +39,17 @@ public class HomeScreen extends AppCompatActivity {
     private LinearLayout manageAccount;
     private LinearLayout logout;
     private LinearLayout favorites;
+    private LinearLayout placesVisited;
 
     private LinearLayout deleteAccount;
 
     private LinearLayout approveReviews;
 
     private LinearLayout addAccommodation;
+    private LinearLayout reportReviewsAccommodation;
+    private LinearLayout reportReviewsOwner;
+    private LinearLayout ownerReportUser;
+    private LinearLayout userReportOwner;
 
     private LinearLayout manageGuestReservations;
 
@@ -79,8 +86,7 @@ public class HomeScreen extends AppCompatActivity {
         }
         else if ("owner".equals(role)) {
             setUpHostUI();
-        }
-        else {
+        } else {
             setUpGuestUI();
         }
     }

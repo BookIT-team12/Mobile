@@ -190,7 +190,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/manage_user_comments"
+        android:id="@+id/manage_user_comments_on_owner"
         android:layout_marginStart="12dp"
         android:layout_marginTop="12dp"
         android:orientation="horizontal">
@@ -199,16 +199,56 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/logo"
-            android:text="Report users/reviews"
+            android:text="Report reviews on me"
             android:textSize="20sp"
             android:drawableLeft="@drawable/nav_error"
             android:drawablePadding="8dp"
             android:fontFamily="@string/bookIT_caption"
             />
 
-
-
     </LinearLayout>
+        <!--Report user comments/users-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/manage_user_comments_on_owner_accommodations"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/logo"
+            android:text="Report reviews on my accommodations"
+            android:textSize="20sp"
+            android:drawableLeft="@drawable/nav_error"
+            android:drawablePadding="8dp"
+            android:fontFamily="@string/bookIT_caption"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/owner_report_user"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/logo"
+            android:text="Report user"
+            android:textSize="20sp"
+            android:drawableLeft="@drawable/nav_error"
+            android:drawablePadding="8dp"
+            android:fontFamily="@string/bookIT_caption"
+            />
+    </LinearLayout>
+
+
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -229,8 +269,6 @@
             android:fontFamily="@string/bookIT_caption"
             />
 
-
-
     </LinearLayout>
 
     <View
@@ -238,7 +276,6 @@
         android:layout_height="1dp"
         android:background="@color/berkley_blue"
         android:layout_marginTop="12dp"
-
         />
 
     <LinearLayout

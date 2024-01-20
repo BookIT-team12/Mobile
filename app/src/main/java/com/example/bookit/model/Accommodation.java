@@ -7,7 +7,7 @@ import com.example.bookit.model.enums.BookingConfirmationType;
 import java.util.List;
 
 public class Accommodation {
-    private int id;
+    private Integer id;
     private String ownerEmail;
     private AccommodationType accommodationType;
     private String description;
@@ -149,7 +149,7 @@ public class Accommodation {
     // Constructors, getters, and setters
 
     // Example constructor (you may need to create other constructors)
-    public Accommodation(int id, String owner, AccommodationType accommodationType, String description, String name,
+    public Accommodation(Integer id, String owner, AccommodationType accommodationType, String description, String name,
                          int minGuests, int maxGuests, List<Integer> amenities, List<Review> reviews,
                          List<Reservation> reservations, BookingConfirmationType bookingConfirmationType,
                          AccommodationStatus accommodationStatus, List<AvailabilityPeriod> availabilityPeriods,

@@ -13,7 +13,6 @@ import retrofit2.http.Path;
 
 public interface ReservationApi {
 
-    //TODO: IMPLEMENTIRAJ DATE METODE
     @PUT("/reservations/{status}")
     Call<Void> changeReservationStatus(@Path("status") int status, @Body Reservation dto);
 
