@@ -1,6 +1,7 @@
 package com.example.bookit.model;
 
 import com.example.bookit.model.enums.ReviewStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
@@ -94,20 +95,12 @@ public class Review {
     public void setRating(double rating) {
         this.rating = rating;
     }
-
-    public String getStatus() {
+    
+    public ReviewStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public ReviewStatus getReviewStatus() {
-        return reviewStatus;
-    }
-
-    public void setReviewStatus(ReviewStatus reviewStatus) {
-        this.reviewStatus = reviewStatus;
+    public void setStatus(ReviewStatus reviewStatus) {
+        this.status = reviewStatus;
     }
 }

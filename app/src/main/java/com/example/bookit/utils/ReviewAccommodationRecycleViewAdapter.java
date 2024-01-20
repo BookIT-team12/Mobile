@@ -66,17 +66,18 @@ public class ReviewAccommodationRecycleViewAdapter extends RecyclerView.Adapter<
         }).execute();
 
 
+        //TODO: DULE PROVERI DA LI TI RADI OK ZBOG VOID-A SADA
         // Implement button click listener if needed
         holder.deleteReviewBtn.setOnClickListener(v -> {
-            reviewApi.deleteAccommodationReview(review.getId()).enqueue(new Callback<ResponseBody>() {
+            reviewApi.deleteAccommodationReview(review.getId()).enqueue(new Callback<Void>() {
                 @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                public void onResponse(Call<Void> call, Response<Void> response) {
                     allAuthorAccommodationReviews.remove(review);
                     notifyDataSetChanged();
                 }
 
                 @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                public void onFailure(Call<Void> call, Throwable t) {
                     System.out.println("LOSE JBG");
                 }
             });

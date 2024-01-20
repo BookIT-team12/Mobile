@@ -175,7 +175,7 @@ public class ApproveReviews extends AppCompatActivity {
 
     //-------------------- HANDLE REPSPONSES
     private void handleApprovalResponse(Call<Review> call, Review selectedReview) {
-        selectedReview.setReviewStatus(ReviewStatus.APPROVED);
+        selectedReview.setStatus(ReviewStatus.APPROVED);
         Log.d("Review", "JSON Payload: " + new Gson().toJson(selectedReview));
 
         call.enqueue(new Callback<Review>() {

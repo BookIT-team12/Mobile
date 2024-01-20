@@ -30,12 +30,12 @@ public class Reservation implements Serializable {
         this.accommodationId = accommodationId;
     }
 
-    public String getGuestId() {
-        return guestId;
-    }
-
-    public void setGuestId(String guestId) {
-        this.guestId = guestId;
+//    public String getGuestId() {
+//        return guestId;
+//    }
+//
+//    public void setGuestId(String guestId) {
+//        this.guestId = guestId;}
 
     public String getGuestEmail() {
         return guestEmail;

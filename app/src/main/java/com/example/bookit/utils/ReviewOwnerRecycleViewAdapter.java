@@ -49,16 +49,17 @@ public class ReviewOwnerRecycleViewAdapter extends RecyclerView.Adapter<ReviewOw
         holder.commentTF.setText(String.format("Comment: %s", review.getText()));
 
         // Implement button click listener if needed
+        //TODO: PROVERI DA LI JE OK ZBOG MERGE-A
         holder.deleteReviewBtn.setOnClickListener(v -> {
-            reviewApi.deleteOwnerReview(review.getId()).enqueue(new Callback<ResponseBody>() {
+            reviewApi.deleteOwnerReview(review.getId()).enqueue(new Callback<Void>() {
                 @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                public void onResponse(Call<Void> call, Response<Void> response) {
                     allAuthorsOwnerReviews.remove(review);
                     notifyDataSetChanged();
                 }
 
                 @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                public void onFailure(Call<Void> call, Throwable t) {
                     System.out.println("LOSE JBG");
                 }
             });

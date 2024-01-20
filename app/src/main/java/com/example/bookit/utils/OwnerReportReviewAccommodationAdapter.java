@@ -76,7 +76,7 @@ public class OwnerReportReviewAccommodationAdapter extends RecyclerView.Adapter<
         holder.reportReviewBtn.setOnClickListener(v -> {
             Review toSend = review;
             review.setStatus(ReviewStatus.REPORTED);
-            reviewApi.updateReviewStatus(review, review.getId()).enqueue(new Callback<Review>() {
+            reviewApi.updateReviewStatus(review.getId(), review).enqueue(new Callback<Review>() {
                 @Override
                 public void onResponse(Call<Review> call, Response<Review> response) {
                     allAccommodationReviewsOnOwnerAccommodations.remove(review);
