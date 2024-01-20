@@ -12,17 +12,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.bookit.R;
 import com.example.bookit.model.User;
 import com.example.bookit.retrofit.api.UserApi;
+import com.example.bookit.utils.asyncTasks.GuestReportOwnerTask;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
-public class OwnerReportGuestAdapter extends RecyclerView.Adapter<OwnerReportGuestAdapter.ViewHolder> {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
+public class GuestReportOwnerAdapter extends RecyclerView.Adapter<GuestReportOwnerAdapter.ViewHolder> {
     private List<User> userList;
     private UserApi userApi;
-
-    public OwnerReportGuestAdapter(List<User> userList, UserApi userApi) {
-        this.userList = userList;
+    public GuestReportOwnerAdapter(List<User> reportableUsers, UserApi userApi) {
+        this.userList = reportableUsers;
         this.userApi = userApi;
     }
 
@@ -41,7 +44,6 @@ public class OwnerReportGuestAdapter extends RecyclerView.Adapter<OwnerReportGue
             holder.submitReportButton.setEnabled(false);
             holder.submitReportButton.setText("Already reported");
         }
-
         holder.nameTextView.setText(String.format("Name: %s", user.getName()));
         holder.lastNameTextView.setText(String.format("Last Name: %s", user.getLastName()));
         holder.emailTextView.setText(String.format("Email: %s", user.getEmail()));
@@ -50,7 +52,7 @@ public class OwnerReportGuestAdapter extends RecyclerView.Adapter<OwnerReportGue
 
         holder.submitReportButton.setOnClickListener(view -> {
             if (canSubmit(holder.reasonTF.getText().toString())){
-              new OwnerReportGuestTask(userApi, holder, user).execute();
+               new GuestReportOwnerTask(holder, userApi, user).execute();
             }
             else {
                 Snackbar.make(holder.itemView, "You can't report a user without a reason", Snackbar.LENGTH_LONG).show();
@@ -68,8 +70,8 @@ public class OwnerReportGuestAdapter extends RecyclerView.Adapter<OwnerReportGue
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView nameTextView, lastNameTextView, emailTextView, phoneTextView, addressTextView, reasonTF;
-        Button submitReportButton;
+        public TextView nameTextView, lastNameTextView, emailTextView, phoneTextView, addressTextView, reasonTF;
+        public Button submitReportButton;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.nameTF_report_card_info);
