@@ -44,6 +44,7 @@ public class RetrofitService {
                 .build();
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeTypeAdapter())
+                .setLenient()
                 .create();
         this.retrofit = new Retrofit.Builder()
                 .baseUrl("http://192.168.0.22:8080")

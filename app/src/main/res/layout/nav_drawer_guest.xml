@@ -165,6 +165,29 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/user_report_owner"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/logo"
+            android:text="Report owners"
+            android:textSize="20sp"
+            android:drawableLeft="@drawable/nav_error"
+            android:drawablePadding="8dp"
+            android:fontFamily="@string/bookIT_caption"
+            />
+
+
+
+    </LinearLayout>
+
     <!--Notifications-->
     <LinearLayout
         android:layout_width="wrap_content"

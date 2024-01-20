@@ -32,6 +32,7 @@ public class HomeScreen extends AppCompatActivity {
     private LinearLayout reportReviewsAccommodation;
     private LinearLayout reportReviewsOwner;
     private LinearLayout ownerReportUser;
+    private LinearLayout userReportOwner;
 
     private LinearLayout blockUsers;
     private LinearLayout approveAccommodations;
@@ -97,10 +98,18 @@ public class HomeScreen extends AppCompatActivity {
             manageAccount = findViewById(R.id.account_details);
             home = findViewById(R.id.home);
             placesVisited = findViewById(R.id.user_reviews);
+            userReportOwner = findViewById(R.id.user_report_owner);
             placesVisited.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     redirectActivity(HomeScreen.this, PlacesVisitedActivity.class);
+                }
+            });
+
+            userReportOwner.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    redirectActivity(HomeScreen.this, GuestReportOwner.class);
                 }
             });
         }

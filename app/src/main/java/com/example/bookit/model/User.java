@@ -1,6 +1,7 @@
 package com.example.bookit.model;
 
 import com.example.bookit.model.enums.Role;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.Collections;
 import java.util.Objects;
@@ -14,6 +15,7 @@ public class User {
     private String address;
     private String phone;
     private Role role;
+    @SerializedName("reported")
     private boolean isReported;
 
 

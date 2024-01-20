@@ -45,5 +45,5 @@ public interface UserApi {
     Call<List<User>> getUsersForBlocking();
 
     @POST("/users/report")
-    Call<String> reportUser(@Query("reportedID") String reportedID);
+    Call<Void> reportUser(@Query("reportedID") String reportedID);
 }
