@@ -101,9 +101,12 @@ public class LoginScreen extends AppCompatActivity {
                 try {
                     Role loggedRole = tokenService.getRole(jwtToken);
                     Intent intent = new Intent(LoginScreen.this, HomeScreen.class);
+                    intent.putExtra("USER_EMAIL", (JWTParser.parse(jwtToken.getAccessToken())).getJWTClaimsSet().getSubject());
+
                     switch (loggedRole){
                         case OWNER:
                             intent.putExtra("ROLE", "owner");
+
                             startActivity(intent);
                             break;
                         case ADMINISTRATOR:

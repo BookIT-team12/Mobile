@@ -1,18 +1,18 @@
 package com.example.bookit.model;
-
 import com.example.bookit.model.enums.ReservationStatus;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
-
-public class Reservation {
-
-    private Integer id;
-    private Integer accommodationId;
-    private String guestId;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
-    private int numberOfGuests;
-    private ReservationStatus status;
+public class Reservation implements Serializable {
+        private Integer id;
+        private Integer accommodationId;
+        private String guestEmail;
+        private LocalDateTime startDate;
+        private LocalDateTime endDate;
+        private int numberOfGuests;
+        private ReservationStatus status;
+        private double price;
+        private boolean valid;
 
     public Integer getId() {
         return id;
@@ -36,6 +36,13 @@ public class Reservation {
 
     public void setGuestId(String guestId) {
         this.guestId = guestId;
+
+    public String getGuestEmail() {
+        return guestEmail;
+    }
+
+    public void setGuestEmail(String guestEmail) {
+        this.guestEmail = guestEmail;
     }
 
     public LocalDateTime getStartDate() {
@@ -68,5 +75,21 @@ public class Reservation {
 
     public void setStatus(ReservationStatus status) {
         this.status = status;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public boolean isValid() {
+        return valid;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid = valid;
     }
 }

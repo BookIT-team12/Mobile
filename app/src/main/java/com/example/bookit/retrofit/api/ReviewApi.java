@@ -15,18 +15,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface ReviewApi {
-    @POST("/api/reviews")
-    Call<Review> createReview(@Body Review Review);
-
-    @PUT("/api/reviews/{id}")
-    Call<Review> updateReviewStatus(@Body Review review, @Path("id") int id);
-
-    @DELETE("/api/reviews/owner/{id}")
-    Call<ResponseBody> deleteOwnerReview(@Path("id") int id);
-
-    @DELETE("/api/reviews/accommodation/{id}")
-    Call<ResponseBody> deleteAccommodationReview(@Path("id") int id);
-
+  
     @GET("/api/reviews/ownerReviews/{email}")
     Call<List<Review>> getAllReviewsForOwner(@Path("email") String email);
 
@@ -38,6 +27,18 @@ public interface ReviewApi {
 
     @GET("/api/reviews/authorReviews/accommodations/{email}")
     Call<List<Review>> getReviewsAccommodationByAuthor(@Path("email") String email);
+  
+    @POST("/api/reviews")
+    Call<Review> createReview(@Body Review review);
+
+    @PUT("/api/reviews/{id}")
+    Call<Review> updateReviewStatus(@Path("id") int id, @Body Review review);
+
+    @DELETE("/api/reviews/owner/{id}")
+    Call<Void> deleteOwnerReview(@Path("id") int id);
+
+    @DELETE("/api/reviews/accommodation/{id}")
+    Call<Void> deleteAccommodationReview(@Path("id") int id);
 
     @GET("/api/reviews/averageGrade/owner/{email}")
     Call<Double> getOwnerAverageGrade(@Path("email") String email);
@@ -45,9 +46,10 @@ public interface ReviewApi {
     @GET("/api/reviews/averageGrade/accommodation/{id}")
     Call<Double> getAccommodationAverageGrade(@Path("id") int id);
 
-    @GET("/api/reviews/owner/toApprove")
-    Call<List<Optional<Review>>> getAllReviewOwnerForApproval();
+    @GET("/api/reviews/owners/toApprove")
+    Call<List<Review>> getAllReviewOwnerForApprovalAndroid();
 
-    @GET("/api/reviews/accommodation/toApprove")
-    Call<List<Optional<Review>>> getAllReviewAccommodationForApproval();
+    @GET("/api/reviews/accommodations/toApprove")
+    Call<List<Review>> getAllReviewAccommodationForApprovalAndroid();
+
 }

@@ -12,6 +12,7 @@ public class AvailabilityPeriod {
     private LocalDateTime endDate;
     private double price;
 
+
     public AvailabilityPeriod() {}
 
     public AvailabilityPeriod(LocalDateTime startDate, LocalDateTime endDate, double price) {

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<!-- res/layout/activity_user_blocking.xml -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -12,10 +12,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="User Blocking"
-        android:textSize="24sp"
+        android:textColor="@color/logo"
+        android:textSize="35sp"
+        android:gravity="left"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:textStyle="bold"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="20dp"/>
+        />
 
     <ListView
         android:id="@+id/userListView"
@@ -23,13 +26,12 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:layout_marginBottom="20dp"
-        android:choiceMode="singleChoice"/>
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10dp"
+        android:background="@android:color/transparent"
+    android:drawSelectorOnTop="true"
+    android:padding="10dp"
+    android:clipToPadding="false"/>
 
-    <Button
-        android:id="@+id/btnBlock"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Block User"
-        android:layout_gravity="center_horizontal"/>
 </LinearLayout>
-

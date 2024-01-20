@@ -17,15 +17,15 @@ public interface AccommodationApi {
     @GET("/api/accommodations/{id}")
     Call<ResponseAccommodationImages> viewAccommodationDetails(@Path("id") int id);
 
-    @GET("/accommodations/owner/{ownerEmail}")
+    @GET("/api/accommodations/owner/{ownerEmail}")
     Call<List<Accommodation>> getOwnerAccommodations(@Path("ownerEmail") String ownerEmail);
 
-    @GET("/accommodations/pending")
+    @GET("/api/accommodations/pending")
     Call<List<Accommodation>> getPendingAccommodations();
     @GET("/api/accommodations/name/{id}")
     Call<String> getNameById(@Path("id") int id);
 
-    @GET("/accommodations")
+    @GET("/api/accommodations")
     Call<List<Accommodation>> getAllApartments();
 
     @Multipart
@@ -36,19 +36,19 @@ public interface AccommodationApi {
     );
 
     @Multipart
-    @PUT("/accommodations/{id}")
+    @PUT("/api/accommodations/{id}")
     Call<Accommodation> updateAccommodation(
             @Path("id") int id,
             @Part("accommodation") Accommodation accommodation,
             @Part List<MultipartBody.Part> images
     );
 
-    @POST("/accommodations/approve/{id}")
+    @POST("/api/accommodations/approve/{id}")
     Call<Void> approveAccommodation(@Path("id") int id);
 
-    @POST("/accommodations/deny/{id}")
+    @POST("/api/accommodations/deny/{id}")
     Call<Void> denyAccommodation(@Path("id") int id);
 
-    @DELETE("/accommodations/{id}")
+    @DELETE("/api/accommodations/{id}")
     Call<String> deleteAccommodation(@Path("id") int id);
 }

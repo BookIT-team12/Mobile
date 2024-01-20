@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/layout/list_item_user_blocking.xml -->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/blue_white_card"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp">
+
+    <TextView
+        android:id="@+id/apartmentNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/nav_person"
+        android:text="Reported user"
+        android:textColor="@color/logo"
+        android:textStyle="bold"
+        android:textSize="16sp"/>
+
+
+    <TextView
+        android:id="@+id/commentTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="Name: "
+        android:textColor="@color/logo"/>
+
+    <TextView
+        android:id="@+id/gradeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lastname: "
+        android:textColor="@color/logo"/>
+
+    <TextView
+        android:id="@+id/authorTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Username:"
+        android:textColor="@color/logo"/>
+
+    <TextView
+        android:id="@+id/isBlocked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Blocked:"
+        android:textColor="@color/logo"/>
+</LinearLayout>

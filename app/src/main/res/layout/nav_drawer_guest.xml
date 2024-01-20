@@ -97,7 +97,6 @@
 
     </LinearLayout>
 
-    <!-- Trips and reservations -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -113,6 +112,28 @@
             android:text="Manage account"
             android:textSize="20sp"
             android:drawableLeft="@drawable/nav_person"
+            android:drawablePadding="8dp"
+            android:fontFamily="@string/bookIT_caption"
+            />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/manage_my_reservations"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/logo"
+            android:text="My reservations"
+            android:textSize="20sp"
+            android:drawableLeft="@drawable/nav_trips_reservations"
             android:drawablePadding="8dp"
             android:fontFamily="@string/bookIT_caption"
             />
@@ -235,6 +256,28 @@
             android:text="Log out"
             android:textSize="20sp"
             android:drawableLeft="@drawable/nav_logout"
+            android:drawablePadding="8dp"
+            android:fontFamily="@string/bookIT_caption"
+            />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/deleteAccount"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/logo"
+            android:text="Delete my account"
+            android:textSize="20sp"
+            android:drawableLeft="@drawable/nav_delete"
             android:drawablePadding="8dp"
             android:fontFamily="@string/bookIT_caption"
             />

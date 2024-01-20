@@ -49,7 +49,6 @@ public class Location {
 
         return null;
     }
-
     public Location() {}
 
     public Integer getId() {

@@ -17,6 +17,7 @@ public class Review {
     private String text;
     @JsonProperty("authorEmail")
     private String authorEmail;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @JsonProperty("createdAt")
     private LocalDateTime createdAt;
     @JsonProperty("rating")
@@ -50,6 +51,7 @@ public class Review {
     }
 
     public void setAccommodationId(Integer accommodationId) {
+
         this.accommodationId = accommodationId;
     }
 
@@ -93,11 +95,19 @@ public class Review {
         this.rating = rating;
     }
 
-    public ReviewStatus getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(ReviewStatus status) {
+    public void setStatus(String status) {
         this.status = status;
+    }
+
+    public ReviewStatus getReviewStatus() {
+        return reviewStatus;
+    }
+
+    public void setReviewStatus(ReviewStatus reviewStatus) {
+        this.reviewStatus = reviewStatus;
     }
 }

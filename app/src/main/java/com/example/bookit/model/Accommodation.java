@@ -18,9 +18,11 @@ public class Accommodation {
     private List<Review> reviews;
     private List<Reservation> reservations;
     private BookingConfirmationType bookingConfirmationType;
-    private AccommodationStatus accommodationStatus;
+    private AccommodationStatus status;
     private List<AvailabilityPeriod> availabilityPeriods;
     private String imagesFolder;
+    private Location location;
+    private boolean isFavorite;
 
     public int getId() {
         return id;
@@ -110,12 +112,12 @@ public class Accommodation {
         this.bookingConfirmationType = bookingConfirmationType;
     }
 
-    public AccommodationStatus getAccommodationStatus() {
-        return accommodationStatus;
+    public AccommodationStatus getStatus() {
+        return status;
     }
 
-    public void setAccommodationStatus(AccommodationStatus accommodationStatus) {
-        this.accommodationStatus = accommodationStatus;
+    public void setStatus(AccommodationStatus status) {
+        this.status = status;
     }
 
     public List<AvailabilityPeriod> getAvailabilityPeriods() {
@@ -142,8 +144,7 @@ public class Accommodation {
         this.location = location;
     }
 
-    private Location location;
-    private boolean isFavorite;
+
 
     // Constructors, getters, and setters
 
@@ -164,7 +165,7 @@ public class Accommodation {
         this.reviews = reviews;
         this.reservations = reservations;
         this.bookingConfirmationType = bookingConfirmationType;
-        this.accommodationStatus = accommodationStatus;
+        this.status = accommodationStatus;
         this.availabilityPeriods = availabilityPeriods;
         this.imagesFolder = imagesFolder;
         this.location = location;

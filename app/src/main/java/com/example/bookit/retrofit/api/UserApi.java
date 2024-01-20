@@ -29,6 +29,9 @@ public interface UserApi {
     @GET("/users/{email}")
     Call<User> getUser(@Path("email") String email);
 
+    @POST("/users/{email}")
+    Call<String> updateUser(@Path("email") String email, @Body User user);
+
     @GET("/users")
     Call<List<User>> getAllUsers();
 
@@ -39,7 +42,7 @@ public interface UserApi {
     Call<List<User>> getReportableUsers(@Query("userID") String userID);
 
     @POST("/users/blocked")
-    Call<String> blockUser(@Query("userID") String userID);
+    Call<Void> blockUser(@Query("userID") String userID);
 
     @GET("/users/block")
     Call<List<User>> getUsersForBlocking();
