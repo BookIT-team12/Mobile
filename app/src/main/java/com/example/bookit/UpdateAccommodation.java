@@ -49,6 +49,7 @@ import com.example.bookit.utils.UriUtils;
 import com.example.bookit.utils.asyncTasks.FetchAccommodationDetailsTask;
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
 
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -64,8 +65,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -104,6 +107,8 @@ public class UpdateAccommodation extends AppCompatActivity {
     private Accommodation accommodation;
     private Spinner availabilityPeriodsSpinner;
 
+    private Integer accommodationID;
+
 
     private List<String> accommodationImagesBytesList=new ArrayList<>();
     @Override
@@ -115,7 +120,7 @@ public class UpdateAccommodation extends AppCompatActivity {
 
         RetrofitService retrofitService = new RetrofitService(getApplicationContext());
         accommodationApi = retrofitService.getRetrofit().create(AccommodationApi.class);
-        int accommodationID = getIntent().getIntExtra("UPDATE_ACCOMMODATION", 0);
+        accommodationID = getIntent().getIntExtra("UPDATE_ACCOMMODATION", 0);
         getAccommodationDetails(accommodationID);
 
 
@@ -495,8 +500,9 @@ public class UpdateAccommodation extends AppCompatActivity {
             dateOptions.remove("Select a date");
             dateOptions.add(selectedDateStr);
         } else {
-
-            dateOptions.set(currentPosition, selectedDateStr);
+            dateOptions.remove("Select a date");
+            dateOptions.add(selectedDateStr);
+            //dateOptions.set(currentPosition, selectedDateStr);
         }
 
         ArrayAdapter<String> newAdapter = new ArrayAdapter<>(
@@ -547,16 +553,16 @@ public class UpdateAccommodation extends AppCompatActivity {
         Location locationVal = handleLocation();
 
         //get things from gui itself
-        EditText nameTF = findViewById(R.id.accommodationName);
-        EditText descriptionTF = findViewById(R.id.accommodationDescription);
+        EditText nameTF = findViewById(R.id.updateAccommodationName);
+        EditText descriptionTF = findViewById(R.id.updateAccommodationDescription);
         Spinner typeSpinner = findViewById(R.id.accommodationType);
         int typeSpinnerSelectedItemPosition = typeSpinner.getSelectedItemPosition();
         Spinner confirmationTypeSpinner = findViewById(R.id.confirmationType);
         int confirmationTypeSelectedItemPosition = confirmationTypeSpinner.getSelectedItemPosition();
-        EditText minGuestsTF = findViewById(R.id.minGuests);
-        EditText maxGuestsTF = findViewById(R.id.maxGuests);
-        EditText priceTF = findViewById(R.id.pricePerNight);
-        EditText cancelAllowTF = findViewById(R.id.cancelAllow);
+        EditText minGuestsTF = findViewById(R.id.updateMinGuests);
+        EditText maxGuestsTF = findViewById(R.id.updateMaxGuests);
+        EditText priceTF = findViewById(R.id.updatePricePerNight);
+        EditText cancelAllowTF = findViewById(R.id.updateCancelAllow);
         Spinner startDateSpinner = findViewById(R.id.dateFromSpinner);
         String startDateString = (String) startDateSpinner.getItemAtPosition(0);
         Spinner endDateSpinner = findViewById(R.id.dateToSpinner);
@@ -596,11 +602,26 @@ public class UpdateAccommodation extends AppCompatActivity {
         periodsVal.add(new AvailabilityPeriod(startDate, endDate, priceVal));
         List<Reservation> reservations = new ArrayList<>();
         List<Review> reviews = new ArrayList<>();
-        Accommodation toSubmit = new Accommodation(null, owner, typeVal, descriptionVal, nameVal, minGuestsVal, maxGuestsVal,
-                amenitiesVal, reviews, reservations, confirmationTypeVal, AccommodationStatus.PENDING,
-                periodsVal, null, locationVal, false, cancelAllowVal, isByNight());
 
-        accommodationApi.updateAccommodation(toSubmit.getId(), toSubmit, imagesVal).enqueue(new Callback<Accommodation>() {
+        Accommodation toSubmit =
+                new Accommodation(accommodationID, owner, typeVal,
+                        descriptionVal, nameVal, minGuestsVal, maxGuestsVal,
+                        amenitiesVal, reviews, reservations, confirmationTypeVal,
+                        AccommodationStatus.PENDING,
+                        periodsVal, null, locationVal,
+                        false, cancelAllowVal,
+                        isByNight());
+
+
+        Gson gson = new Gson();
+        String accommodationJson = gson.toJson(toSubmit);
+        RequestBody accommodationRequestBody = RequestBody.create(MediaType.parse("application/json"), accommodationJson);
+
+        Map<String, RequestBody> accommodationPartMap = new HashMap<>();
+        accommodationPartMap.put("accommodation", accommodationRequestBody);
+
+// Call the Retrofit method
+        accommodationApi.updateAccommodation(accommodationID,accommodationPartMap, imagesVal).enqueue(new Callback<Accommodation>() {
             @Override
             public void onResponse(Call<Accommodation> call, Response<Accommodation> response) {
                 if (response.isSuccessful()) {

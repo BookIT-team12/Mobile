@@ -6,6 +6,7 @@ import com.example.bookit.model.Accommodation;
 import com.example.bookit.model.ResponseAccommodationImages;
 
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -40,7 +41,8 @@ public interface AccommodationApi {
     @PUT("/api/accommodations/{id}")
     Call<Accommodation> updateAccommodation(
             @Path("id") int id,
-            @Part("accommodation") Accommodation accommodation,
+            @PartMap Map<String, RequestBody> accommodationPartMap,
+            //    @Part("accommodation") RequestBody accommodationDto, // Use RequestBody
             @Part List<MultipartBody.Part> images
     );
 
