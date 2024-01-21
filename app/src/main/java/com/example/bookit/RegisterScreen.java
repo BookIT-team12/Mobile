@@ -69,11 +69,11 @@ public class RegisterScreen extends AppCompatActivity {
         RadioButton selectedRadioButton = findViewById(selectedRadioButtonId);
         String selectedRole = selectedRadioButton.getText().toString();
 
-//        String errCode = formValidation(username, name, lastname, password, confirmPassword, phone, address);
-//        if (!errCode.equals("NO_ERR")){
-//            handleErrors(errCode);
-//            return;
-//        }
+        String errCode = formValidation(username, name, lastname, password, confirmPassword, phone, address);
+        if (!errCode.equals("NO_ERR")){
+            handleErrors(errCode);
+            return;
+        }
 
         User toRegister;
         switch (selectedRole){
@@ -99,7 +99,7 @@ public class RegisterScreen extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<UserCredentials> call, Throwable t) {
-                        showSnackbar("ne radi");
+                        showSnackbar("You cant register right now with these informations");
                         Logger.getLogger(RegisterScreen.class.getName()).log(Level.SEVERE, "Error occurred", t);
                     }
                 });
