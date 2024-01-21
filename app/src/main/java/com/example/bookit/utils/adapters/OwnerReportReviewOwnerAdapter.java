@@ -1,12 +1,15 @@
-package com.example.bookit.utils;
+package com.example.bookit.utils.adapters;
 
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bookit.R;
@@ -15,9 +18,10 @@ import com.example.bookit.model.enums.ReviewStatus;
 import com.example.bookit.retrofit.RetrofitService;
 import com.example.bookit.retrofit.api.ReviewApi;
 
+import org.mapsforge.map.rendertheme.renderinstruction.Line;
+
 import java.util.List;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,7 +38,7 @@ public class OwnerReportReviewOwnerAdapter extends RecyclerView.Adapter<OwnerRep
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.owner_report_review_owner_card, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.owner_review_approval, parent, false);
         return new ViewHolder(view);
     }
 
@@ -46,8 +50,34 @@ public class OwnerReportReviewOwnerAdapter extends RecyclerView.Adapter<OwnerRep
         holder.gradeTF.setText(String.format("Given grade: %s", review.getRating()));
         holder.commentTF.setText(String.format("Comment: %s", review.getText()));
 
+        Button reportReviewBtn = new Button(holder.itemView.getContext());
+        reportReviewBtn.setText("Report review");
+
+        int colorResId = R.color.logo; // Replace with your color resource ID
+        int color = ContextCompat.getColor(holder.itemView.getContext(), colorResId);
+
+        // Create a rounded shape drawable
+        GradientDrawable shapeDrawable = new GradientDrawable();
+        shapeDrawable.setColor(color);
+        shapeDrawable.setCornerRadius(40); // Adjust the corner radius as needed
+
+        // Set the shape drawable as the background of the button
+        reportReviewBtn.setBackground(shapeDrawable);
+
+        // Add the button to the item layout
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        layoutParams.setMargins(16, 10, 16, 0); // Adjust the margins as needed
+
+        // Set the layout parameters for the button
+        reportReviewBtn.setLayoutParams(layoutParams);
+
+        holder.linearLayout.addView(reportReviewBtn, layoutParams);
+
         // Implement button click listener if needed
-        holder.reportReviewBtn.setOnClickListener(v -> {
+        reportReviewBtn.setOnClickListener(v -> {
             Review toSend = review;
             review.setStatus(ReviewStatus.REPORTED);
             reviewApi.updateReviewStatus(review.getId(), review).enqueue(new Callback<Review>() {
@@ -71,15 +101,16 @@ public class OwnerReportReviewOwnerAdapter extends RecyclerView.Adapter<OwnerRep
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView authorTF, gradeTF, commentTF;
-        Button reportReviewBtn;
+        TextView authorTF, gradeTF, commentTF, ownerTF;
+        LinearLayout linearLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            authorTF = itemView.findViewById(R.id.authorNameTextView_owner_report_review_owner_card);
-            gradeTF = itemView.findViewById(R.id.gradeTextView_owner_report_review_owner_card);
-            commentTF = itemView.findViewById(R.id.commentTextView_owner_report_review_owner_card);
-            reportReviewBtn = itemView.findViewById(R.id.reportReview_owner_report_review_owner_card);
+            authorTF = itemView.findViewById(R.id.authorReview);
+            gradeTF = itemView.findViewById(R.id.gradeReview);
+            commentTF = itemView.findViewById(R.id.commentReview);
+            ownerTF = itemView.findViewById(R.id.ownerReview);
+            linearLayout = itemView.findViewById(R.id.blueSquareContainer);
         }
     }
 }

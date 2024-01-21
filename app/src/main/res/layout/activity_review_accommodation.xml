@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ReviewAccommodationActivity">
+    tools:context=".ReviewAccommodationActivity"
+    android:background="@drawable/white_minimalist">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/verticalGuidelineLeft"
@@ -38,7 +39,7 @@
         android:id="@+id/cardView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/form_figma"
+        app:cardBackgroundColor="@color/nav_bar_figma"
         app:cardCornerRadius="8dp"
         app:layout_constraintBottom_toTopOf="@+id/horizontalGuideLineBottom"
         app:layout_constraintEnd_toStartOf="@+id/verticalGuidelineRight"
@@ -60,6 +61,7 @@
                 android:gravity="center"
                 android:text="Accommodation info"
                 android:textColor="@color/logo"
+                android:background="@drawable/header_card_bottom_border"
                 android:textSize="30sp"
                 android:textStyle="bold" />
 
@@ -67,9 +69,9 @@
                 android:id="@+id/accommodationNameTextView_review_accommodation_activity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableTint="@color/white"
+                android:drawableTint="@color/logo"
                 android:text="Accommodation Name: "
-                android:textColor="@color/white"
+                android:textColor="@color/logo"
                 app:drawableLeftCompat="@drawable/remove_fill0_wght400_grad0_opsz24" />
 
             <LinearLayout
@@ -81,18 +83,18 @@
                     android:id="@+id/maxGuestsTextView_review_accommodation_activity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableTint="@color/white"
+                    android:drawableTint="@color/logo"
                     android:text="Max guests: : "
-                    android:textColor="@color/white"
+                    android:textColor="@color/logo"
                     app:drawableLeftCompat="@drawable/remove_fill0_wght400_grad0_opsz24" />
 
                 <TextView
                     android:id="@+id/minGuestsTextView_review_accommodation_activity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableTint="@color/white"
+                    android:drawableTint="@color/logo"
                     android:text="Min guests: "
-                    android:textColor="@color/white"
+                    android:textColor="@color/logo"
                     app:drawableLeftCompat="@drawable/remove_fill0_wght400_grad0_opsz24" />
             </LinearLayout>
 
@@ -100,18 +102,18 @@
                 android:id="@+id/averageGradeTextView_review_accommodation_activity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableTint="@color/white"
+                android:drawableTint="@color/logo"
                 android:text="Average grade: "
-                android:textColor="@color/white"
+                android:textColor="@color/logo"
                 app:drawableLeftCompat="@drawable/remove_fill0_wght400_grad0_opsz24" />
 
             <TextView
                 android:id="@+id/ownerEmailTextView_review_accommodation_activity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableTint="@color/white"
+                android:drawableTint="@color/logo"
                 android:text="Owner email: "
-                android:textColor="@color/white"
+                android:textColor="@color/logo"
                 app:drawableLeftCompat="@drawable/remove_fill0_wght400_grad0_opsz24" />
 
             <LinearLayout
@@ -125,15 +127,15 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:drawableTint="@color/white"
+                    android:drawableTint="@color/logo"
                     android:text="Your grade: "
-                    android:textColor="@color/white"
+                    android:textColor="@color/logo"
                     app:drawableLeftCompat="@drawable/remove_fill0_wght400_grad0_opsz24" />
 
                 <Spinner
                     android:id="@+id/spinnerGrade_review_accommodation_activity"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
 
                 <TextView
                     android:id="@+id/iconTextView_review_accommodation_activity"
@@ -151,16 +153,19 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5sp"
                 android:layout_marginVertical="10sp"
-                android:background="@android:color/white"
+                android:background="@drawable/blue_white_card"
                 android:hint="Enter your comment here"
                 android:inputType="textMultiLine"
                 android:lines="5"
+                android:paddingStart="10dp"
                 android:textColor="@color/logo" />
 
             <Button
                 android:id="@+id/submitBtn_accommodation_review_activity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5sp"
+                android:layout_marginHorizontal="10sp"
                 android:text="Submit accommodation review" />
 
         </LinearLayout>
@@ -170,9 +175,11 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15sp"
         android:text="Your reviews:"
         android:textColor="@color/logo"
         android:textColorLink="@color/logo"
+        android:textSize="34sp"
         app:layout_constraintBottom_toTopOf="@+id/recycler_view_accommodation_review_activity"
         app:layout_constraintEnd_toStartOf="@+id/verticalGuidelineRight"
         app:layout_constraintStart_toStartOf="@+id/verticalGuidelineLeft"

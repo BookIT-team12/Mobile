@@ -1,0 +1,11 @@
+<!-- res/drawable/bottom_border.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:left="-4dp" android:right="-4dp" android:top="-4dp">
+        <shape>
+            <solid android:color="@android:color/transparent" />
+            <stroke
+                android:width="3dp"
+                android:color="@color/logo" />
+        </shape>
+    </item>
+</layer-list>

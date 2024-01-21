@@ -1,12 +1,15 @@
-package com.example.bookit.utils;
+package com.example.bookit.utils.adapters;
 
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bookit.R;
@@ -16,7 +19,6 @@ import com.example.bookit.retrofit.api.ReviewApi;
 
 import java.util.List;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,7 +36,7 @@ public class ReviewOwnerRecycleViewAdapter extends RecyclerView.Adapter<ReviewOw
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.owner_review_card, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.owner_review_approval, parent, false);
         return new ViewHolder(view);
     }
 
@@ -48,9 +50,33 @@ public class ReviewOwnerRecycleViewAdapter extends RecyclerView.Adapter<ReviewOw
         holder.gradeTF.setText(String.format("Given grade: %s", review.getRating()));
         holder.commentTF.setText(String.format("Comment: %s", review.getText()));
 
-        // Implement button click listener if needed
-        //TODO: PROVERI DA LI JE OK ZBOG MERGE-A
-        holder.deleteReviewBtn.setOnClickListener(v -> {
+        Button deleteReviewBtn = new Button(holder.itemView.getContext());
+        deleteReviewBtn.setText("Report review");
+
+        int colorResId = R.color.logo; // Replace with your color resource ID
+        int color = ContextCompat.getColor(holder.itemView.getContext(), colorResId);
+
+        // Create a rounded shape drawable
+        GradientDrawable shapeDrawable = new GradientDrawable();
+        shapeDrawable.setColor(color);
+        shapeDrawable.setCornerRadius(40); // Adjust the corner radius as needed
+
+        // Set the shape drawable as the background of the button
+        deleteReviewBtn.setBackground(shapeDrawable);
+
+        // Add the button to the item layout
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        layoutParams.setMargins(16, 10, 16, 0); // Adjust the margins as needed
+
+        // Set the layout parameters for the button
+        deleteReviewBtn.setLayoutParams(layoutParams);
+
+        holder.linearLayout.addView(deleteReviewBtn, layoutParams);
+
+        deleteReviewBtn.setOnClickListener(v -> {
             reviewApi.deleteOwnerReview(review.getId()).enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
@@ -73,15 +99,15 @@ public class ReviewOwnerRecycleViewAdapter extends RecyclerView.Adapter<ReviewOw
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView ownerHeaderTF, authorTF, gradeTF, commentTF;
-        Button deleteReviewBtn;
+        LinearLayout linearLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            ownerHeaderTF = itemView.findViewById(R.id.ownerNameTextView_owner_review_card);
-            authorTF = itemView.findViewById(R.id.authorTextView_owner_review_card);
-            gradeTF = itemView.findViewById(R.id.gradeTextView_owner_review_card);
-            commentTF = itemView.findViewById(R.id.commentTextView_owner_review_card);
-            deleteReviewBtn = itemView.findViewById(R.id.deleteReview_owner_review_card);
+            ownerHeaderTF = itemView.findViewById(R.id.ownerReview);
+            authorTF = itemView.findViewById(R.id.authorReview);
+            gradeTF = itemView.findViewById(R.id.gradeReview);
+            commentTF = itemView.findViewById(R.id.commentReview);
+            linearLayout = itemView.findViewById(R.id.blueSquareContainer);
         }
     }
 }

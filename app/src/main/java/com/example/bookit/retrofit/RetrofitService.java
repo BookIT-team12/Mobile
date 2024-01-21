@@ -5,9 +5,8 @@ import android.content.Context;
 import com.example.bookit.app.LocalDateTimeDeserializer;
 import com.example.bookit.app.LocalDateTimeSerializer;
 
-import com.example.bookit.model.enums.AccommodationStatus;
 import com.example.bookit.security.ApiInterceptor;
-import com.example.bookit.utils.LocalDateTimeTypeAdapter;
+import com.example.bookit.utils.adapters.LocalDateTimeTypeAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

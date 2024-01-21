@@ -1,17 +1,19 @@
-package com.example.bookit.utils;
+package com.example.bookit.utils.adapters;
 
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bookit.R;
 import com.example.bookit.model.Accommodation;
-import com.example.bookit.model.ResponseAccommodationImages;
 import com.example.bookit.model.Review;
 import com.example.bookit.retrofit.RetrofitService;
 import com.example.bookit.retrofit.api.AccommodationApi;
@@ -20,7 +22,6 @@ import com.example.bookit.utils.asyncTasks.FetchAccommodationDetailsTask;
 
 import java.util.List;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,7 +41,7 @@ public class ReviewAccommodationRecycleViewAdapter extends RecyclerView.Adapter<
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.accommodation_review_card, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.accommodation_review_approval, parent, false);
         return new ViewHolder(view);
     }
 
@@ -65,10 +66,33 @@ public class ReviewAccommodationRecycleViewAdapter extends RecyclerView.Adapter<
             }
         }).execute();
 
+        Button deleteReviewBtn = new Button(holder.itemView.getContext());
+        deleteReviewBtn.setText("Report review");
 
-        //TODO: DULE PROVERI DA LI TI RADI OK ZBOG VOID-A SADA
-        // Implement button click listener if needed
-        holder.deleteReviewBtn.setOnClickListener(v -> {
+        int colorResId = R.color.logo; // Replace with your color resource ID
+        int color = ContextCompat.getColor(holder.itemView.getContext(), colorResId);
+
+        // Create a rounded shape drawable
+        GradientDrawable shapeDrawable = new GradientDrawable();
+        shapeDrawable.setColor(color);
+        shapeDrawable.setCornerRadius(40); // Adjust the corner radius as needed
+
+        // Set the shape drawable as the background of the button
+        deleteReviewBtn.setBackground(shapeDrawable);
+
+        // Add the button to the item layout
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        layoutParams.setMargins(16, 10, 16, 0); // Adjust the margins as needed
+
+        // Set the layout parameters for the button
+        deleteReviewBtn.setLayoutParams(layoutParams);
+
+        holder.linearLayout.addView(deleteReviewBtn, layoutParams);
+
+        deleteReviewBtn.setOnClickListener(v -> {
             reviewApi.deleteAccommodationReview(review.getId()).enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
@@ -91,15 +115,15 @@ public class ReviewAccommodationRecycleViewAdapter extends RecyclerView.Adapter<
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView accommodationHeaderTF, authorTF, gradeTF, commentTF;
-        Button deleteReviewBtn;
+        LinearLayout linearLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            accommodationHeaderTF = itemView.findViewById(R.id.accommodationNameTextView_accommodation_review_card);
-            authorTF = itemView.findViewById(R.id.authorTextView_accommodation_review_card);
-            gradeTF = itemView.findViewById(R.id.gradeTextView_accommodation_review_card);
-            commentTF = itemView.findViewById(R.id.commentTextView_accommodation_review_card);
-            deleteReviewBtn = itemView.findViewById(R.id.deleteReview_accommodation_review_card);
+            accommodationHeaderTF = itemView.findViewById(R.id.apartmentNameTextView);
+            authorTF = itemView.findViewById(R.id.authorTextView);
+            gradeTF = itemView.findViewById(R.id.gradeTextView);
+            commentTF = itemView.findViewById(R.id.commentTextView);
+            linearLayout = itemView.findViewById(R.id.blueSquareContainer);
         }
     }
 }

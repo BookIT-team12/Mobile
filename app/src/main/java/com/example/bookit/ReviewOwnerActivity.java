@@ -21,7 +21,7 @@ import com.example.bookit.retrofit.api.ReviewApi;
 import com.example.bookit.retrofit.api.UserApi;
 import com.example.bookit.security.UserTokenService;
 import com.example.bookit.utils.asyncTasks.FetchOwnerReviewsTask;
-import com.example.bookit.utils.ReviewOwnerRecycleViewAdapter;
+import com.example.bookit.utils.adapters.ReviewOwnerRecycleViewAdapter;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.text.ParseException;
@@ -146,7 +146,7 @@ public class ReviewOwnerActivity extends AppCompatActivity {
         Spinner spinner = findViewById(R.id.spinnerGrade_review_owner_activity);
 
         // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<Double> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
+        ArrayAdapter<Double> adapter = new ArrayAdapter<>(this, R.layout.spinner_item_layout);
 
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

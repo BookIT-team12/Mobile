@@ -86,17 +86,17 @@ public class HomeScreen extends AppCompatActivity {
         currentUserEmail=getIntent().getStringExtra("USER_EMAIL");
         getUserData(currentUserEmail);
 
-        new GetLatestNotificationTask(notificationApi, new GetLatestNotificationTask.GetLatestNotificationCallback() {
-            @Override
-            public void onSuccess(Notification notification) {
-                NotificationUtils.notifyPhone(getApplicationContext(), notification, "TITLE OF NOTIFICATION");
-            }
-
-            @Override
-            public void onFailure() {
-                System.out.println("LOSE PAO ZAHTEV ZA NTF");
-            }
-        }, currentUser).execute();
+//        new GetLatestNotificationTask(notificationApi, new GetLatestNotificationTask.GetLatestNotificationCallback() {
+//            @Override
+//            public void onSuccess(Notification notification) {
+//                NotificationUtils.notifyPhone(getApplicationContext(), notification, "TITLE OF NOTIFICATION");
+//            }
+//
+//            @Override
+//            public void onFailure() {
+//                System.out.println("LOSE PAO ZAHTEV ZA NTF");
+//            }
+//        }, currentUser).execute();
 
 
 
@@ -197,6 +197,9 @@ public class HomeScreen extends AppCompatActivity {
         manageAccount = findViewById(R.id.account_details);
         home = findViewById(R.id.home);
         manageMyReservations=findViewById(R.id.manage_my_reservations);
+        placesVisited = findViewById(R.id.user_reviews);
+        userReportOwner = findViewById(R.id.user_report_owner);
+
 
         manageMyReservations.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -232,6 +235,22 @@ public class HomeScreen extends AppCompatActivity {
             }
         });
 
+        placesVisited.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomeScreen.this, PlacesVisitedActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        userReportOwner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomeScreen.this, GuestReportOwner.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     public void setUpHostUI(){
@@ -242,7 +261,31 @@ public class HomeScreen extends AppCompatActivity {
         addAccommodation=findViewById(R.id.add_accommodation);
         manageAccommodations=findViewById(R.id.manage_my_apartments);
         manageGuestReservations=findViewById(R.id.manage_reservations);
+        reportReviewsAccommodation = findViewById(R.id.manage_user_comments_on_owner_accommodations);
+        reportReviewsOwner = findViewById(R.id.manage_user_comments_on_owner);
+        ownerReportUser = findViewById(R.id.owner_report_user);
 
+        reportReviewsAccommodation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomeScreen.this, OwnerReportReviewAccommodation.class);
+                startActivity(intent);
+            }
+        });
+        reportReviewsOwner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomeScreen.this, OwnerReportReviewOwner.class);
+                startActivity(intent);
+            }
+        });
+        ownerReportUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomeScreen.this, OwnerReportGuest.class);
+                startActivity(intent);
+            }
+        });
 
         manageAccount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -253,12 +296,19 @@ public class HomeScreen extends AppCompatActivity {
             }
         });
 
-
-        manageAccommodations.setOnClickListener(new View.OnClickListener() {
+        addAccommodation.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 Intent intent = new Intent(HomeScreen.this, ManageAccommodations.class);
                 intent.putExtra("USER_VALUE", currentUser);
+                startActivity(intent);
+            }
+        });
+
+        addAccommodation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeScreen.this, AddAccommodation.class);
                 startActivity(intent);
             }
         });

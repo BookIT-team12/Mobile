@@ -4,7 +4,7 @@ import android.os.AsyncTask;
 
 import com.example.bookit.model.User;
 import com.example.bookit.retrofit.api.UserApi;
-import com.example.bookit.utils.GuestReportOwnerAdapter;
+import com.example.bookit.utils.adapters.GuestReportOwnerAdapter;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;

@@ -2,13 +2,11 @@ package com.example.bookit.utils.asyncTasks;
 
 import android.os.AsyncTask;
 
-import com.example.bookit.ReviewAccommodationActivity;
 import com.example.bookit.model.Review;
 import com.example.bookit.retrofit.api.ReviewApi;
-import com.example.bookit.utils.ReviewAccommodationRecycleViewAdapter;
+import com.example.bookit.utils.adapters.ReviewAccommodationRecycleViewAdapter;
 
 import java.io.IOException;
-import java.nio.channels.AsynchronousChannelGroup;
 import java.util.List;
 
 import retrofit2.Response;

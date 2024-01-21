@@ -5,22 +5,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.util.Pair;
 
 import com.example.bookit.app.AppPreferences;
-import com.example.bookit.model.Accommodation;
 import com.example.bookit.model.ResponseAccommodationImages;
 import com.example.bookit.retrofit.RetrofitService;
 import com.example.bookit.retrofit.api.AccommodationApi;
 import com.example.bookit.retrofit.api.ReservationApi;
 import com.example.bookit.security.UserTokenService;
-import com.example.bookit.utils.AccommodationRecycleViewAdapter;
-import com.google.android.material.snackbar.Snackbar;
+import com.example.bookit.utils.adapters.AccommodationRecycleViewAdapter;
 
 import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public class PlacesVisitedActivity extends AppCompatActivity implements PlacesVisitedLoading.MyCallback {
 
