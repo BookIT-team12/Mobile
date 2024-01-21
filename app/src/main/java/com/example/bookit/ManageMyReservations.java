@@ -12,11 +12,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.bookit.model.Notification;
 import com.example.bookit.model.Reservation;
 import com.example.bookit.model.User;
 import com.example.bookit.retrofit.RetrofitService;
+import com.example.bookit.retrofit.api.NotificationApi;
 import com.example.bookit.retrofit.api.ReservationApi;
 
+import java.time.Clock;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +33,6 @@ import retrofit2.Retrofit;
 //TODO: NAMESTI PROSLEDJIVANJE ID-A ULOGOVANOG USERA!
  public class ManageMyReservations extends AppCompatActivity {
 
-
      private ReservationApi reservationApi;
      private ListView reservationListView;
 
@@ -38,6 +42,8 @@ import retrofit2.Retrofit;
 
      private User guest;
 
+     private NotificationApi notificationApi;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +52,7 @@ import retrofit2.Retrofit;
 
         retrofit = new RetrofitService(getApplicationContext()).getRetrofit();
         reservationApi = retrofit.create(ReservationApi.class);
+        notificationApi=retrofit.create(NotificationApi.class);
 
         reservationAdapter = new ReservationAdapter(this, new ArrayList<>());
 
@@ -106,18 +113,25 @@ import retrofit2.Retrofit;
      }
 
      public void cancelUserReservation(Reservation reservation){
+        //reservation.getAccommodationId()
          Call<Void> call = reservationApi.changeReservationStatus(3,reservation);
          handleReservationResponse(call, "Reservation canceled successfully");}
 
 
      //------------------------- HANDLE CALLS
-     private void handleReservationResponse(Call<Void> call, String successMessage) {
+
+    //TODO: IZMENI DA BUDE OWNEROV EMAIL, JER SE ON OBAVESTAVA DA JE USER OTKAZAO REZERVACIJU!
+
+    private void handleReservationResponse(Call<Void> call, String successMessage) {
          call.enqueue(new Callback<Void>() {
              @Override
              public void onResponse(Call<Void> call, Response<Void> response) {
                  if (response.isSuccessful()) {
                      Toast.makeText(ManageMyReservations.this, successMessage, Toast.LENGTH_SHORT).show();
                      fetchUserReservations(guest.getEmail());
+                     Notification  notification=new Notification(null, guest.getEmail(), "Reservation CANCELED - "+guest.getEmail()+" has CANCELED his stay!", LocalDateTime.now(Clock.systemUTC()));
+                     saveNotification(notification);
+
                  } else {
                      Toast.makeText(ManageMyReservations.this, "Failed to process a reservation! Cancel not successful!", Toast.LENGTH_SHORT).show();
                  }
@@ -148,9 +162,33 @@ import retrofit2.Retrofit;
          });
      }
 
+
     public void updateAdapter(Response<List<Reservation>> response){
         reservationAdapter.clear();
         reservationAdapter.addAll(response.body());
         reservationAdapter.notifyDataSetChanged();
     }
+
+    public void saveNotification(Notification notification){
+        Call<Notification> call=notificationApi.createNotification(notification);
+        handleNotificationResponse(call, "Notification sent successfully!");
+    }
+    private void handleNotificationResponse(Call<Notification> call, String successMessage) {
+        call.enqueue(new Callback<Notification>() {
+            @Override
+            public void onResponse(Call<Notification> call, Response<Notification> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(ManageMyReservations.this, successMessage, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ManageMyReservations.this, "Failed to create Notification!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Notification> call, Throwable t) {
+                Toast.makeText(ManageMyReservations.this, "Couldn't create Notification!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 }

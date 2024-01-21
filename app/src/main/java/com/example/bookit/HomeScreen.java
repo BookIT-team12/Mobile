@@ -1,7 +1,12 @@
 package com.example.bookit;
 
 import android.app.Activity;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,11 +15,16 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.bookit.model.Notification;
 import com.example.bookit.model.User;
 import com.example.bookit.retrofit.RetrofitService;
+import com.example.bookit.retrofit.api.NotificationApi;
 import com.example.bookit.retrofit.api.UserApi;
 
 import org.mapsforge.map.rendertheme.renderinstruction.Line;
@@ -33,6 +43,7 @@ import org.mapsforge.map.rendertheme.renderinstruction.Line;
 
 public class HomeScreen extends AppCompatActivity {
 
+    private static final String CHANNEL_ID = "NOTIFICATION_CHANNEL";
     private DrawerLayout drawerLayout;
     private ImageView menu;
     private LinearLayout home;
@@ -63,6 +74,7 @@ public class HomeScreen extends AppCompatActivity {
     private Retrofit retrofit;
 
     private UserApi userApi;
+    private NotificationApi notificationApi;
 
     private User currentUser;
 
@@ -77,18 +89,21 @@ public class HomeScreen extends AppCompatActivity {
         String role = getIntent().getStringExtra("ROLE");
 
         setupRetrofit();
-        currentUserEmail=getIntent().getStringExtra("USER_EMAIL");
+        currentUserEmail = getIntent().getStringExtra("USER_EMAIL");
         getUserData(currentUserEmail);
 
         setUpCommonUI();
         if ("admin".equals(role)) {
             setUpAdminUI();
-        }
-        else if ("owner".equals(role)) {
+        } else if ("owner".equals(role)) {
             setUpHostUI();
+            fetchNotifications();
         } else {
             setUpGuestUI();
+            fetchNotifications();
         }
+
+
     }
 
     private void setupRetrofit() {
@@ -96,7 +111,7 @@ public class HomeScreen extends AppCompatActivity {
         userApi = retrofit.create(UserApi.class);
     }
 
-    public void getUserData(String currentUserEmail){
+    public void getUserData(String currentUserEmail) {
         userApi.getUser(currentUserEmail).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
@@ -110,14 +125,14 @@ public class HomeScreen extends AppCompatActivity {
         });
     }
 
-    public void setUpAdminUI(){
+    public void setUpAdminUI() {
         includeNavDrawer(R.layout.nav_drawer_admin);
         manageAccount = findViewById(R.id.account_details_admin);
         home = findViewById(R.id.home_admin);
         logout = findViewById(R.id.logout_admin);
-        approveAccommodations=findViewById(R.id.manage_apartments);
-        blockUsers=findViewById(R.id.manage_accounts);
-        approveReviews=findViewById(R.id.manage_reviews);
+        approveAccommodations = findViewById(R.id.manage_apartments);
+        blockUsers = findViewById(R.id.manage_accounts);
+        approveReviews = findViewById(R.id.manage_reviews);
 
 
         approveAccommodations.setOnClickListener(new View.OnClickListener() {
@@ -167,12 +182,12 @@ public class HomeScreen extends AppCompatActivity {
 
     }
 
-    public void setUpGuestUI(){
+    public void setUpGuestUI() {
         includeNavDrawer(R.layout.nav_drawer_guest);
         logout = findViewById(R.id.logout);
         manageAccount = findViewById(R.id.account_details);
         home = findViewById(R.id.home);
-        manageMyReservations=findViewById(R.id.manage_my_reservations);
+        manageMyReservations = findViewById(R.id.manage_my_reservations);
 
         manageMyReservations.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -210,14 +225,14 @@ public class HomeScreen extends AppCompatActivity {
 
     }
 
-    public void setUpHostUI(){
+    public void setUpHostUI() {
         includeNavDrawer(R.layout.nav_drawer_host);
         manageAccount = findViewById(R.id.account_details_host);
         home = findViewById(R.id.home_host);
         logout = findViewById(R.id.logout_host);
-        addAccommodation=findViewById(R.id.add_accommodation);
-        manageAccommodations=findViewById(R.id.manage_my_apartments);
-        manageGuestReservations=findViewById(R.id.manage_reservations);
+        addAccommodation = findViewById(R.id.add_accommodation);
+        manageAccommodations = findViewById(R.id.manage_my_apartments);
+        manageGuestReservations = findViewById(R.id.manage_reservations);
 
 
         manageAccount.setOnClickListener(new View.OnClickListener() {
@@ -265,10 +280,10 @@ public class HomeScreen extends AppCompatActivity {
 
     }
 
-    public void setUpCommonUI(){
+    public void setUpCommonUI() {
         drawerLayout = findViewById(R.id.drawerLayout);
         menu = findViewById(R.id.menu);
-        deleteAccount=findViewById(R.id.deleteAccount);
+        deleteAccount = findViewById(R.id.deleteAccount);
 
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -316,13 +331,13 @@ public class HomeScreen extends AppCompatActivity {
                     Toast.makeText(HomeScreen.this, "Failed to delete account", Toast.LENGTH_SHORT).show();
                 }
             }
+
             @Override
             public void onFailure(Call<Map<String, String>> call, Throwable t) {
                 Toast.makeText(HomeScreen.this, "Failed to delete account", Toast.LENGTH_SHORT).show();
             }
         });
     }
-
 
 
     private void includeNavDrawer(int layoutResId) {
@@ -381,4 +396,78 @@ public class HomeScreen extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
     }
+
+
+    // FETCH AND DISPLAY NOTIFICATIONS
+    public void fetchNotifications() {
+        Call<Notification> call = notificationApi.getLatestNotification(currentUserEmail);
+        call.enqueue(new Callback<Notification>() {
+            @Override
+            public void onResponse(Call<Notification> call, Response<Notification> response) {
+                if (response.isSuccessful()) {
+                    Notification notification = response.body();
+                    if (notification != null) {
+                        showNotification(notification);
+                    }
+                } else {
+                    // Handle unsuccessful response
+                    Toast.makeText(HomeScreen.this, "No new notifications!", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Notification> call, Throwable t) {
+                Toast.makeText(HomeScreen.this, "Failed to fetch notifications!", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+
+    //TODO: CHANGE ID
+    private static final int NOTIFICATION_ID = 1;
+
+    private void showNotification(Notification notification) {
+        Intent intent = new Intent(this, HomeScreen.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+
+        // Build the notification
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.nav_notification)
+                .setContentTitle("New message")
+                .setContentText(notification.getMessage())
+                .setContentIntent(pendingIntent)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setAutoCancel(true);
+
+        // Show the notification
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+
+        notificationManager.notify(NOTIFICATION_ID, builder.build());
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            if (manager != null) {
+                NotificationChannel channel = new NotificationChannel(
+                        CHANNEL_ID,
+                        "Notification Channel",
+                        NotificationManager.IMPORTANCE_DEFAULT
+                );
+                manager.createNotificationChannel(channel);
+            }
+        }
+    }
+
+
 }

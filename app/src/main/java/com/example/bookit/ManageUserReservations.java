@@ -13,15 +13,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bookit.model.Accommodation;
+import com.example.bookit.model.Notification;
 import com.example.bookit.model.Reservation;
 import com.example.bookit.model.Review;
 import com.example.bookit.model.User;
 import com.example.bookit.retrofit.RetrofitService;
 import com.example.bookit.retrofit.api.AccommodationApi;
+import com.example.bookit.retrofit.api.NotificationApi;
 import com.example.bookit.retrofit.api.ReservationApi;
 
 import org.w3c.dom.Text;
 
+import java.time.Clock;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,10 +34,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-//TODO: NAMESTI DA SE PROSLEDJUJE ID ULOGOVANOG OWNERA
 public class ManageUserReservations extends AppCompatActivity {
 
     private ReservationApi reservationApi;
+    private NotificationApi notificationApi;
     private ListView reservationListView;
 
     private Retrofit retrofit;
@@ -54,6 +58,8 @@ public class ManageUserReservations extends AppCompatActivity {
 
         reservationListView = findViewById(R.id.manageUserReservations);
         reservationListView.setAdapter(reservationAdapter);
+
+        notificationApi=retrofit.create(NotificationApi.class);
 
         reservationListView.setOnItemClickListener((parent, view, position, id) -> {
             Reservation selectedReservation = reservationAdapter.getItem(position);
@@ -101,24 +107,26 @@ public class ManageUserReservations extends AppCompatActivity {
         dialog.show();
     }
 
-
     private void approveReservation(Reservation reservation) {
         Call<Void> call = reservationApi.changeReservationStatus(2,reservation);
-        handleReservationResponse(call, "Reservation approved successfully");
+        String notificationMessage="Reservation APPROVED - "+ reservation.getGuestEmail()+ " enjoy your stay!";
+        handleReservationResponse(call, "Reservation approved successfully", notificationMessage, reservation.getGuestEmail());
     }
 
     private void denyReservation(Reservation reservation) {
         Call<Void> call = reservationApi.changeReservationStatus(1,reservation);
-        handleReservationResponse(call, "Reservation denied successfully");
+        String notificationMessage="Reservation DENIED - "+ reservation.getGuestEmail()+ " we'll see each other next time!";
+        handleReservationResponse(call, "Reservation denied successfully", notificationMessage, reservation.getGuestEmail());
     }
 
-
-    private void handleReservationResponse(Call<Void> call, String successMessage) {
+    private void handleReservationResponse(Call<Void> call, String successMessage, String notificationMessage, String guestID) {
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(ManageUserReservations.this, successMessage, Toast.LENGTH_SHORT).show();
+                    Notification notification=new Notification(null, notificationMessage, guestID, LocalDateTime.now(Clock.systemUTC()));
+                    saveNotification(notification);
                     fetchExistingOwnersReservations(owner.getEmail());
                 } else {
                     Toast.makeText(ManageUserReservations.this, "Failed to process a reservation", Toast.LENGTH_SHORT).show();
@@ -158,12 +166,35 @@ public class ManageUserReservations extends AppCompatActivity {
     }
 
 
-
     private void fetchExistingOwnersReservations(String ownerEmail){
         Call<List<Reservation>> call=reservationApi.getOwnerReservations(ownerEmail);
         handleUserReservations(call, "Successfully fetched user reservations!");
     }
 
+
+    public void saveNotification(Notification notification){
+        Call<Notification> call=notificationApi.createNotification(notification);
+        handleNotificationResponse(call, "Notification sent successfully!");
+    }
+    private void handleNotificationResponse(Call<Notification> call, String successMessage) {
+        call.enqueue(new Callback<Notification>() {
+            @Override
+            public void onResponse(Call<Notification> call, Response<Notification> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(ManageUserReservations.this, successMessage, Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.e("NotificationRequest", "Request payload: " + call.request().body().toString());
+                    Toast.makeText(ManageUserReservations.this, "Failed to create Notification!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Notification> call, Throwable t) {
+                Log.e("NotificationRequest", "Request payload: " + call.request().body().toString());
+                Toast.makeText(ManageUserReservations.this, "Notification fail! :(", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
 
 
