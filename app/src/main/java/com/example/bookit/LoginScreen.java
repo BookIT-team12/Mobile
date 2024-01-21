@@ -106,7 +106,7 @@ public class LoginScreen extends AppCompatActivity {
                         switch (loggedRole) {
                             case OWNER:
                                 intent.putExtra("ROLE", "owner");
-
+                                intent.putExtra("shouldFetch", true);
                                 startActivity(intent);
                                 break;
                             case ADMINISTRATOR:
@@ -115,6 +115,7 @@ public class LoginScreen extends AppCompatActivity {
                                 break;
                             default:
                                 intent.putExtra("ROLE", "guest");
+                                intent.putExtra("shouldFetch", true);
                                 startActivity(intent);
                         }
                     } catch (ParseException ex) {

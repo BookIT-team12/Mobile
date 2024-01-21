@@ -68,6 +68,8 @@ public class AccommodationRecycleViewAdapter extends RecyclerView.Adapter<Accomm
         holder.reviewAccommodationBtn.setOnClickListener(view -> {
             Intent intent = new Intent(view.getContext(), ReviewAccommodationActivity.class);
             intent.putExtra("accommodationId", accommodation.getFirst().getId());
+            intent.putExtra("ownerEmail", accommodation.getFirst().getOwnerEmail());
+            intent.putExtra("accommodationName", accommodation.getFirst().getName());
             view.getContext().startActivity(intent);
         });
     }

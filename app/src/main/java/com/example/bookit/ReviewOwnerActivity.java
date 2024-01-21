@@ -13,15 +13,18 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.bookit.app.AppPreferences;
+import com.example.bookit.model.Notification;
 import com.example.bookit.model.Review;
 import com.example.bookit.model.User;
 import com.example.bookit.model.enums.ReviewStatus;
 import com.example.bookit.retrofit.RetrofitService;
+import com.example.bookit.retrofit.api.NotificationApi;
 import com.example.bookit.retrofit.api.ReviewApi;
 import com.example.bookit.retrofit.api.UserApi;
 import com.example.bookit.security.UserTokenService;
 import com.example.bookit.utils.asyncTasks.FetchOwnerReviewsTask;
 import com.example.bookit.utils.adapters.ReviewOwnerRecycleViewAdapter;
+import com.example.bookit.utils.asyncTasks.PostNotificationTask;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.text.ParseException;
@@ -39,6 +42,7 @@ public class ReviewOwnerActivity extends AppCompatActivity {
     private List<Review> allAuthorReviews;
     private ReviewApi api;
     private UserApi userApi;
+    private NotificationApi notificationApi;
     Button submitBtn;
     String loggedUser;
     Spinner gradeSpinner;
@@ -72,6 +76,7 @@ public class ReviewOwnerActivity extends AppCompatActivity {
         try {
             loggedUser = tokenService.getCurrentUser(AppPreferences.getToken(getApplicationContext()));
             api = retrofitService.getRetrofit().create(ReviewApi.class);
+            notificationApi = retrofitService.getRetrofit().create(NotificationApi.class);
             new FetchOwnerReviewsTask(api, loggedUser, allAuthorReviews, adapter).execute();
         } catch (ParseException e) {
             throw new RuntimeException(e);
@@ -82,11 +87,15 @@ public class ReviewOwnerActivity extends AppCompatActivity {
             api.createReview(createNewReview()).enqueue(new Callback<Review>() {
                 @Override
                 public void onResponse(Call<Review> call, Response<Review> response) {
-                    showSnackbar("You have submitted review for owner successfully");
-                    // Start HomeScreenActivity
-                    Intent intent = new Intent(view.getContext(), HomeScreen.class);
-                    intent.putExtra("ROLE", "guest");
-                    view.getContext().startActivity(intent);
+                    if (response.isSuccessful()) {
+                        showSnackbar("You have submitted review for owner successfully");
+                        assert response.body() != null;
+                        Notification ntf = new Notification(null, response.body().getOwnerEmail(), "You have just been graded by: " + response.body().getAuthorEmail(), LocalDateTime.now());
+
+                        PostNotificationTask asyncPostTask = new PostNotificationTask(notificationApi, view);
+                        asyncPostTask.execute(ntf);
+
+                    }
                 }
 
                 @Override
