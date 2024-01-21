@@ -21,6 +21,7 @@ import com.example.bookit.retrofit.RetrofitService;
 import com.example.bookit.retrofit.api.AccommodationApi;
 import com.example.bookit.retrofit.api.NotificationApi;
 import com.example.bookit.retrofit.api.ReservationApi;
+import com.example.bookit.utils.asyncTasks.PostNotificationTask;
 
 import org.w3c.dom.Text;
 
@@ -111,12 +112,24 @@ public class ManageUserReservations extends AppCompatActivity {
         Call<Void> call = reservationApi.changeReservationStatus(2,reservation);
         String notificationMessage="Reservation APPROVED - "+ reservation.getGuestEmail()+ " enjoy your stay!";
         handleReservationResponse(call, "Reservation approved successfully", notificationMessage, reservation.getGuestEmail());
+
+        Notification notification=new Notification(null, reservation.getGuestEmail(),notificationMessage, LocalDateTime.now());
+        View view=findViewById(android.R.id.content);
+        PostNotificationTask asyncPostTask = new PostNotificationTask(notificationApi, view);
+        asyncPostTask.execute(notification);
+
+
     }
 
     private void denyReservation(Reservation reservation) {
         Call<Void> call = reservationApi.changeReservationStatus(1,reservation);
         String notificationMessage="Reservation DENIED - "+ reservation.getGuestEmail()+ " we'll see each other next time!";
         handleReservationResponse(call, "Reservation denied successfully", notificationMessage, reservation.getGuestEmail());
+
+        Notification notification=new Notification(null, reservation.getGuestEmail(),notificationMessage,  LocalDateTime.now());
+        View view=findViewById(android.R.id.content);
+        PostNotificationTask asyncPostTask = new PostNotificationTask(notificationApi, view);
+        asyncPostTask.execute(notification);
     }
 
     private void handleReservationResponse(Call<Void> call, String successMessage, String notificationMessage, String guestID) {
@@ -125,8 +138,6 @@ public class ManageUserReservations extends AppCompatActivity {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(ManageUserReservations.this, successMessage, Toast.LENGTH_SHORT).show();
-                    Notification notification=new Notification(null, notificationMessage, guestID, LocalDateTime.now(Clock.systemUTC()));
-                    saveNotification(notification);
                     fetchExistingOwnersReservations(owner.getEmail());
                 } else {
                     Toast.makeText(ManageUserReservations.this, "Failed to process a reservation", Toast.LENGTH_SHORT).show();

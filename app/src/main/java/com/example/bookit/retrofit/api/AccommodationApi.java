@@ -10,6 +10,7 @@ import retrofit2.Call;
 import retrofit2.http.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface AccommodationApi {
@@ -48,7 +49,7 @@ public interface AccommodationApi {
 
     @POST("/api/accommodations/deny/{id}")
     Call<Void> denyAccommodation(@Path("id") int id);
+    @GET("api/accommodations/accommodationOwner/{id}")
+    Call<Map<String, String>> getUserIdBasedOnAccommodationId(@Path("id") Integer id);
 
-    @DELETE("/api/accommodations/{id}")
-    Call<String> deleteAccommodation(@Path("id") int id);
 }

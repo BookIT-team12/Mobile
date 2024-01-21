@@ -16,12 +16,15 @@ import com.example.bookit.model.Notification;
 import com.example.bookit.model.Reservation;
 import com.example.bookit.model.User;
 import com.example.bookit.retrofit.RetrofitService;
+import com.example.bookit.retrofit.api.AccommodationApi;
 import com.example.bookit.retrofit.api.NotificationApi;
 import com.example.bookit.retrofit.api.ReservationApi;
+import com.example.bookit.utils.asyncTasks.FetchOwnerEmailTask;
+import com.example.bookit.utils.asyncTasks.PostNotificationTask;
 
+import java.io.IOException;
 import java.time.Clock;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +45,13 @@ import retrofit2.Retrofit;
 
      private User guest;
 
+     private FetchOwnerEmailTask fetchOwnerEmailTask;
+
      private NotificationApi notificationApi;
+
+    private AccommodationApi accommodationApi;
+
+    private String owner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +61,7 @@ import retrofit2.Retrofit;
 
         retrofit = new RetrofitService(getApplicationContext()).getRetrofit();
         reservationApi = retrofit.create(ReservationApi.class);
+        accommodationApi=retrofit.create(AccommodationApi.class);
         notificationApi=retrofit.create(NotificationApi.class);
 
         reservationAdapter = new ReservationAdapter(this, new ArrayList<>());
@@ -112,37 +122,52 @@ import retrofit2.Retrofit;
          dialog.show();
      }
 
-     public void cancelUserReservation(Reservation reservation){
-        //reservation.getAccommodationId()
+
+    public void cancelUserReservation(Reservation reservation){
          Call<Void> call = reservationApi.changeReservationStatus(3,reservation);
-         handleReservationResponse(call, "Reservation canceled successfully");}
+         handleReservationResponse(reservation, call, "Reservation canceled successfully");}
 
 
      //------------------------- HANDLE CALLS
 
-    //TODO: IZMENI DA BUDE OWNEROV EMAIL, JER SE ON OBAVESTAVA DA JE USER OTKAZAO REZERVACIJU!
 
-    private void handleReservationResponse(Call<Void> call, String successMessage) {
-         call.enqueue(new Callback<Void>() {
-             @Override
-             public void onResponse(Call<Void> call, Response<Void> response) {
-                 if (response.isSuccessful()) {
-                     Toast.makeText(ManageMyReservations.this, successMessage, Toast.LENGTH_SHORT).show();
-                     fetchUserReservations(guest.getEmail());
-                     Notification  notification=new Notification(null, guest.getEmail(), "Reservation CANCELED - "+guest.getEmail()+" has CANCELED his stay!", LocalDateTime.now(Clock.systemUTC()));
-                     saveNotification(notification);
+    private void handleReservationResponse(Reservation reservation, Call<Void> call, String successMessage) {
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(ManageMyReservations.this, successMessage, Toast.LENGTH_SHORT).show();
+                    fetchUserReservations(guest.getEmail());
 
-                 } else {
-                     Toast.makeText(ManageMyReservations.this, "Failed to process a reservation! Cancel not successful!", Toast.LENGTH_SHORT).show();
-                 }
-             }
+                    fetchOwnerEmailTask = new FetchOwnerEmailTask(accommodationApi, reservation.getAccommodationId(), new FetchOwnerEmailTask.OwnerEmailCallback() {
+                        @Override
+                        public void onOwnerEmailReceived(String ownerEmail) {
+                            owner = ownerEmail;
 
-             @Override
-             public void onFailure(Call<Void> call, Throwable t) {
-                 Toast.makeText(ManageMyReservations.this, "Cancel failed!", Toast.LENGTH_SHORT).show();
-             }
-         });
-     }
+                            Notification notification = new Notification(null, owner,"Reservation CANCELED - " + guest.getEmail() + " has CANCELED his stay!", LocalDateTime.now(Clock.systemUTC()));
+                            View view = findViewById(android.R.id.content);
+
+                            PostNotificationTask asyncPostTask = new PostNotificationTask(notificationApi, view);
+                            asyncPostTask.execute(notification);
+                        }
+                        @Override
+                        public void onFailure(Throwable t) {
+                            Toast.makeText(ManageMyReservations.this, "Failed to fetch owner's email", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    fetchOwnerEmailTask.execute();
+                } else {
+                    Toast.makeText(ManageMyReservations.this, "Failed to process a reservation! Cancel not successful!", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(ManageMyReservations.this, "Cancel failed!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
      private void handleGuestReservationsResponse(Call<List<Reservation>> call, String successMessage) {
          call.enqueue(new Callback<List<Reservation>>() {
              @Override
