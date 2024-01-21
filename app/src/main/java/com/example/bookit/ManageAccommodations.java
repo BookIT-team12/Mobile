@@ -92,7 +92,7 @@ public class ManageAccommodations extends AppCompatActivity {
 
     private void startUpdateActivity(Accommodation accommodation) {
         Intent intent = new Intent(ManageAccommodations.this, UpdateAccommodation.class);
-        intent.putExtra("SELECTED_ACCOMMODATION", accommodation.getId());
+        intent.putExtra("UPDATE_ACCOMMODATION", accommodation.getId());
         startActivity(intent);
     }
 

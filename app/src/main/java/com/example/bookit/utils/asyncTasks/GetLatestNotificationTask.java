@@ -29,7 +29,7 @@ public class GetLatestNotificationTask extends AsyncTask<String, Void, Notificat
             String currentUserEmail = currentUser.getEmail();
 
             // Make the API request
-            Response<Notification> response = notificationApi.getLatestsNotification(currentUserEmail).execute();
+            Response<Notification> response = notificationApi.getLatestNotification(currentUserEmail).execute();
 
             // Check if the request was successful
             if (response.isSuccessful()) {
