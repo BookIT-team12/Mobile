@@ -21,5 +21,7 @@ public interface NotificationApi {
     @POST("/notifications")
     Call<Notification>createNotification(@Body Notification dto);
 
+    @GET("/notifications/latest/{guestEmail}")
+    Call<Notification> getLatestsNotification(@Path("guestEmail") String guestEmail);
 
 }

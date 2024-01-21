@@ -13,8 +13,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.bookit.model.Notification;
 import com.example.bookit.model.User;
 import com.example.bookit.retrofit.RetrofitService;
+import com.example.bookit.retrofit.api.NotificationApi;
 import com.example.bookit.retrofit.api.UserApi;
 
 import org.mapsforge.map.rendertheme.renderinstruction.Line;
@@ -28,6 +30,9 @@ import retrofit2.Retrofit;
 
 import com.example.bookit.app.AppPreferences;
 import com.example.bookit.security.UserTokenService;
+import com.example.bookit.utils.NotificationUtils;
+import com.example.bookit.utils.asyncTasks.GetLatestNotificationTask;
+import com.example.bookit.utils.asyncTasks.GetUserAsyncTask;
 
 import org.mapsforge.map.rendertheme.renderinstruction.Line;
 
@@ -63,6 +68,7 @@ public class HomeScreen extends AppCompatActivity {
     private Retrofit retrofit;
 
     private UserApi userApi;
+    private NotificationApi notificationApi;
 
     private User currentUser;
 
@@ -80,6 +86,20 @@ public class HomeScreen extends AppCompatActivity {
         currentUserEmail=getIntent().getStringExtra("USER_EMAIL");
         getUserData(currentUserEmail);
 
+        new GetLatestNotificationTask(notificationApi, new GetLatestNotificationTask.GetLatestNotificationCallback() {
+            @Override
+            public void onSuccess(Notification notification) {
+                NotificationUtils.notifyPhone(getApplicationContext(), notification, "TITLE OF NOTIFICATION");
+            }
+
+            @Override
+            public void onFailure() {
+                System.out.println("LOSE PAO ZAHTEV ZA NTF");
+            }
+        }, currentUser).execute();
+
+
+
         setUpCommonUI();
         if ("admin".equals(role)) {
             setUpAdminUI();
@@ -94,20 +114,24 @@ public class HomeScreen extends AppCompatActivity {
     private void setupRetrofit() {
         retrofit = new RetrofitService(getApplicationContext()).getRetrofit();
         userApi = retrofit.create(UserApi.class);
+        notificationApi = retrofit.create(NotificationApi.class);
     }
 
     public void getUserData(String currentUserEmail){
-        userApi.getUser(currentUserEmail).enqueue(new Callback<User>() {
+        new GetUserAsyncTask(userApi, new GetUserAsyncTask.GetUserCallback() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                currentUser = response.body();
+            public void onSuccess(User user) {
+                // Handle successful response here
+                currentUser = user;
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure() {
+                // Handle failure here
                 currentUser = null;
             }
-        });
+        }).execute(currentUserEmail);
+
     }
 
     public void setUpAdminUI(){

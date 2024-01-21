@@ -58,7 +58,7 @@ public class RetrofitService {
                 .create();
         this.retrofit = new Retrofit.Builder()
 
-                .baseUrl(NATASA_IP) //izdvojila sam nam ip adrese u const stringove, da lakse menjamo po potrebi-DULE_IP
+                .baseUrl(DULE_IP) //izdvojila sam nam ip adrese u const stringove, da lakse menjamo po potrebi-DULE_IP
                 .addConverterFactory(GsonConverterFactory.create(customGson()))
                 .client(client)
                 .build();
