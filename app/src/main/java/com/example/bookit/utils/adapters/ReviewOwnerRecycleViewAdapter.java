@@ -51,7 +51,7 @@ public class ReviewOwnerRecycleViewAdapter extends RecyclerView.Adapter<ReviewOw
         holder.commentTF.setText(String.format("Comment: %s", review.getText()));
 
         Button deleteReviewBtn = new Button(holder.itemView.getContext());
-        deleteReviewBtn.setText("Report review");
+        deleteReviewBtn.setText("Delete review");
 
         int colorResId = R.color.logo; // Replace with your color resource ID
         int color = ContextCompat.getColor(holder.itemView.getContext(), colorResId);

@@ -13,16 +13,22 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.bookit.app.AppPreferences;
+import com.example.bookit.model.Accommodation;
+import com.example.bookit.model.Notification;
 import com.example.bookit.model.Review;
 import com.example.bookit.model.enums.ReviewStatus;
 import com.example.bookit.retrofit.RetrofitService;
 import com.example.bookit.retrofit.api.AccommodationApi;
+import com.example.bookit.retrofit.api.NotificationApi;
 import com.example.bookit.retrofit.api.ReviewApi;
 import com.example.bookit.security.UserTokenService;
+import com.example.bookit.utils.asyncTasks.FetchAccommodationDetailsTask;
 import com.example.bookit.utils.asyncTasks.FetchAccommodationForReviewTask;
+import com.example.bookit.utils.asyncTasks.FetchAccommodationNameTask;
 import com.example.bookit.utils.asyncTasks.FetchAccommodationReviewsTask;
 import com.example.bookit.utils.adapters.ReviewAccommodationRecycleViewAdapter;
 import com.example.bookit.utils.asyncTasks.FetchAverageAccommodatioGradeTask;
+import com.example.bookit.utils.asyncTasks.PostNotificationTask;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.text.ParseException;
@@ -41,6 +47,7 @@ public class ReviewAccommodationActivity extends AppCompatActivity {
     private List<Review> allAuthorReviews;
     private ReviewApi api;
     private AccommodationApi accommodationApi;
+    private NotificationApi notificationApi;
     String loggedUser;
     Button submitBtn;
     Spinner gradeSpinner;
@@ -50,6 +57,8 @@ public class ReviewAccommodationActivity extends AppCompatActivity {
     TextView averageGradeTF;
     TextView ownerEmailTF;
     Integer reviewingAccommodationId;
+    String reviewingAccommodationName;
+    String ownerOfReviewingAccommodation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +66,8 @@ public class ReviewAccommodationActivity extends AppCompatActivity {
 
         allAuthorReviews = new ArrayList<>();
         reviewingAccommodationId = getIntent().getIntExtra("accommodationId", -100);
+        ownerOfReviewingAccommodation = getIntent().getStringExtra("ownerEmail");
+        reviewingAccommodationName = getIntent().getStringExtra("accommodationName");
 
         nameTF = findViewById(R.id.accommodationNameTextView_review_accommodation_activity);
         maxGuestsTF = findViewById(R.id.maxGuestsTextView_review_accommodation_activity);
@@ -78,6 +89,7 @@ public class ReviewAccommodationActivity extends AppCompatActivity {
         try {
             loggedUser = userTokenService.getCurrentUser(AppPreferences.getToken(getApplicationContext()));
             api = retrofitService.getRetrofit().create(ReviewApi.class);
+            notificationApi = retrofitService.getRetrofit().create(NotificationApi.class);
             new FetchAccommodationReviewsTask(api, loggedUser, allAuthorReviews, adapter).execute();
         } catch (ParseException e) {
             throw new RuntimeException(e);
@@ -88,10 +100,13 @@ public class ReviewAccommodationActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<Review> call, Response<Review> response) {
                     showSnackbar("You have submitted review for owner successfully");
-                    // Start HomeScreenActivity
-                    Intent intent = new Intent(view.getContext(), HomeScreen.class);
-                    intent.putExtra("ROLE", "guest");
-                    view.getContext().startActivity(intent);
+                    assert response.body() != null;
+
+                    Notification ntf = new Notification(null, ownerOfReviewingAccommodation, "Your accommodation: "+reviewingAccommodationName+" has just been graded by: " + response.body().getAuthorEmail(), LocalDateTime.now());
+
+                    PostNotificationTask asyncPostTask = new PostNotificationTask(notificationApi, view);
+                    asyncPostTask.execute(ntf);
+
                 }
 
                 @Override

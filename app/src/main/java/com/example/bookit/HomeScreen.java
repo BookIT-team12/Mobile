@@ -47,6 +47,7 @@ import org.mapsforge.map.rendertheme.renderinstruction.Line;
 public class HomeScreen extends AppCompatActivity {
 
     private static final String CHANNEL_ID = "NOTIFICATION_CHANNEL";
+    private static final int PERMISSION_REQUEST_POST_NOTIFICATIONS = 123; // You can use any unique value
     private DrawerLayout drawerLayout;
     private ImageView menu;
     private LinearLayout home;
@@ -95,20 +96,6 @@ public class HomeScreen extends AppCompatActivity {
         currentUserEmail = getIntent().getStringExtra("USER_EMAIL");
         getUserData(currentUserEmail);
 
-//        new GetLatestNotificationTask(notificationApi, new GetLatestNotificationTask.GetLatestNotificationCallback() {
-//            @Override
-//            public void onSuccess(Notification notification) {
-//                NotificationUtils.notifyPhone(getApplicationContext(), notification, "TITLE OF NOTIFICATION");
-//            }
-//
-//            @Override
-//            public void onFailure() {
-//                System.out.println("LOSE PAO ZAHTEV ZA NTF");
-//            }
-//        }, currentUser).execute();
-
-
-
         setUpCommonUI();
         if ("admin".equals(role)) {
             setUpAdminUI();
@@ -125,6 +112,7 @@ public class HomeScreen extends AppCompatActivity {
     private void setupRetrofit() {
         retrofit = new RetrofitService(getApplicationContext()).getRetrofit();
         userApi = retrofit.create(UserApi.class);
+        notificationApi = retrofit.create(NotificationApi.class);
     }
 
     public void getUserData(String currentUserEmail){
@@ -470,6 +458,9 @@ public class HomeScreen extends AppCompatActivity {
 
     // FETCH AND DISPLAY NOTIFICATIONS
     public void fetchNotifications() {
+        if (!getIntent().getBooleanExtra("shouldFetch", false)){
+            return;
+        }
         Call<Notification> call = notificationApi.getLatestNotification(currentUserEmail);
         call.enqueue(new Callback<Notification>() {
             @Override
@@ -479,6 +470,7 @@ public class HomeScreen extends AppCompatActivity {
                     if (notification != null) {
                         showNotification(notification);
                     }
+                    getIntent().putExtra("shouldFetch", false);
                 } else {
                     // Handle unsuccessful response
                     Toast.makeText(HomeScreen.this, "No new notifications!", Toast.LENGTH_SHORT).show();
@@ -494,10 +486,6 @@ public class HomeScreen extends AppCompatActivity {
         });
     }
 
-
-    //TODO: CHANGE ID
-    private static final int NOTIFICATION_ID = 1;
-
     private void showNotification(Notification notification) {
         Intent intent = new Intent(this, HomeScreen.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
@@ -505,7 +493,7 @@ public class HomeScreen extends AppCompatActivity {
         // Build the notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.nav_notification)
-                .setContentTitle("New message")
+                .setContentTitle("BookIT Notification")
                 .setContentText(notification.getMessage())
                 .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -514,17 +502,10 @@ public class HomeScreen extends AppCompatActivity {
         // Show the notification
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+            requestPostNotificationsPermission();
             return;
         }
-
-        notificationManager.notify(NOTIFICATION_ID, builder.build());
+        notificationManager.notify(notification.getId(), builder.build());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationManager manager = getSystemService(NotificationManager.class);
@@ -537,6 +518,13 @@ public class HomeScreen extends AppCompatActivity {
                 manager.createNotificationChannel(channel);
             }
         }
+    }
+
+    private void requestPostNotificationsPermission() {
+        // Request the POST_NOTIFICATIONS permission
+        ActivityCompat.requestPermissions(this,
+                new String[]{android.Manifest.permission.POST_NOTIFICATIONS},
+                PERMISSION_REQUEST_POST_NOTIFICATIONS);
     }
 
 

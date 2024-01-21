@@ -67,7 +67,7 @@ public class ReviewAccommodationRecycleViewAdapter extends RecyclerView.Adapter<
         }).execute();
 
         Button deleteReviewBtn = new Button(holder.itemView.getContext());
-        deleteReviewBtn.setText("Report review");
+        deleteReviewBtn.setText("Delete review");
 
         int colorResId = R.color.logo; // Replace with your color resource ID
         int color = ContextCompat.getColor(holder.itemView.getContext(), colorResId);
