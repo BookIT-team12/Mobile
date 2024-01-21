@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterScreen">
+    tools:context=".RegisterScreen"
+    android:background="@drawable/white_minimalist">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/startFormGuideline"
@@ -62,7 +63,8 @@
                 android:text="@string/registration_form"
                 android:textColor="@color/logo"
                 android:textSize="28sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:background="@drawable/header_card_bottom_border"/>
 
             <TextView
                 android:id="@+id/RegistrationFormUsername"

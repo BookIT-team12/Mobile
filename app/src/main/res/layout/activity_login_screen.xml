@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
-    tools:context=".LoginScreen">
+    tools:context=".LoginScreen"
+    android:background="@drawable/white_minimalist">
 
 
     <ImageView
@@ -46,6 +46,7 @@
             android:textStyle="bold"
             android:textColor="@color/logo"
             android:textSize="25sp"
+            android:background="@drawable/header_card_bottom_border"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
