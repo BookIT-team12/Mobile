@@ -11,9 +11,7 @@ import com.example.bookit.model.User;
 import com.example.bookit.retrofit.RetrofitService;
 import com.example.bookit.retrofit.api.UserApi;
 import com.example.bookit.security.UserTokenService;
-import com.example.bookit.utils.GuestReportOwnerAdapter;
-import com.example.bookit.utils.OwnerReportGuestAdapter;
-import com.google.gson.Gson;
+import com.example.bookit.utils.adapters.GuestReportOwnerAdapter;
 
 import java.text.ParseException;
 import java.util.ArrayList;

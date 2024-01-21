@@ -38,6 +38,9 @@ import retrofit2.Retrofit;
 
 import com.example.bookit.app.AppPreferences;
 import com.example.bookit.security.UserTokenService;
+import com.example.bookit.utils.NotificationUtils;
+import com.example.bookit.utils.asyncTasks.GetLatestNotificationTask;
+import com.example.bookit.utils.asyncTasks.GetUserAsyncTask;
 
 import org.mapsforge.map.rendertheme.renderinstruction.Line;
 
@@ -92,18 +95,31 @@ public class HomeScreen extends AppCompatActivity {
         currentUserEmail = getIntent().getStringExtra("USER_EMAIL");
         getUserData(currentUserEmail);
 
+//        new GetLatestNotificationTask(notificationApi, new GetLatestNotificationTask.GetLatestNotificationCallback() {
+//            @Override
+//            public void onSuccess(Notification notification) {
+//                NotificationUtils.notifyPhone(getApplicationContext(), notification, "TITLE OF NOTIFICATION");
+//            }
+//
+//            @Override
+//            public void onFailure() {
+//                System.out.println("LOSE PAO ZAHTEV ZA NTF");
+//            }
+//        }, currentUser).execute();
+
+
+
         setUpCommonUI();
         if ("admin".equals(role)) {
             setUpAdminUI();
-        } else if ("owner".equals(role)) {
+        }
+        else if ("owner".equals(role)) {
             setUpHostUI();
             fetchNotifications();
         } else {
             setUpGuestUI();
             fetchNotifications();
         }
-
-
     }
 
     private void setupRetrofit() {
@@ -111,18 +127,21 @@ public class HomeScreen extends AppCompatActivity {
         userApi = retrofit.create(UserApi.class);
     }
 
-    public void getUserData(String currentUserEmail) {
-        userApi.getUser(currentUserEmail).enqueue(new Callback<User>() {
+    public void getUserData(String currentUserEmail){
+        new GetUserAsyncTask(userApi, new GetUserAsyncTask.GetUserCallback() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                currentUser = response.body();
+            public void onSuccess(User user) {
+                // Handle successful response here
+                currentUser = user;
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure() {
+                // Handle failure here
                 currentUser = null;
             }
-        });
+        }).execute(currentUserEmail);
+
     }
 
     public void setUpAdminUI() {
@@ -182,12 +201,15 @@ public class HomeScreen extends AppCompatActivity {
 
     }
 
-    public void setUpGuestUI() {
+    public void setUpGuestUI(){
         includeNavDrawer(R.layout.nav_drawer_guest);
         logout = findViewById(R.id.logout);
         manageAccount = findViewById(R.id.account_details);
         home = findViewById(R.id.home);
-        manageMyReservations = findViewById(R.id.manage_my_reservations);
+        manageMyReservations=findViewById(R.id.manage_my_reservations);
+        placesVisited = findViewById(R.id.user_reviews);
+        userReportOwner = findViewById(R.id.user_report_owner);
+
 
         manageMyReservations.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -223,17 +245,57 @@ public class HomeScreen extends AppCompatActivity {
             }
         });
 
+        placesVisited.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomeScreen.this, PlacesVisitedActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        userReportOwner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomeScreen.this, GuestReportOwner.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
-    public void setUpHostUI() {
+    public void setUpHostUI(){
         includeNavDrawer(R.layout.nav_drawer_host);
         manageAccount = findViewById(R.id.account_details_host);
         home = findViewById(R.id.home_host);
         logout = findViewById(R.id.logout_host);
-        addAccommodation = findViewById(R.id.add_accommodation);
-        manageAccommodations = findViewById(R.id.manage_my_apartments);
-        manageGuestReservations = findViewById(R.id.manage_reservations);
+        addAccommodation=findViewById(R.id.add_accommodation);
+        manageAccommodations=findViewById(R.id.manage_my_apartments);
+        manageGuestReservations=findViewById(R.id.manage_reservations);
+        reportReviewsAccommodation = findViewById(R.id.manage_user_comments_on_owner_accommodations);
+        reportReviewsOwner = findViewById(R.id.manage_user_comments_on_owner);
+        ownerReportUser = findViewById(R.id.owner_report_user);
 
+        reportReviewsAccommodation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomeScreen.this, OwnerReportReviewAccommodation.class);
+                startActivity(intent);
+            }
+        });
+        reportReviewsOwner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomeScreen.this, OwnerReportReviewOwner.class);
+                startActivity(intent);
+            }
+        });
+        ownerReportUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomeScreen.this, OwnerReportGuest.class);
+                startActivity(intent);
+            }
+        });
 
         manageAccount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -250,6 +312,14 @@ public class HomeScreen extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(HomeScreen.this, ManageAccommodations.class);
                 intent.putExtra("USER_VALUE", currentUser);
+                startActivity(intent);
+            }
+        });
+
+        addAccommodation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeScreen.this, AddAccommodation.class);
                 startActivity(intent);
             }
         });
@@ -280,10 +350,10 @@ public class HomeScreen extends AppCompatActivity {
 
     }
 
-    public void setUpCommonUI() {
+    public void setUpCommonUI(){
         drawerLayout = findViewById(R.id.drawerLayout);
         menu = findViewById(R.id.menu);
-        deleteAccount = findViewById(R.id.deleteAccount);
+        deleteAccount=findViewById(R.id.deleteAccount);
 
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -331,13 +401,13 @@ public class HomeScreen extends AppCompatActivity {
                     Toast.makeText(HomeScreen.this, "Failed to delete account", Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onFailure(Call<Map<String, String>> call, Throwable t) {
                 Toast.makeText(HomeScreen.this, "Failed to delete account", Toast.LENGTH_SHORT).show();
             }
         });
     }
+
 
 
     private void includeNavDrawer(int layoutResId) {

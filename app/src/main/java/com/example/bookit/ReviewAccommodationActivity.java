@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
@@ -14,8 +13,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.bookit.app.AppPreferences;
-import com.example.bookit.model.Accommodation;
-import com.example.bookit.model.ResponseAccommodationImages;
 import com.example.bookit.model.Review;
 import com.example.bookit.model.enums.ReviewStatus;
 import com.example.bookit.retrofit.RetrofitService;
@@ -24,7 +21,7 @@ import com.example.bookit.retrofit.api.ReviewApi;
 import com.example.bookit.security.UserTokenService;
 import com.example.bookit.utils.asyncTasks.FetchAccommodationForReviewTask;
 import com.example.bookit.utils.asyncTasks.FetchAccommodationReviewsTask;
-import com.example.bookit.utils.ReviewAccommodationRecycleViewAdapter;
+import com.example.bookit.utils.adapters.ReviewAccommodationRecycleViewAdapter;
 import com.example.bookit.utils.asyncTasks.FetchAverageAccommodatioGradeTask;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -121,7 +118,7 @@ public class ReviewAccommodationActivity extends AppCompatActivity {
 
     public void populateSpinner(){
         // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<Double> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
+        ArrayAdapter<Double> adapter = new ArrayAdapter<>(this, R.layout.spinner_item_layout);
 
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

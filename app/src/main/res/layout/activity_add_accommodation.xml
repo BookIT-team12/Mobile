@@ -185,7 +185,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Price per night of stay:"
+            android:text="Price:"
             android:layout_marginBottom="10dp"
 
             android:textColor="@color/logo"
@@ -202,7 +202,32 @@
             android:padding="10dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="10dp"
-            android:hint="Enter price per night"
+            android:hint="Enter price"
+            android:background="@drawable/edit_details"
+            android:textColor="@color/logo"
+            android:inputType="number"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Number of days for free reservation cancelation:"
+            android:layout_marginBottom="10dp"
+
+            android:textColor="@color/logo"
+            android:textStyle="bold"
+
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"/>
+
+        <EditText
+            android:id="@+id/cancelAllow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:padding="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
+            android:hint="Enter number of days"
             android:background="@drawable/edit_details"
             android:textColor="@color/logo"
             android:inputType="number"/>
@@ -249,6 +274,49 @@
             android:layout_marginLeft="20dp"
             android:background="@drawable/edit_details"
             android:visibility="visible" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pricing plan:"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/logo"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"/>
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Vertical LinearLayout containing RadioGroup with two RadioButtons -->
+            <RadioGroup
+                android:id="@+id/pricingPlan_radioGroup"
+                android:layout_marginLeft="50sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- Radio Button 1 -->
+                <RadioButton
+                    android:id="@+id/priceByHead_rdbtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="By guest"/>
+
+                <!-- Radio Button 2 -->
+                <RadioButton
+                    android:id="@+id/priceByDay_rdbtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="By night"/>
+
+            </RadioGroup>
+
+        </LinearLayout>
+
 
         <GridLayout
             android:layout_width="match_parent"

@@ -23,6 +23,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -79,7 +81,6 @@ public class AddAccommodation extends AppCompatActivity {
     private UserTokenService userTokenService;
 
     private AccommodationApi accommodationApi;
-
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
     private static final int PICK_IMAGE_REQUEST = 1;
     @Override
@@ -376,6 +377,7 @@ public class AddAccommodation extends AppCompatActivity {
         EditText minGuestsTF = findViewById(R.id.minGuests);
         EditText maxGuestsTF = findViewById(R.id.maxGuests);
         EditText priceTF = findViewById(R.id.pricePerNight);
+        EditText cancelAllowTF = findViewById(R.id.cancelAllow);
         Spinner startDateSpinner = findViewById(R.id.dateFromSpinner);
         String startDateString = (String) startDateSpinner.getItemAtPosition(0);
         Spinner endDateSpinner = findViewById(R.id.dateToSpinner);
@@ -385,7 +387,7 @@ public class AddAccommodation extends AppCompatActivity {
         //validate
         boolean invalid = handleErrors(nameTF.getText().toString(), (String) typeSpinner.getItemAtPosition(typeSpinnerSelectedItemPosition),
                 (String) confirmationTypeSpinner.getItemAtPosition(confirmationTypeSelectedItemPosition), minGuestsTF.getText().toString(),
-                maxGuestsTF.getText().toString(), startDateString, endDateString, priceTF.getText().toString(), amenitiesVal, locationVal);
+                maxGuestsTF.getText().toString(), startDateString, endDateString, priceTF.getText().toString(), amenitiesVal, locationVal, cancelAllowTF.getText().toString());
         if (invalid){
             return;
         }
@@ -398,6 +400,7 @@ public class AddAccommodation extends AppCompatActivity {
         String descriptionVal = descriptionTF.getText().toString();
         int minGuestsVal = Integer.parseInt(minGuestsTF.getText().toString());
         int maxGuestsVal = Integer.parseInt(maxGuestsTF.getText().toString());
+        int cancelAllowVal = Integer.parseInt(cancelAllowTF.getText().toString());
 
         int priceVal = Integer.parseInt(priceTF.getText().toString());
         LocalDateTime startDate = LocalDateTime.parse(startDateString+" 00:00:00", formatter);
@@ -408,7 +411,7 @@ public class AddAccommodation extends AppCompatActivity {
         List<Review> reviews = new ArrayList<>();
         Accommodation toSubmit = new Accommodation(null, owner, typeVal, descriptionVal, nameVal, minGuestsVal, maxGuestsVal,
                 amenitiesVal, reviews, reservations, confirmationTypeVal, AccommodationStatus.PENDING,
-                periodsVal, null, locationVal, false);
+                periodsVal, null, locationVal, false, cancelAllowVal, isByNight());
 
         accommodationApi.createAccommodation(toSubmit, imagesVal).enqueue(new Callback<Accommodation>() {
             @Override
@@ -473,8 +476,29 @@ public class AddAccommodation extends AppCompatActivity {
         return new Location(getApplicationContext(), geoPoint);
     }
 
+    private boolean isByNight(){    //gets pricing plan boolean that we forward to constructor of accommodation
+        RadioGroup radioGroup = findViewById(R.id.pricingPlan_radioGroup);
+
+        // Retrieve the ID of the selected RadioButton
+        int checkedRadioButtonId = radioGroup.getCheckedRadioButtonId();
+
+        // Check if any RadioButton is selected
+        if (checkedRadioButtonId != -1) {
+            // Retrieve the selected RadioButton using its ID
+            RadioButton selectedRadioButton = findViewById(checkedRadioButtonId);
+
+            // Retrieve the text (value) of the selected RadioButton
+            String selectedValue = selectedRadioButton.getText().toString();
+            if (selectedValue.equals("By night")){
+                return  true;
+            }
+            else {return false;}
+        }
+        return true;
+    }
+
     public String getValidationErrors(String name, String typeVal, String confirmationType, String minGuests, String maxGuests,
-                                      String startDate, String endDate, String price, List<Integer> amenities, Location location){
+                                      String startDate, String endDate, String price, List<Integer> amenities, Location location, String cancelAllow){
         if (name.equals("")){
             return "NAME_ERR";
         }
@@ -492,6 +516,9 @@ public class AddAccommodation extends AppCompatActivity {
         }
         if (Integer.parseInt(minGuests) > Integer.parseInt(maxGuests)){
             return "MAX_LOWER_THAN_MIN_ERR";
+        }
+        if (!cancelAllow.matches("\\d+") || Integer.parseInt(cancelAllow) <= 0){
+            return "CANCEL_ALLOW_NUMBERS_ERR";
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
         LocalDateTime date1;
@@ -518,8 +545,8 @@ public class AddAccommodation extends AppCompatActivity {
     }
 
     private boolean handleErrors(String name, String typeVal, String confirmationType, String minGuests, String maxGuests,
-                              String startDate, String endDate, String price, List<Integer> amenities, Location location) {
-        String err = getValidationErrors(name, typeVal, confirmationType, minGuests, maxGuests, startDate, endDate, price, amenities, location);
+                              String startDate, String endDate, String price, List<Integer> amenities, Location location, String cancelAllow) {
+        String err = getValidationErrors(name, typeVal, confirmationType, minGuests, maxGuests, startDate, endDate, price, amenities, location, cancelAllow);
         switch (err) {
             case "NAME_ERR":
                showSnackbar("You have to enter name!");
@@ -553,6 +580,9 @@ public class AddAccommodation extends AppCompatActivity {
                 return true;
             case "NO_LOCATION_ERR":
                 showSnackbar("You have to enter location!");
+                return true;
+            case "CANCEL_ALLOW_NUMBERS_ERR":
+                showSnackbar("Number of days for free cancellation must be higher than 0 and only number");
                 return true;
             case "NO_ERR":
                 return false;

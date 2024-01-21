@@ -1,4 +1,4 @@
-package com.example.bookit.utils;
+package com.example.bookit.utils.adapters;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;

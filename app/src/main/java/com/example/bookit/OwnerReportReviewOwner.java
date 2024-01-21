@@ -4,22 +4,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.bookit.app.AppPreferences;
 import com.example.bookit.model.Review;
-import com.example.bookit.model.User;
 import com.example.bookit.retrofit.RetrofitService;
 import com.example.bookit.retrofit.api.ReviewApi;
 import com.example.bookit.security.UserTokenService;
-import com.example.bookit.utils.OwnerReportReviewOwnerAdapter;
-import com.example.bookit.utils.ReviewOwnerRecycleViewAdapter;
+import com.example.bookit.utils.adapters.OwnerReportReviewOwnerAdapter;
 
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import retrofit2.Call;
 import retrofit2.Callback;

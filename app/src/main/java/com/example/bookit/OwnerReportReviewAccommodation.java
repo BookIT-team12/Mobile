@@ -11,13 +11,11 @@ import com.example.bookit.model.Review;
 import com.example.bookit.retrofit.RetrofitService;
 import com.example.bookit.retrofit.api.ReviewApi;
 import com.example.bookit.security.UserTokenService;
-import com.example.bookit.utils.OwnerReportReviewAccommodationAdapter;
-import com.example.bookit.utils.OwnerReportReviewOwnerAdapter;
+import com.example.bookit.utils.adapters.OwnerReportReviewAccommodationAdapter;
 
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import retrofit2.Call;
 import retrofit2.Callback;

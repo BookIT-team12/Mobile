@@ -1,11 +1,8 @@
-package com.example.bookit.utils;
+package com.example.bookit.utils.adapters;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Picture;
-import android.util.Log;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +17,7 @@ import com.example.bookit.R;
 import com.example.bookit.ReviewAccommodationActivity;
 import com.example.bookit.ReviewOwnerActivity;
 import com.example.bookit.model.ResponseAccommodationImages;
+import com.example.bookit.utils.StringImageConverter;
 
 import java.util.List;
 import java.util.Map;

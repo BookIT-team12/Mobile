@@ -52,7 +52,6 @@ public class UserTokenService {
         JWTClaimsSet jwtClaimsSet = jwt.getJWTClaimsSet();
         String username = jwtClaimsSet.getSubject();
         return username;
-
     }
 
     public User getCurrentUserObject(UserTokenState jwtToken) throws ParseException {     //could cause errors, caase it could return currentUser before userApi.getUser() sets it.

@@ -2,14 +2,12 @@ package com.example.bookit.utils.asyncTasks;
 
 import android.os.AsyncTask;
 
-import com.example.bookit.ReviewOwnerActivity;
 import com.example.bookit.model.Review;
 import com.example.bookit.retrofit.api.ReviewApi;
-import com.example.bookit.utils.ReviewOwnerRecycleViewAdapter;
+import com.example.bookit.utils.adapters.ReviewOwnerRecycleViewAdapter;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 import retrofit2.Response;
 

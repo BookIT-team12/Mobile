@@ -5,17 +5,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.view.View;
 
 import com.example.bookit.app.AppPreferences;
 import com.example.bookit.model.User;
 import com.example.bookit.retrofit.RetrofitService;
 import com.example.bookit.retrofit.api.UserApi;
 import com.example.bookit.security.UserTokenService;
-import com.example.bookit.utils.OwnerReportGuestAdapter;
-import com.google.android.material.snackbar.Snackbar;
+import com.example.bookit.utils.adapters.OwnerReportGuestAdapter;
 
-import java.io.PushbackReader;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;

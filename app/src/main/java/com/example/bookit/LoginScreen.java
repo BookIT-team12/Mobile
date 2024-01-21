@@ -95,30 +95,33 @@ public class LoginScreen extends AppCompatActivity {
             @Override
             public void onResponse(Call<UserTokenState> call, Response<UserTokenState> response) {
                 UserTokenState jwtToken = response.body();
-                assert jwtToken != null;
-                AppPreferences.saveToken(getApplicationContext(), jwtToken);
-                AppPreferences.debug_printAllSharedPreferences(getApplicationContext());
-                try {
-                    Role loggedRole = tokenService.getRole(jwtToken);
-                    Intent intent = new Intent(LoginScreen.this, HomeScreen.class);
-                    intent.putExtra("USER_EMAIL", (JWTParser.parse(jwtToken.getAccessToken())).getJWTClaimsSet().getSubject());
+                if (jwtToken != null){
+                    AppPreferences.saveToken(getApplicationContext(), jwtToken);
+                    AppPreferences.debug_printAllSharedPreferences(getApplicationContext());
+                    try {
+                        Role loggedRole = tokenService.getRole(jwtToken);
+                        Intent intent = new Intent(LoginScreen.this, HomeScreen.class);
+                        intent.putExtra("USER_EMAIL", (JWTParser.parse(jwtToken.getAccessToken())).getJWTClaimsSet().getSubject());
 
-                    switch (loggedRole){
-                        case OWNER:
-                            intent.putExtra("ROLE", "owner");
+                        switch (loggedRole) {
+                            case OWNER:
+                                intent.putExtra("ROLE", "owner");
 
-                            startActivity(intent);
-                            break;
-                        case ADMINISTRATOR:
-                            intent.putExtra("ROLE", "admin");
-                            startActivity(intent);
-                            break;
-                        default:
-                            intent.putExtra("ROLE", "guest");
-                            startActivity(intent);
+                                startActivity(intent);
+                                break;
+                            case ADMINISTRATOR:
+                                intent.putExtra("ROLE", "admin");
+                                startActivity(intent);
+                                break;
+                            default:
+                                intent.putExtra("ROLE", "guest");
+                                startActivity(intent);
+                        }
+                    } catch (ParseException ex) {
+                        throw new RuntimeException(ex);
                     }
-                } catch (ParseException ex) {
-                    throw new RuntimeException(ex);
+                } else {
+                    showSnackbar("Wrong credentials. Please try again we cant find you in database");
                 }
             }
 

@@ -1,4 +1,4 @@
-package com.example.bookit.utils;
+package com.example.bookit.utils.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,10 +16,6 @@ import com.example.bookit.utils.asyncTasks.GuestReportOwnerTask;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class GuestReportOwnerAdapter extends RecyclerView.Adapter<GuestReportOwnerAdapter.ViewHolder> {
     private List<User> userList;
@@ -74,13 +70,13 @@ public class GuestReportOwnerAdapter extends RecyclerView.Adapter<GuestReportOwn
         public Button submitReportButton;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            nameTextView = itemView.findViewById(R.id.nameTF_report_card_info);
-            lastNameTextView = itemView.findViewById(R.id.lastNameTF_report_card_info);
-            emailTextView = itemView.findViewById(R.id.emailTF_report_card_info);
-            phoneTextView = itemView.findViewById(R.id.phoneTF_report_card_info);
-            addressTextView = itemView.findViewById(R.id.addressTF_report_card_info);
-            submitReportButton = itemView.findViewById(R.id.submitReportBtn_report_card_info);
-            reasonTF = itemView.findViewById(R.id.textarea_report_card_info);
+            nameTextView = itemView.findViewById(R.id.userOverview);
+            lastNameTextView = itemView.findViewById(R.id.lastNameOverview);
+            emailTextView = itemView.findViewById(R.id.emailOverview);
+            phoneTextView = itemView.findViewById(R.id.phoneOverview);
+            addressTextView = itemView.findViewById(R.id.addressOverview);
+            submitReportButton = itemView.findViewById(R.id.reportUserBtn);
+            reasonTF = itemView.findViewById(R.id.reasonOverview);
         }
     }
 }

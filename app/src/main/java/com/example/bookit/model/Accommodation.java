@@ -23,6 +23,28 @@ public class Accommodation {
     private String imagesFolder;
     private Location location;
     private boolean isFavorite;
+    private boolean priceByHead;
+    private Integer cancelAllow;
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public boolean isPriceByHead() {
+        return priceByHead;
+    }
+
+    public void setPriceByHead(boolean priceByHead) {
+        this.priceByHead = priceByHead;
+    }
+
+    public Integer getCancelAllow() {
+        return cancelAllow;
+    }
+
+    public void setCancelAllow(Integer cancelAllow) {
+        this.cancelAllow = cancelAllow;
+    }
 
     public int getId() {
         return id;
@@ -153,7 +175,7 @@ public class Accommodation {
                          int minGuests, int maxGuests, List<Integer> amenities, List<Review> reviews,
                          List<Reservation> reservations, BookingConfirmationType bookingConfirmationType,
                          AccommodationStatus accommodationStatus, List<AvailabilityPeriod> availabilityPeriods,
-                         String imagesFolder, Location location, boolean isFavorite) {
+                         String imagesFolder, Location location, boolean isFavorite, Integer cancelAllow, boolean priceByHead) {
         this.id = id;
         this.ownerEmail = owner;
         this.accommodationType = accommodationType;
@@ -170,6 +192,8 @@ public class Accommodation {
         this.imagesFolder = imagesFolder;
         this.location = location;
         this.isFavorite = isFavorite;
+        this.priceByHead = priceByHead;
+        this.cancelAllow = cancelAllow;
     }
 
     // Add other methods if needed
