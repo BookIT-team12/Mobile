@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingTop="32dp"
+    android:paddingBottom="16dp"
+    tools:context=".ManageAccommodations"
+    android:background="@drawable/white_minimalist">
+
+
+    <TextView
+        android:id="@+id/textViewHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your Accommodations"
+        android:gravity="left"
+        android:textStyle="bold"
+        android:textSize="37sp"
+        android:textColor="@color/logo"
+        android:layout_marginBottom="16dp" />
+
+    <ListView
+        android:id="@+id/accommodationListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10dp"
+        android:background="@android:color/transparent"
+        android:drawSelectorOnTop="true"
+        android:padding="10dp"
+        android:clipToPadding="false"
+
+        android:layout_below="@id/textViewHeading"
+
+        android:layout_marginBottom="16dp" />
+
+</RelativeLayout>

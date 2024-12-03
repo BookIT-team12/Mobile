@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ReviewAccommodationActivity"
+    android:background="@drawable/white_minimalist">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/verticalGuidelineLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.12" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/verticalGuidelineRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.88" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/horizontalGuideLineBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.56" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/horizontalGuideLineTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.07" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/nav_bar_figma"
+        app:cardCornerRadius="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/horizontalGuideLineBottom"
+        app:layout_constraintEnd_toStartOf="@+id/verticalGuidelineRight"
+        app:layout_constraintStart_toStartOf="@+id/verticalGuidelineLeft"
+        app:layout_constraintTop_toTopOf="@+id/horizontalGuideLineTop">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toStartOf="@+id/verticalGuidelineRight"
+            app:layout_constraintStart_toStartOf="@+id/verticalGuidelineLeft"
+            tools:layout_editor_absoluteY="16dp">
+
+            <TextView
+                android:id="@+id/accommodationHeadline_review_accommodation_activity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Accommodation info"
+                android:textColor="@color/logo"
+                android:background="@drawable/header_card_bottom_border"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/accommodationNameTextView_review_accommodation_activity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableTint="@color/logo"
+                android:text="Accommodation Name: "
+                android:textColor="@color/logo"
+                app:drawableLeftCompat="@drawable/remove_fill0_wght400_grad0_opsz24" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/maxGuestsTextView_review_accommodation_activity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableTint="@color/logo"
+                    android:text="Max guests: : "
+                    android:textColor="@color/logo"
+                    app:drawableLeftCompat="@drawable/remove_fill0_wght400_grad0_opsz24" />
+
+                <TextView
+                    android:id="@+id/minGuestsTextView_review_accommodation_activity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableTint="@color/logo"
+                    android:text="Min guests: "
+                    android:textColor="@color/logo"
+                    app:drawableLeftCompat="@drawable/remove_fill0_wght400_grad0_opsz24" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/averageGradeTextView_review_accommodation_activity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableTint="@color/logo"
+                android:text="Average grade: "
+                android:textColor="@color/logo"
+                app:drawableLeftCompat="@drawable/remove_fill0_wght400_grad0_opsz24" />
+
+            <TextView
+                android:id="@+id/ownerEmailTextView_review_accommodation_activity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableTint="@color/logo"
+                android:text="Owner email: "
+                android:textColor="@color/logo"
+                app:drawableLeftCompat="@drawable/remove_fill0_wght400_grad0_opsz24" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- TextView with icon on the left -->
+                <TextView
+                    android:id="@+id/authorGradeTextView_review_accommodation_activity"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTint="@color/logo"
+                    android:text="Your grade: "
+                    android:textColor="@color/logo"
+                    app:drawableLeftCompat="@drawable/remove_fill0_wght400_grad0_opsz24" />
+
+                <Spinner
+                    android:id="@+id/spinnerGrade_review_accommodation_activity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/iconTextView_review_accommodation_activity"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTint="@color/logo"
+                    app:drawableLeftCompat="@drawable/hotel_class_fill0_wght400_grad0_opsz24" />
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/editTextMultiline_review_accommodation_activity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5sp"
+                android:layout_marginVertical="10sp"
+                android:background="@drawable/blue_white_card"
+                android:hint="Enter your comment here"
+                android:inputType="textMultiLine"
+                android:lines="5"
+                android:paddingStart="10dp"
+                android:textColor="@color/logo" />
+
+            <Button
+                android:id="@+id/submitBtn_accommodation_review_activity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5sp"
+                android:layout_marginHorizontal="10sp"
+                android:text="Submit accommodation review" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15sp"
+        android:text="Your reviews:"
+        android:textColor="@color/logo"
+        android:textColorLink="@color/logo"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toTopOf="@+id/recycler_view_accommodation_review_activity"
+        app:layout_constraintEnd_toStartOf="@+id/verticalGuidelineRight"
+        app:layout_constraintStart_toStartOf="@+id/verticalGuidelineLeft"
+        app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_accommodation_review_activity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/verticalGuidelineRight"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/verticalGuidelineLeft"
+        app:layout_constraintTop_toTopOf="@+id/horizontalGuideLineBottom"
+        app:layout_constraintVertical_bias="0.283" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

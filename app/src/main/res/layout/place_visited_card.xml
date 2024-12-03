@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineVertical1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.15" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineVertical2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.85" />
+
+
+    <!-- Other views go here -->
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/backgroundCardView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:elevation="0dp"
+        app:cardBackgroundColor="@color/nav_bar_figma"
+        app:cardCornerRadius="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineVertical2"
+        app:layout_constraintStart_toStartOf="@+id/guidelineVertical1"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!-- Your TextViews and ImageView go here -->
+
+            <TextView
+                android:id="@+id/accommodationHeader_placesVisitedCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5sp"
+                android:layout_marginTop="15sp"
+                android:layout_marginEnd="5sp"
+                android:background="@drawable/header_card_bottom_border"
+                android:gravity="center"
+                android:text="ACCOMMODATION HEADER"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/logo"
+                app:drawableLeftCompat="@drawable/nav_home"
+                app:drawableTint="@color/logo" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="80dp"
+                android:layout_height="61dp"
+                android:layout_marginStart="5sp"
+                android:layout_marginTop="5sp"
+                android:layout_marginBottom="5sp"
+                app:srcCompat="@drawable/badge_icon" />
+
+            <TextView
+                android:id="@+id/ownerTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5sp"
+                android:text="Owner: "
+                android:textColor="@color/logo" />
+
+            <TextView
+                android:id="@+id/descriptionTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5sp"
+                android:text="Description: "
+                android:textColor="@color/logo" />
+
+            <TextView
+                android:id="@+id/maxGuestsTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5sp"
+                android:text="Max number of guests: "
+                android:textColor="@color/logo" />
+
+            <TextView
+                android:id="@+id/minGuestsTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5sp"
+                android:text="Minimal number of guests: "
+                android:textColor="@color/logo" />
+
+
+            <Button
+                android:id="@+id/reviewAccommodationBtn"
+                android:layout_width="255dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18sp"
+                android:text="Review accommodation" />
+
+            <Button
+                android:id="@+id/reviewOwnerBtn"
+                android:layout_width="255dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10sp"
+                android:layout_marginStart="18sp"
+                android:text="Review owner" />
+
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

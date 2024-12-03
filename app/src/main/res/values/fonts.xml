@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bookIT_font">https://fonts.googleapis.com/css2?family=Quicksand&amp;display=swap</string>
+    <string name="bookIT_caption">https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400&amp;family=Raleway:wght@200&amp;display=swap</string>
+</resources>

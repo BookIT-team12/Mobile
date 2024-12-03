@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" >
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+  
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+      <!-- <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" /> -->
+    <!-- <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" /> -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.V2"
+        tools:remove="android:appComponentFactory"
+        tools:targetApi="31">
+        <activity
+            android:name=".GuestReportOwner"
+            android:exported="false" />
+        <activity
+            android:name=".OwnerReportGuest"
+            android:exported="false" />
+        <activity
+            android:name=".OwnerReportReviewAccommodation"
+            android:exported="false"
+            android:label="@string/title_activity_owner_report_review_accommodation"
+            android:theme="@style/Theme.V2" />
+        <activity
+            android:name=".OwnerReportReviewOwner"
+            android:exported="false" />
+        <activity
+            android:name=".ReviewAccommodationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ReviewOwnerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PlacesVisitedActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UpdateAccommodation"
+            android:exported="false" />
+        <activity
+            android:name=".ManageMyReservations"
+            android:exported="false" />
+        <activity
+            android:name=".ApproveReviews"
+            android:exported="false" />
+        <activity
+            android:name=".ApproveReservations"
+            android:exported="false" />
+        <activity
+            android:name=".ManageUserReservations"
+            android:exported="false" />
+        <activity
+            android:name=".BlockUsers"
+            android:exported="false" />
+        <activity
+            android:name=".AccommodationApprovalActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ManageAccommodations"
+            android:exported="false" />
+        <activity
+            android:name=".AddAccommodation"
+            android:exported="false" />
+        <activity
+            android:name=".ManageAccount"
+            android:exported="false" />
+        <activity
+            android:name=".HomeScreen"
+            android:exported="false" />
+        <activity
+            android:name=".RegisterScreen"
+            android:exported="false" />
+        <activity
+            android:name=".LoginScreen"
+            android:exported="false" />
+        <activity
+            android:name=".SplashScreen"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
